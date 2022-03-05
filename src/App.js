@@ -20,6 +20,7 @@ import Test from './pages/test';
 
 import Order from './pages/order'
 import Orders from './pages/order/Orders';
+import Pricing from './pages/pricing';
 
 // import Test from './pages/test'
 
@@ -44,6 +45,7 @@ function App() {
         <PersistGate persistor={persistor} />
           <Switch>
             <Route exact path='/' component={dashboard}></Route>
+            <Route exact path='/pricing' component={Pricing}></Route>
             <Route exact path='/login' component={Login}></Route>
             <Route exact path='/register' component={Register}></Route>
             <Route exact path='/forgot' component={Forgot}></Route>

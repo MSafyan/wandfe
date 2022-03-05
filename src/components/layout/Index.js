@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    background:theme.palette.backgroundSecondary.default,
+    // background:theme.palette.backgroundSecondary.default,
     [theme.breakpoints.down('xs')]: {
       width: '100vw',
       minHeight: '100vh',
@@ -115,6 +115,11 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       display:"none !important"
     }
+  },
+  main:{
+    padding:"1rem",
+    width:"-webkit-fill-available",
+    background:theme.palette.primary.light
   },
   container: {
     paddingTop: theme.spacing(4),
@@ -206,7 +211,7 @@ const Index = (props) => {
         <Divider />
         <AppMenu />
       </Drawer>
-      <main style={{padding:"1rem",width:"-webkit-fill-available"}}>
+      <main className={classes.main}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           {props.children}

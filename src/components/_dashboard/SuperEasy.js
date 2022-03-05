@@ -1,10 +1,8 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography,Button,Grid,Container } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import clsx from 'clsx'
 
-import {
-  Twitter} from '@material-ui/icons';
 
   const useStyles = makeStyles((theme) => ({
     mainContainer:{
@@ -52,7 +50,7 @@ const SuperEasy = () => {
         </Typography>
       </div>
       <div className={classes.imgContainer}>
-        <img width='100%' src='Mask-Group-2.png'/>
+        <img width='100%' alt='' src='Mask-Group-2.png'/>
       </div>
     </div>
   )

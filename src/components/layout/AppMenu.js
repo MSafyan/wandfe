@@ -39,7 +39,6 @@ const appMenuItems = [
   },
   {
     name: 'Customer',
-    Icon: IconLibraryBooks,
     items: [
       {
         name: 'Customer List',
@@ -55,7 +54,6 @@ const appMenuItems = [
   },
   {
     name: 'Coupon',
-    Icon: FreeBreakfastIcon,
     items: [
       {
         name: 'Coupon List',
@@ -71,7 +69,6 @@ const appMenuItems = [
   },
   {
     name: 'Orders',
-    Icon: IconShoppingCart,
     items: [
       {
         name: 'order List',

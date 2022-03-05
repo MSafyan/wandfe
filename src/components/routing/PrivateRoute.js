@@ -1,5 +1,6 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 import { connect } from "react-redux";
 
 const PrivateRoute = ({ component: Component,isAuthenticated,type, ...rest }) => {
@@ -8,11 +9,11 @@ const PrivateRoute = ({ component: Component,isAuthenticated,type, ...rest }) =>
     <Route
       {...rest}
       render={props =>
-        !isAuthenticated ? (
-          <Redirect to='/login' />
-        ) : (
+        // !isAuthenticated ? (
+        //   <Redirect to='/login' />
+        // ) : (
           <Component {...props} />
-        )
+        // )
       }
     />
   );

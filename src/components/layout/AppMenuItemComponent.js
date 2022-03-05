@@ -15,6 +15,7 @@ const AppMenuItemComponent = props => {
         className={className}
         children={children}
         onClick={onClick}
+        style={{marginLeft:'-40px'}}
       />
     )
   }

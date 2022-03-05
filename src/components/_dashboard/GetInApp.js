@@ -1,11 +1,8 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography,Button,Grid,Container } from '@material-ui/core';
+import { Typography,Grid,Container } from '@material-ui/core';
 import MobileStoreButton from 'react-mobile-store-button';
 import clsx from 'clsx'
-
-import {
-  Twitter} from '@material-ui/icons';
 
   const useStyles = makeStyles((theme) => ({
     mainContainer:{
@@ -58,7 +55,7 @@ const GetInApp = () => {
           </div>
         </Grid>
         <Grid item sm={12} md={6}>
-          <img src='pablo-cleaning-up.png'/>
+          <img alt='' src='pablo-cleaning-up.png'/>
         </Grid>
       </Grid>
     </Container>

@@ -72,7 +72,7 @@ const useStyles = makeStyles(theme =>
   createStyles({
     menuItem: {
       fontSize:"0.7rem",
-      color: theme.palette.lightFill.main,
+      // color: theme.palette.lightFill.main,
       '&.active': {
         background: 'rgba(0, 0, 0, 0.08)',
         '& .MuiListItemIcon-root': {
@@ -83,7 +83,7 @@ const useStyles = makeStyles(theme =>
     menuItemIcon: {
       fontSize:"0.7rem",
       marginLeft:'8px'      ,
-      color: theme.palette.lightFill.main,
+      // color: theme.palette.lightFill.main,
 
       // paddingLeft:'1rem'
     },
