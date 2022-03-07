@@ -27,9 +27,15 @@ export const theme = createTheme({
         // background:'rgb(247, 249, 252)'
       }
     },
+    MuiTableHead:{
+      root:{
+        background:'#F2FCFC'
+      }
+    },
     MuiTableCell:{
       root:{
-        padding:'0.5rem'
+        padding:'1.5rem 0.3rem',
+        
       }
     },
     MuiContainer:{

@@ -5,29 +5,50 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
   Grid,
   CircularProgress,
+  Button,
   Typography,
 } from '@material-ui/core';
-import Textfield from '../../components/FormsUI/Textfields';
+import SearchIcon from '@material-ui/icons/Search';
 import Select from '../../components/FormsUI/Selects';
-import Button from '../../components/FormsUI/Buttons';
+// import Button from '../../components/FormsUI/Buttons';
+import AddIcon from '@material-ui/icons/Add';
+
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 import { connect } from "react-redux";
 import { ORDER_FIND } from "../../actions/orderAction";
 const useStyles = makeStyles((theme) => ({
   formWrapper: {
-    marginTop: theme.spacing(5),
-    marginBottom: theme.spacing(8),
+    background:'white',
+    padding:theme.spacing(2),
+    borderTopLeftRadius:'13%',
+    borderTopRightRadius:'13%',
+    alignItems:'flex-end'
   },
+  appointBtn:{
+    color:'white'
+  },
+  flexEnd:{
+    alignItems:'flex-end'
+  }
 }));
 
-const searchTypes={
+const allStatus={
   'OrderId':'OrderId',
   'customerId':'customerId',
-  // 'firstName':'firstName',
-  // 'email':'email',
-  // 'contactNo':'contactNo',
   'vehicleRegNo':'vehicleRegNo'
 }
+const allDurations={
+  'OrderId':'OrderId',
+  'customerId':'customerId',
+  'vehicleRegNo':'vehicleRegNo'
+}
+
 
 const FORM_VALIDATION = Yup.object().shape({
   searchTerm: Yup.string()
@@ -36,6 +57,12 @@ const FORM_VALIDATION = Yup.object().shape({
 });
 
 const SearchForm = ({ORDER_FIND,loading}) => {
+  const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
   const classes = useStyles();
 
     const INITIAL_FORM_STATE = {
@@ -45,14 +72,8 @@ const SearchForm = ({ORDER_FIND,loading}) => {
 
   return (
     <>
-        <Typography variant='h6'>
-          Order search
-        </Typography>
-        <Typography variant='body2'>
-          search for order by OrderID, CustomerID,vehicle Reg No
-        </Typography>
-          <div className={classes.formWrapper}>
-
+      <Grid container className={classes.formWrapper}>
+        {/* <Grid item container md={9}> */}
             <Formik
               initialValues={ INITIAL_FORM_STATE}
               validationSchema={FORM_VALIDATION}
@@ -62,46 +83,75 @@ const SearchForm = ({ORDER_FIND,loading}) => {
               }}
             >
               {({ values, errors, isSubmitting, isValid }) => (
-              <Form>
+              // <Form>
+                <Grid container item md={9} spacing={3} className={classes.flexEnd}>
 
-                <Grid container spacing={2}>
-
-                  <Grid item xs={12} md={4}>
-                    <Textfield
-                      name="searchTerm"
-                      label="Search Term"
-                    />
-                  </Grid>
-
-                
-                  <Grid item xs={12} md={2}>
+                  <Grid item xs={12} md={3}>
                     <Select
-                      name="searchBy"
-                      label="searchBy"
-                      options={searchTypes}
+                      name="allStatus"
+                      label="All Status"
+                      options={allStatus}
+                    />
+                  </Grid>
+                
+                  <Grid item xs={12} md={3}>
+                    <Select
+                      name="allDurations"
+                      label="All Durations"
+                      options={allDurations}
                     />
                   </Grid>
 
-                  <Grid item xs={12} md={2}>
+                  <Grid item xs={12} md={3}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        disableToolbar
+                        variant="inline"
+                        format="MM/dd/yyyy"
+                        margin="normal"
+                        id="date-picker-inline"
+                        // label="Date picker inline"
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                        KeyboardButtonProps={{
+                          'aria-label': 'change date',
+                        }}
+                      />
+                    </MuiPickersUtilsProvider>
+                  </Grid>
+
+                  <Grid item xs={12} md={3}>
                       <Button
                       disabled={loading}
                       type="submit"
-                      variant="contained"
-                      color="primary"
+                      variant="outlined"
+                      
                       startIcon={
                         loading ? (
                           <CircularProgress size="1rem" />
-                        ) : undefined
+                        ) : (<SearchIcon  size="1rem"/>)
                       }
                     >
                       {loading ? 'Searching' : 'Search'}
                     </Button>
                   </Grid>
                 </Grid>
-              </Form>
+              // </Form>
               )}
             </Formik>
-          </div>
+        {/* </Grid> */}
+        <Grid item md={3}>
+          <Button
+            variant="contained"
+            className={classes.appointBtn}
+            color="primary"
+            endIcon={<AddIcon />}
+          >
+            Add Appointment
+          </Button>
+        </Grid>
+      </Grid>
+
     </>
   );
 };

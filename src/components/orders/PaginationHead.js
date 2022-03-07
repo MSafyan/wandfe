@@ -4,9 +4,20 @@ import {
 	TableHead,
 	TableRow,
 	TableSortLabel,
+	Typography,
 } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+	lighten:{
+		fontSize:'1.2rem',
+		color:'#BDBDBD',
+	}
+}));
 
 const Pagination = (props) => {
+	const classes = useStyles();
+
 	const { valueToOrderBy, orderDirection, handleRequestSort } = props;
 	const createSortHandler = (property) => (event) => {
 		handleRequestSort(event, property);
@@ -14,92 +25,85 @@ const Pagination = (props) => {
 	return (
 		<TableHead>
 			<TableRow>
-				<TableCell style={{ width: '5%' }} key='id'>
+				<TableCell style={{ width: '5%',borderBottom:'none' }} key='id'>
 					<TableSortLabel
 						active={valueToOrderBy === 'id'}
 						direction={valueToOrderBy === 'id' ? orderDirection : 'asc'}
 						onClick={createSortHandler('id')}
 					>
-						ID
+						<Typography variant='h5' className={classes.lighten}>
+							Time
+						</Typography>
 					</TableSortLabel>
 				</TableCell>
-				<TableCell style={{ width: '8%' }} key='firstName'>
+				<TableCell style={{ width: '8%',borderBottom:'none' }} key='firstName'>
 					<TableSortLabel
 						active={valueToOrderBy === 'firstName'}
 						direction={valueToOrderBy === 'firstName' ? orderDirection : 'asc'}
 						onClick={createSortHandler('firstName')}
 					>
-						FirstName
+						<Typography variant='h5' className={classes.lighten}>
+							Date
+						</Typography>
 					</TableSortLabel>
 				</TableCell>
-				<TableCell style={{ width: '10%' }} key='email'>
+				<TableCell style={{ width: '10%',borderBottom:'none' }} key='email'>
 					<TableSortLabel
 						active={valueToOrderBy === 'email'}
 						direction={valueToOrderBy === 'email' ? orderDirection : 'asc'}
 						onClick={createSortHandler('email')}
 					>
-						Email
+						<Typography variant='h5' className={classes.lighten}>
+							Duration
+						</Typography>
 					</TableSortLabel>
 				</TableCell>
-				<TableCell style={{ width: '10%' }} key='vehicleRegNo'>
+				<TableCell style={{ width: '10%',borderBottom:'none' }} key='vehicleRegNo'>
 					<TableSortLabel
 						active={valueToOrderBy === 'vehicleRegNo'}
 						direction={valueToOrderBy === 'vehicleRegNo' ? orderDirection : 'asc'}
 						onClick={createSortHandler('vehicleRegNo')}
 					>
-						vehicleRegNo
+						<Typography variant='h5' className={classes.lighten}>
+							Status
+						</Typography>
 					</TableSortLabel>
 				</TableCell>
-				<TableCell style={{ width: '8%' }}>
+				<TableCell style={{ width: '8%',borderBottom:'none' }}>
 					<TableSortLabel
 						active={valueToOrderBy === 'price'}
 						direction={valueToOrderBy === 'price' ? orderDirection : 'asc'}
 						onClick={createSortHandler('price')}
 					>
-						Paid Amount
+						<Typography variant='h5' className={classes.lighten}>
+							Description and address
+							
+						</Typography>
 					</TableSortLabel>
 				</TableCell>
-				<TableCell style={{ width: '4%' }}>
-					<TableSortLabel
-						active={valueToOrderBy === 'coupon'}
-						direction={valueToOrderBy === 'coupon' ? orderDirection : 'asc'}
-						onClick={createSortHandler('coupon')}
-					>
-						Coupon
-					</TableSortLabel>
-				</TableCell>
-				<TableCell style={{ width: '8%' }}>
+				<TableCell style={{ width: '8%',borderBottom:'none' }}>
 					<TableSortLabel
 						active={valueToOrderBy === 'addedBy'}
 						direction={valueToOrderBy === 'addedBy' ? orderDirection : 'asc'}
 						onClick={createSortHandler('addedBy')}
 					>
-						  Employee Email
+						<Typography variant='h5' className={classes.lighten}>
+							
+							Assigned Cleaner
+						</Typography>
 					</TableSortLabel>
 				</TableCell>
-				<TableCell style={{ width: '8%' }}>
+				<TableCell style={{ width: '8%',borderBottom:'none' }}>
 					<TableSortLabel
 						active={valueToOrderBy === 'status'}
 						direction={valueToOrderBy === 'status' ? orderDirection : 'asc'}
 						onClick={createSortHandler('status')}
 					>
-						Status
+						<Typography variant='h5' className={classes.lighten}>
+							Amount
+							
+						</Typography>
 					</TableSortLabel>
-				</TableCell>
-				<TableCell style={{ width: '15%' }}>
-					<TableSortLabel
-						active={valueToOrderBy === 'lowCategory'}
-						direction={valueToOrderBy === 'lowCategory' ? orderDirection : 'asc'}
-						onClick={createSortHandler('lowCategory')}
-					>
-						Service
-					</TableSortLabel>
-				</TableCell>
-				<TableCell style={{ width: '10%' }}>
-					Warranty
-				</TableCell>
-				<TableCell style={{ width: '10%' }}>
-					Actions
 				</TableCell>
 			</TableRow>
 		</TableHead>

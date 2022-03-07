@@ -1,17 +1,16 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
+import {Typography, Modal,Button} from '@material-ui/core';
 import * as Yup from 'yup';
-import { Formik, Form } from 'formik';
+import clsx from 'clsx'
+import SendIcon from '@material-ui/icons/Send';
 import {
   Grid,
   IconButton,
 } from '@material-ui/core';
 
-import DateTimePicker from '../FormsUI/DataTimePickers';
 // import Button from '../../components/FormsUI/Buttons';
 import GetAppIcon from '@material-ui/icons/GetApp';
-import Export from './Export'
 import { connect } from "react-redux";
 import { ORDER_FIND } from "../../actions/orderAction";
 
@@ -33,22 +32,30 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
-    width: 400,
+    width: 500,
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+    // display:'flex',
+    // flexDirection:'column',
+
   },
-  spanButton:{
-    background:'black',
-    color:"white",
-    padding:'0.4rem',
-    fontSize:'1rem',
-    borderRadius:'0.3rem'
-  }
+  flex:{
+    display:'flex',
+    justifyContent:'space-between'
+  },
+  statusActive:{
+		background:theme.palette.primary.light,
+		padding:`${theme.spacing(1)}px`,
+		borderRadius:'50%',
+		width:'100px',
+		textAlign:'center',
+		fontWeight:'bold'
+	}
 }));
 
-function SimpleModal({ORDER_FIND,loading}) {
+function SimpleModal({item}) {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
@@ -89,60 +96,59 @@ function SimpleModal({ORDER_FIND,loading}) {
         aria-describedby="simple-modal-description"
       >
         <div style={modalStyle} className={classes.paper}>
-        <div className={classes.formWrapper}>
-
-          <Formik
-            initialValues={ INITIAL_FORM_STATE}
-            validationSchema={FORM_VALIDATION}
-            onSubmit={values => {
-              ORDER_FIND(values);
-            }}
-          >
-            {({ values, errors, isSubmitting, isValid }) => (
-            <Form>
-
-              <Grid container spacing={2}>
-
-                <Grid item xs={12}>
-                    <DateTimePicker
-                      name="startDate"
-                      label="Start Date"
-                    />
-                </Grid>
-
-                <Grid item xs={12}>
-                    <DateTimePicker
-                      name="endDate"
-                      label="End Date"
-                    />
-                </Grid>
-
-                <Grid item xs={12}>
-                    <span className={classes.spanButton} onClick={()=>ORDER_FIND(values)}>
-                      {loading ? 'Downloading' : 'Get File'}
-                    </span>
-                    {!loading && <Export/>
-                    }
-                    {/* <Button
-                    disabled={loading}
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    onClick={()=>console.log('hell')}
-                    startIcon={
-                      loading ? (
-                        <CircularProgress size="1rem" />
-                      ) : undefined
-                    }
-                  >
-                    {loading ? 'Sending' : 'Sent Email'}
-                  </Button> */}
-                </Grid>
-              </Grid>
-
-            </Form>
-            )}
-          </Formik>
+          <div className={classes.flex}>
+            <Typography variant='h5'>
+                {item.description}
+            </Typography>
+            <Typography variant='h5' className={clsx(classes.statusActive)}>
+              {item.status || ''}
+            </Typography>
+          </div>
+          <div className={classes.flex}>
+            <Typography variant='body2' className={classes.lighten}>
+              {item.address}  
+            </Typography>
+            <Button
+              variant="outlined"
+              startIcon={<SendIcon/>}
+              >
+              assign a cleaner
+            </Button>
+          </div>
+          <div>
+            <Typography variant='body2'>
+              handleClose
+              <span className={classes.dot}></span>  
+                friday
+            </Typography>
+          </div>
+          <div>
+            <Typography variant='body2'>
+              {item.time}-{item.time}
+            </Typography>
+          </div>
+          <div>
+            <Typography variant='body2'>
+              {item.duration}
+            </Typography>
+          </div>
+          <div className={classes.flex}>
+            <div>
+                {item.assigned ===null ? (
+                  <>
+                    <Typography variant='body2' className={classes.bold}>
+                      No cleaner Assigned
+                    </Typography>
+                    <Typography variant='body2'>
+                      Assign a cleaner
+                    </Typography>
+                  </>
+                ):null}
+            </div>
+            <Typography variant='body2'>
+              {item.amount}  
+            </Typography>
+        
           </div>
         </div>
       </Modal>

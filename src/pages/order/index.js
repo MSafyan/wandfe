@@ -410,7 +410,7 @@ const pricePredictor=(setFieldValue,index,values,value,name)=>{
                       options={data}
                       onChange={value=>setFieldValue('vehicleId',value.value)}
                     />
-                     <Grid item>
+                    <Grid item>
                         {touched['vehicleId'] && typeof errors.vehicleId === 'string' ? (
                           <Typography color="error">
                             {errors.vehicleId}

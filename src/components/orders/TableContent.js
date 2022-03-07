@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import PaginationHead from './PaginationHead';
-import EasyInvoiceSample from './downloadInvoice';
+import clsx from 'clsx';
+import Export from './ExportDialog'
+
 import {
 	Table,
 	TableRow,
@@ -13,14 +15,15 @@ import {
 	Typography
 } from '@material-ui/core';
 
-import Edit from './Edit';
-
 import { connect } from "react-redux";
 import { EMPLOYEE_EDIT } from "../../actions/employeeActions";
 import {INVOICE_DOWNLOAD} from '../../actions/orderAction'
 import Moment from 'react-moment';
 
 const useStyles = makeStyles((theme) => ({
+	bold:{
+		fontWeight:'bold'
+	},
 	footer: {
 		fontSize: 'larger',
 		marginTop: '1rem',
@@ -28,6 +31,14 @@ const useStyles = makeStyles((theme) => ({
 	statusButton:{
 		fontSize:'0.7rem',
 		padding:'0.1rem'
+	},
+	statusActive:{
+		background:theme.palette.primary.light,
+		padding:`${theme.spacing(1)}px`,
+		borderRadius:'50%',
+		width:'100px',
+		textAlign:'center',
+		fontWeight:'bold'
 	}
 }));
 
@@ -57,7 +68,40 @@ const sortedRowInformation = (rowArray, comparator) => {
 	return stabilizedRowArray.map((el) => el[0]);
 };
 
-const TableContent = ({type,EMPLOYEE_EDIT,orderList,loading,history}) => {
+const orderList = [
+	{
+		time:'9:00 am',
+		date:'2021-12-08',
+		duration:'30 minutes',
+		status:'Active',
+		description:'Debian Sardon(Example Description)',
+		address:'12 hamston street no 2 siatle 30032',
+		assigned:'none',
+		amount:29,
+	},
+	{
+		time:'9:00 am',
+		date:'2021-12-08',
+		duration:'30 minutes',
+		status:'Active',
+		description:'Debian Sardon(Example Description)',
+		address:'12 hamston street no 2 siatle 30032',
+		assigned:'none',
+		amount:29,
+	},
+	{
+		time:'9:00 am',
+		date:'2021-12-08',
+		duration:'30 minutes',
+		status:'Active',
+		description:'Debian Sardon(Example Description)',
+		address:'12 hamston street no 2 siatle 30032',
+		assigned:null,
+		amount:29,
+	}
+]
+
+const TableContent = ({type,EMPLOYEE_EDIT,loading,history}) => {
 	const classes = useStyles();
 
 	const [orderDirection, setOrderDirection] = useState('asc');
@@ -111,45 +155,40 @@ const warrentyPredictor=(per)=>{
 								getComparator(orderDirection, valueToOrderBy)
 							)
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-								.map((person, index) => (
+								.map((item, index) => (
 									<TableRow key={index}>
-										{/* just add the name of cells you want the data about */}
-										<TableCell>{person.id}</TableCell>
 										<TableCell>
-											{person.customer?.firstName || ''}
+											<Typography variant='body1' className={classes.bold}>
+											{item.time}
+											</Typography>
 										</TableCell>
 										<TableCell>
-											{person.customer?.email}
+											{item.date || ''}
 										</TableCell>
 										<TableCell>
-											{person.vehicle?.vehicleRegNo || ''}
+											{item.duration}
 										</TableCell>
 										<TableCell>
-											{person.paidAmount}
+											<Typography variant='h5' className={clsx(classes.statusActive)}>
+												{item.status || ''}
+											</Typography>
 										</TableCell>
 										<TableCell>
-											{person.coupon?.name || 'none'}
+											<Typography variant='body1' className={classes.bold}>
+												{item.description}
+											</Typography>
+											{item.address}
 										</TableCell>
 										<TableCell>
-											{person.addedBy || 'Anonymous'}
+											{item.assigned ===null ? (
+												<Typography variant='body2' className={classes.bold}>
+													'No cleaner Assigned'
+												</Typography>
+											):null}
 										</TableCell>
 										<TableCell>
-											<Button className={classes.statusButton} variant='contained' color={person?.status==='processing'?'primary':'secondary'}>
-												{person.status || 'null'}
-											</Button>
-										</TableCell>
-										<TableCell>
-											{person?.services && person.services.map((val,i)=>(<div key={i}>{val?.serviceName}</div>))}
-										</TableCell>
-
-										<TableCell>
-											{warrentyPredictor(person)}
-										</TableCell>
-
-										<TableCell>
-											<Edit id={person.id}/>		
-
-											<EasyInvoiceSample person={person}/>
+											${item.amount || 'Anonymous'}
+											<Export item={item}/>
 										</TableCell>
 									</TableRow>
 								))}
@@ -180,7 +219,7 @@ const warrentyPredictor=(per)=>{
 const mapStateToProps = state => ({
   orderList:state.order.orderList,
 	loading:state.order.loading,
-	type:state.auth.user.type
+	type:state.auth.user?.type
 });
 
 export default connect(
