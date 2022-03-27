@@ -50,15 +50,16 @@ export const SIGN_IN = (form_data) => async (
 	delete axios.defaults.headers.common["Authorization"];
 	
 		const res = await axios.post(`${url}/auth/local`, form_data);
-		if(res.data.user.type!=='none'){
+		console.log(res)
+		// if(res.data.user.type!=='none'){
 			setAuthHeader(res.data.jwt);
 			dispatch({ type: SIGN_IN_SUCCESS, payload: res.data.user });
 			toast.success("User successfully Logged In...");
-		}else{
-			dispatch({type:NOT_LOADING_AUTH})
-			toast.success("You are not recognized employee of valante");
+		// }else{
+		// 	dispatch({type:NOT_LOADING_AUTH})
+		// 	toast.success("You are not recognized employee of valante");
 
-		}
+		// }
 
 	} catch (error) {
 		dispatch({ type: SIGN_IN_FAIL });

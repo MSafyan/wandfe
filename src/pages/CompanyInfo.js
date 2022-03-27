@@ -1,34 +1,70 @@
 import React from 'react';
-import Header from '../components/FormsUI/Headers';
 import { Formik, Form,Field,ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  Container,
-  Grid,
-  CircularProgress,
   Input,
   Button,
+  CircularProgress,
   Typography
 } from '@material-ui/core';
-// import Textfield from '../components/FormsUI/Textfields';
-import Inputfeild from '../components/FormsUI/Inputfeild';
-import DateTimePicker from '../components/FormsUI/DataTimePickers';
-import ButtonF from '../components/FormsUI/Buttons';
+import clsx from 'clsx';
+import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
+
 import AddIcon from '@material-ui/icons/Add';
 import Select from '../components/FormsUI/Selects'
 
 import Layout from '../components/layout/Index'
 
+import {url} from '../actions/customAxios';
 import { connect } from "react-redux";
-import { NEW_CUSTOMER,CUSTOMER_UPDATE } from "../actions/customerAction";
+import { COMPANY_INFO } from "../actions/employeeActions";
 
 const useStyles = makeStyles((theme) => ({
   formWrapper: {
-    marginTop: theme.spacing(5),
-    marginBottom: theme.spacing(8),
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
   },
-  addressWrapper:{
+  gridWrapper:{
+    display:'grid',
+    gridTemplateAreas:`
+    "heading" 
+    "details" 
+    "address"`,
+    gridTemplateColumns:'1fr',
+    gridTemplateRows:'1fr 2fr 2fr',
+    gridColumnGap:theme.spacing(3),
+    gridColumnRow:theme.spacing(3),
+  },
+  headerGrid:{
+    display:'grid',
+    gridTemplateColumns:'3fr 0.8fr 0.7fr 1.2fr',
+    gridTemplateAreas:`
+    "companyHeading emailLable emailDrop confirmBtn"`,
+    gridColumnGap:theme.spacing(2),
+    alignItems:'base-line'
+  },
+  detailsGrid:{
+    gridArea:'details',
+    display:'grid',
+    gridTemplateColumns:'12% auto 25% 25%',
+    gridTemplateRows:"1fr 1fr",
+    gridTemplateAreas:`
+    "image cleaningService otherEmail otherEmail"
+    "image companyPhone companyWebsite facebookPage"`,
+    alignItems:'center'
+  },
+  locationGrid:{
+    gridArea:'address',
+    display:'grid',
+    gridTemplateColumns:'1fr 1fr 1fr',
+    gridTemplateRows:'1fr 1fr 1fr' ,
+    gridTemplateAreas:`
+    "addHeading addHeading addHeading" 
+    "billingAddress address1 address2"
+    "city region zipCode"`,
+  },
+  card:{
     padding:`${theme.spacing(4)}px ${theme.spacing(3)}px`,
     marginTop:theme.spacing(3),
     borderRadius:theme.spacing(2),
@@ -36,16 +72,29 @@ const useStyles = makeStyles((theme) => ({
     gridColumnGap:theme.spacing(2),
     gridRowGap:theme.spacing(3),
   },
+  cardHeading:{
+    fontSize:"18px",
+    fontWeight:'bold'
+  },
   emailWrapper:{
     width:'70%'
+  },
+  confirmBtn:{
+    background:theme.palette.primary.lightDark,
+    width:'70%',
+    height:theme.spacing(7),
+    padding:'0px',
+    fontSize:"1.3rem",
+    color:"white",
+  },
+  header:{
+    justifySelf:'Start',
+    paddingBottom:theme.spacing(3),
+    fontWeight:"bold"
   },
   justifyStart:{
     justifySelf:'start'
   },
-  header:{
-    alignContent:'center',
-    gridColumnGap:theme.spacing(2)
-  }
 }));
 
 
@@ -80,7 +129,7 @@ const FORM_VALIDATION = Yup.object().shape({
   
 });
 
-const CompanyInfo = ({NEW_CUSTOMER,CUSTOMER_UPDATE,customer,edit}) => {
+const CompanyInfo = ({businessId,COMPANY_INFO,loading,edit,imageUrl}) => {
   const classes = useStyles();
   React.useEffect(()=>{
 
@@ -88,38 +137,38 @@ const CompanyInfo = ({NEW_CUSTOMER,CUSTOMER_UPDATE,customer,edit}) => {
   },[])
 
   const allDurations={
-    'OrderId':'OrderId',
-    'customerId':'customerId',
-    'vehicleRegNo':'vehicleRegNo'
+    'EveryDay':'EveryDay',
+    'EveryWeek':'EveryWeek',
   }
 
   const formState=()=>{
     const INITIAL_FORM_STATE = {
+      allDurations:'',
+      logo:null,
       cleaningService: '',
       otherEmail: '',
       companyPhone: '',
       companyWebsite: '',
       facebookPage: '',
       billingAddress: '',
-      city: '',
-      region: '',
       address1: '',
       address2: '',
+      city: '',
+      region: '',
       zipCode: '',
     };
 
     const EDIT_FORM_STATE={
-      cleaningService:customer?.firstName || '',
-      otherEmail:customer?.lastName || '',
-      companyPhone:customer?.email || '',
-      companyWebsite:customer?.contactNo1 || '',
-      facebookPage:customer?.contactNo2 || '',
-      billingAddress:customer?.address || '',
-      city:customer?.DOB || '',
-      region:customer?.DOB || '',
-      address1:customer?.DOB || '',
-      address2:customer?.DOB || '',
-      companyPhone:customer?.DOB || '',
+      // cleaningService:customer?.firstName || '',
+      // otherEmail:customer?.lastName || '',
+      // companyPhone:customer?.email || '',
+      // companyWebsite:customer?.contactNo1 || '',
+      // facebookPage:customer?.contactNo2 || '',
+      // billingAddress:customer?.address || '',
+      // city:customer?.DOB || '',
+      // region:customer?.DOB || '',
+      // address1:customer?.DOB || '',
+      // address2:customer?.DOB || '',
     }
 
     if(!edit){
@@ -135,57 +184,67 @@ const CompanyInfo = ({NEW_CUSTOMER,CUSTOMER_UPDATE,customer,edit}) => {
 
   return (
     <Layout>
-    <Grid container>
-      <Grid item xs={12}>
-        <Header title={edit?'Update Customer':'New Customer'}/>
-      </Grid>
-      <Grid item xs={12}>
-        <Container maxWidth="lg">
           <div className={classes.formWrapper}>
 
             <Formik
               initialValues={ formState()}
               validationSchema={FORM_VALIDATION}
-              onSubmit={values => {
-                // console.log(values);
-                if(edit) {
-                  CUSTOMER_UPDATE(values);
-                }else{
-                  NEW_CUSTOMER(values)
+              onSubmit={async(values) => {
+                console.log('hi')
+                debugger;
+                if(values.logo){
+                  let data=new FormData();
+                  data.append('refId',businessId);
+                  data.append('field','logo');
+                  data.append('ref','business');
+                  data.append('files',values.logo);
+
+                await fetch(
+                  `${url}/upload/`,
+                  {
+                    method:'POST',
+                    body:data
                   }
+                )
+              }
+              delete values.logo;
+              COMPANY_INFO({...values})
               }}
               enableReinitialize
             >
-              {({ values, errors, isSubmitting, isValid }) => (
+              {({ values, handleSubmit,setFieldValue }) => (
               <Form>
-                <div style={{display:'grid',gridTemplateColumns:'3fr 1fr 1fr 1fr'}} className={classes.header}>
-                  <Typography variant='h4' style={{gridArea:'1 / 1'}}>
+                <div className={classes.headerGrid}>
+                  <Typography variant='h4' className={classes.header} style={{gridArea:'companyHeading'}}>
                     Comapny Information  
                   </Typography>
-                  <Typography variant='h6' style={{gridArea:'1 / 2'}}>
+                  <Typography variant='body1' className={classes.cardHeading} style={{gridArea:'emailLable'}}>
                     I want to recieve Email  
                   </Typography>
-                  <Select style={{gridArea:'1 / 3'}}
+                  <Select style={{gridArea:'emailDrop'}}
                     name="allDurations"
                     label="All Durations"
                     options={allDurations}
                   />
-                  <Button style={{gridArea:'1 / 4'}}
-                    type='submit'
-                    variant='contained'
-                  >
-                    Save Changes  
-                  </Button>  
+                    <Button style={{gridArea:'confirmBtn'}}
+                      disabled={loading}
+                      className={classes.confirmBtn}
+                      type='submit'
+                      variant='contained'
+                      startIcon={
+                        loading ? (
+                          <CircularProgress size="1rem" />
+                        ) : undefined
+                      }
+                      endIcon={<ArrowRightAltIcon style={{fill:'white'}}/>}
+                    >
+                      Save Changes
+                    </Button>    
                 </div>
                 
-                <div style={{display:'flex',justifyContent:'space-between'}}>
-                  <div style={{display:'flex'}}>
- 
-                  </div>
-                </div>
-                <div style={{display:'grid',gridTemplateColumns:'12% auto 25% 25%',gridTemplateRows:"1fr 1fr",alignItems:'center'}} className={classes.addressWrapper}>
-                  <div style={{gridArea: '1 / 1 / 3 / 2'}}> 
-                    <img src='logo512.png' width='80%'/>
+                <div className={clsx(classes.detailsGrid,classes.card)}>
+                  <div style={{gridArea: 'image'}}> 
+                    <img src={imageUrl? imageUrl: `logo512.png`} alt='' width='80%'/>
                     <Button
                       variant="outlined"
                       component="label"
@@ -197,35 +256,38 @@ const CompanyInfo = ({NEW_CUSTOMER,CUSTOMER_UPDATE,customer,edit}) => {
                       <input
                         type="file"
                         hidden
+                        onChange={(e)=>{
+                          setFieldValue('logo', e.target.files[0])
+                        }}
                       />
                     </Button>
                   </div>
-                  <div style={{gridArea: '1 / 2 / 2 / 3'}}>
+                  <div style={{gridArea: 'cleaningService'}}>
                     <Field
                       name="cleaningService" placeholder="cleaning Service" as={Input}
                     />
                     <ErrorMessage component='div' style={{color:"red"}} name="cleaningService" />
                   </div>
-                  <div style={{gridArea: '2 / 2 / 3 / 3'}}>
+                  <div style={{gridArea: 'companyPhone'}}>
                     <Field
                       name="companyPhone" placeholder="companyPhone" as={Input}
                     />
                     <ErrorMessage component='div' style={{color:"red"}} name="companyPhone" />
                   </div>
 
-                  <div style={{gridArea: '1 / 3 / 2 / 5',justifySelf:'start'}} className={classes.emailWrapper} >
+                  <div style={{gridArea: 'otherEmail',justifySelf:'start'}} className={classes.emailWrapper} >
                     <Field
                       name="otherEmail" placeholder="otherEmail" fullWidth as={Input}
                     />
                     <ErrorMessage component='div' style={{color:"red"}} name="otherEmail" />
                   </div>
-                  <div style={{gridArea: '2 / 3 / 3 / 4',justifySelf:'start'}}> 
+                  <div style={{gridArea: 'companyWebsite',justifySelf:'start'}}> 
                     <Field
                       name="companyWebsite" placeholder="companyWebsite" as={Input}
                     />
                     <ErrorMessage component='div' style={{color:"red"}} name="companyWebsite" />
                   </div>
-                  <div style={{gridArea: '2 / 4 / 3 / 5',justifySelf:'start'}}> 
+                  <div style={{gridArea: 'facebookPage',justifySelf:'start'}}> 
                     <Field
                       name="facebookPage" placeholder="facebookPage" as={Input}
                     />
@@ -234,65 +296,63 @@ const CompanyInfo = ({NEW_CUSTOMER,CUSTOMER_UPDATE,customer,edit}) => {
                 </div>
 
                 {/* address  */}
-                <div style={{display:'grid', gridTemplateAreas:'1fr 1fr 1fr',gridTemplateRows:'1fr 1fr'}} className={classes.addressWrapper}>
-                  <div style={{gridArea:'1 / 1 / 2 / 2'}} className={classes.justifyStart}>
-                    <Field
-                      name="billingAddress" placeholder="billingAddress" as={Input}
-                    />
-                    <ErrorMessage component='div' style={{color:"red"}} name="billingAddress" />
-                  </div>  
-                  <div style={{gridArea:'1 / 2 / 2 / 3'}} className={classes.justifyStart}>
-                    <Field
-                      name="address1" placeholder="address1" as={Input}
-                    />
-                    <ErrorMessage component='div' style={{color:"red"}} name="address1" />
-                  </div>  
-                  <div style={{gridArea:'1 / 3 / 2 / 4'}} className={classes.justifyStart}>
-                    <Field
-                      name="address2" placeholder="address2" as={Input}
-                    />
-                    <ErrorMessage component='div' style={{color:"red"}} name="address2" />
-                  </div>  
-                  <div style={{gridArea:'2 / 1 / 3 / 2'}} className={classes.justifyStart}>
-                    <Field
-                      name="city" placeholder="city" as={Input}
-                    />
-                    <ErrorMessage component='div' style={{color:"red"}} name="city" />
-                  </div>  
-                  <div style={{gridArea:'2 / 2 / 3 / 3'}} className={classes.justifyStart}>
-                    <Field
-                      name="region" placeholder="region" as={Input}
-                    />
-                    <ErrorMessage component='div' style={{color:"red"}} name="region" />  
-                  </div>  
-                  <div style={{gridArea:'2 / 3 / 3 / 4'}} className={classes.justifyStart}>
-                    <Field
-                      name="zipCode" placeholder="zipCode" as={Input}
-                    />
-                    <ErrorMessage component='div' style={{color:"red"}} name="zipCode" />
-                  </div>  
-                </div>
+                <div className={clsx(classes.locationGrid,classes.card)}>
+                    <Typography variant='body1' className={clsx(classes.justifyStart,classes.cardHeading)} style={{gridArea:'addHeading'}}>Address Detail</Typography>
+                    <div style={{gridArea:'billingAddress'}} className={classes.justifyStart}>
+                      <Field
+                        name="billingAddress" placeholder="billingAddress" as={Input}
+                      />
+                      <ErrorMessage component='div' style={{color:"red"}} name="billingAddress" />
+                    </div>  
+                    <div style={{gridArea:'address1'}} className={classes.justifyStart}>
+                      <Field
+                        name="address1" placeholder="address1" as={Input}
+                      />
+                      <ErrorMessage component='div' style={{color:"red"}} name="address1" />
+                    </div>  
+                    <div style={{gridArea:'address2'}} className={classes.justifyStart}>
+                      <Field
+                        name="address2" placeholder="address2" as={Input}
+                      />
+                      <ErrorMessage component='div' style={{color:"red"}} name="address2" />
+                    </div>  
+                    <div style={{gridArea:'city'}} className={classes.justifyStart}>
+                      <Field
+                        name="city" placeholder="city" as={Input}
+                      />
+                      <ErrorMessage component='div' style={{color:"red"}} name="city" />
+                    </div>  
+                    <div style={{gridArea:'region'}} className={classes.justifyStart}>
+                      <Field
+                        name="region" placeholder="region" as={Input}
+                      />
+                      <ErrorMessage component='div' style={{color:"red"}} name="region" />  
+                    </div>  
+                    <div style={{gridArea:'zipCode'}} className={classes.justifyStart}>
+                      <Field
+                        name="zipCode" placeholder="zipCode" as={Input}
+                      />
+                      <ErrorMessage component='div' style={{color:"red"}} name="zipCode" />
+                    </div>  
+                  </div>
 
               </Form>
               )}
             </Formik>
 
           </div>
-        </Container>
-      </Grid>
-    </Grid>
     </Layout>
   );
 };
 
 const mapStateToProps = state => ({
   edit: state.customer.edit,
-  customer:state.customer.customer,
-  loading:state.customer.loading,
-  success:state.customer.success,
+  loading:state.employee.loading,
+  businessId:state.auth.user.cleaner.business,
+  imageUrl:state.employee.company.logo.url
 });
 
 export default connect(
   mapStateToProps,
-  { NEW_CUSTOMER,CUSTOMER_UPDATE }
+  { COMPANY_INFO }
 )(CompanyInfo);

@@ -1,27 +1,102 @@
 import React from 'react';
-import Header from '../../components/FormsUI/Headers';
-import { Formik, Form } from 'formik';
+import { Formik, Form,Field,ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  Container,
-  Grid,
-  CircularProgress
+  Typography,
+  Input,
+  CircularProgress,
+  Button,
+  TextField,
+  Checkbox,
+  FormControlLabel,
 } from '@material-ui/core';
-import Textfield from '../../components/FormsUI/Textfields';
-import DateTimePicker from '../../components/FormsUI/DataTimePickers';
-import Button from '../../components/FormsUI/Buttons';
+import clsx from 'clsx';
+import Select from '../../components/FormsUI/Selects'
+import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 
 import Layout from '../../components/layout/Index'
 
 import { connect } from "react-redux";
-import { NEW_CUSTOMER,CUSTOMER_UPDATE } from "../../actions/customerAction";
+import { NEW_CUSTOMER } from "../../actions/customerAction";
+
 
 const useStyles = makeStyles((theme) => ({
   formWrapper: {
-    marginTop: theme.spacing(5),
-    marginBottom: theme.spacing(8),
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
   },
+  gridContainer:{
+    display:'grid',
+    gridTemplateColumns:'2fr 1fr',
+    gridTemplateRows:'0.4fr 1.4fr 1fr' ,
+    gridTemplateAreas:`"heading confirmBtn" "personal billing" "address address"`,
+    gridColumnGap:theme.spacing(3),
+    gridRowGap:theme.spacing(3)
+  },
+  header:{
+    justifySelf:'Start',
+    paddingBottom:theme.spacing(3)
+  },
+  confirmBtn:{
+    background:theme.palette.primary.lightDark,
+    width:'70%',
+    height:theme.spacing(7),
+    padding:'0px',
+    fontSize:"1.3rem",
+    color:"white",
+  },
+  cardHeading:{
+    fontSize:"18px",
+    fontWeight:'bold'
+  },
+  customerGrid:{
+    gridArea:'personal',
+    display:'grid',
+    gridTemplateColumns:'1fr 1fr 1fr 1fr',
+    gridTemplateRows:'1fr 1fr 1fr 1fr' ,
+    gridTemplateAreas:`
+    "heading heading heading heading" 
+    "firstName lastName phoneNumber email"
+    "companyName preferredMethod password confirmPassword" 
+    "marketingSource no no no"`,
+    gridColumnGap:theme.spacing(2),
+  },
+  locationGrid:{
+    gridArea:'address',
+    display:'grid',
+    gridTemplateColumns:'1fr 1fr 1fr',
+    gridTemplateRows:'1fr 1fr 1fr' ,
+    gridTemplateAreas:`
+    "addHeading addHeading addHeading" 
+    "address1 address2 address2"
+    "city region zipCode"`,
+  },
+  billingGrid:{
+    gridArea:"billing",
+    display:'grid',
+    gridTemplateRows:'1fr 1fr 1fr' ,
+    gridTemplateColumns:'1fr',
+    textAlign:'left',
+    gridTemplateAreas:`
+    "billHeading"
+    "line1" 
+    "addAddress"
+    "notes"`,
+  },
+  bold:{
+    fontWeight:'bold'
+  },
+  card:{
+    padding:`${theme.spacing(4)}px ${theme.spacing(3)}px`,
+    borderRadius:theme.spacing(2),
+    background:'white',
+    gridColumnGap:theme.spacing(2),
+    gridRowGap:theme.spacing(3),
+  },
+  justifyStart:{
+    justifySelf:'start'
+  }
 }));
 
 
@@ -31,48 +106,65 @@ const FORM_VALIDATION = Yup.object().shape({
     .required('Required'),
   lastName: Yup.string()
     .required('Required'),
+  phoneNumber: Yup.number()
+      .integer()
+      .typeError('Please enter a valid phone number')
+      .required('Required'),
   email: Yup.string()
     .email('Invalid email.')
     .required('Required'),
-  contactNo1: Yup.number()
-    .integer()
-    .typeError('Please enter a valid phone number')
+  password: Yup.string().required('password should be minimum 8character!!!').min(8),
+  confirmPassword:Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match'),
+  address1: Yup.string()
     .required('Required'),
-  contactNo2: Yup.number()
-    .integer()
-    .typeError('Please enter a valid phone number'),
-  address: Yup.string()
-    .required('Required'),
-  DOB: Yup.date().required('Date of birth required'),
 });
 
-const NewCustomer = ({success,NEW_CUSTOMER,CUSTOMER_UPDATE,customer,loading,edit,history}) => {
+
+const NewCustomer = ({success,NEW_CUSTOMER,customer,loading,edit}) => {
   const classes = useStyles();
   React.useEffect(()=>{
     if(success){
-      history.push('/newvehicle')
     }
     // eslint-disable-next-line
   },[success])
+
+  const pets={
+    'facebook':'facebook',
+    'google':'google',
+  }
+
   const formState=()=>{
     const INITIAL_FORM_STATE = {
       firstName: '',
       lastName: '',
+      phoneNumber: '',
       email: '',
-      contactNo1: '',
-      contactNo2: '',
-      address: '',
-      DOB: '',
+      companyName: '',
+      preferredMethod: '',
+      password:'',
+      confirmPassword:'',
+      marketSource: '',
+      termsCheck:true,
+      billingAddress: '',
+      notes: '',
+      address1:'',
+      address2:'',
+      city:'',
+      region:'',
+      zipCode:'',
+    
     };
 
     const EDIT_FORM_STATE={
       firstName:customer?.firstName || '',
       lastName:customer?.lastName || '',
+      phoneNumber:customer?.contactNo1 || '',
       email:customer?.email || '',
-      contactNo1:customer?.contactNo1 || '',
-      contactNo2:customer?.contactNo2 || '',
-      address:customer?.address || '',
-      DOB:customer?.DOB || ''
+      companyName:customer?.contactNo2 || '',
+      preferredMethod:customer?.address || '',
+      marketSource:customer?.DOB || '',
+      notes:customer?.notes || '',
+      billingAddress:customer?.billingAddress || '',
     }
 
     if(!edit){
@@ -82,129 +174,178 @@ const NewCustomer = ({success,NEW_CUSTOMER,CUSTOMER_UPDATE,customer,loading,edit
     }
   }
 
- 
-
-
-
   return (
     <Layout>
-    <Grid container>
-      <Grid item xs={12}>
-        <Header title={edit?'Update Customer':'New Customer'}/>
-      </Grid>
-      <Grid item xs={12}>
-        <Container maxWidth="md">
-          <div className={classes.formWrapper}>
-
+        {/* <Container maxWidth="lg"> */}
             <Formik
               initialValues={ formState()}
               validationSchema={FORM_VALIDATION}
               onSubmit={values => {
                 // console.log(values);
                 if(edit) {
-                  CUSTOMER_UPDATE(values);
+                  // CUSTOMER_UPDATE(values);
                 }else{
                   NEW_CUSTOMER(values)
                   }
               }}
               enableReinitialize
             >
-              {({ values, errors, isSubmitting, isValid }) => (
+              {({ values, setFieldValue,handleSubmit }) => (
               <Form>
-
-                <Grid container spacing={2}>
-
-                  <Grid item xs={6}>
-                    <Textfield
-                      name="firstName"
-                      label="First Name"
-                    />
-                  </Grid>
-
-                  <Grid item xs={6}>
-                    <Textfield
-                      name="lastName"
-                      label="Last Name"
-                    />
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <Textfield
-                      name="email"
-                      label="Email"
-                    />
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <Textfield
-                      name="contactNo1"
-                      label="Contact No.1"
-                    />
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <Textfield
-                      name="contactNo2"
-                      label="Contact No.2"
-                    />
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <Textfield
-                      name="address"
-                      label="Address"
-                      />
-                  </Grid>
-
-                  <Grid item xs={6}>
-                    <DateTimePicker
-                      name="DOB"
-                      label="Date of Birth"
-                    />
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    {
-                      edit?
-                      <Button
+                <div className={classes.gridContainer}>
+                  <Typography variant='h4' style={{gridArea:'heading'}} className={classes.header}>
+                    <span className={classes.bold}> Add New Customer  </span>
+                  </Typography>
+                    {/* <NavLink to="/bookingPayment" variant="body2" className={classes.font}> */}
+                    <Button style={{gridArea:'confirmBtn'}}
                       disabled={loading}
-                      type="submit"
-                      variant="contained"
-                      color="primary"
+                      className={classes.confirmBtn}
+                      type='submit'
+                      variant='contained'
+                      onClick={()=>{
+                        handleSubmit()
+                        // NEW_CUSTOMER(values)
+                      }}
                       startIcon={
                         loading ? (
                           <CircularProgress size="1rem" />
                         ) : undefined
                       }
+                      endIcon={<ArrowRightAltIcon style={{fill:'white'}}/>}
                     >
-                      {loading ? 'Submitting' : 'Update Customer'}
-                    </Button>:
-                    <Button
-                    disabled={loading}
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    startIcon={
-                      loading ? (
-                        <CircularProgress size="1rem" />
-                      ) : undefined
-                    }
-                  >
-                    {loading ? 'Submitting' : 'Add Customer'}
-                  </Button>
-                    }
-                    
-                  </Grid>
-                </Grid>
+                      Create Customer
+                    </Button>  
+                  {/* </NavLink> */}
+                  <div className={clsx(classes.customerGrid,classes.card)}>
+                      <Typography variant='body1' className={clsx(classes.justifyStart,classes.cardHeading)} style={{gridArea:'heading'}}>personal Detail</Typography>
+                      <div style={{gridArea:"firstName"}}>
+                        <Field
+                          name="firstName" placeholder="firstName" as={Input}
+                        />
+                        <ErrorMessage component='div' style={{color:"red"}} name="firstName" />
+                      </div>
+                      <div style={{gridArea:"lastName"}}>
+                        <Field
+                          name="lastName" placeholder="lastName" as={Input}
+                        />
+                        <ErrorMessage component='div' style={{color:"red"}} name="lastName" />
+                      </div>
+                      <div style={{gridArea:"phoneNumber"}}>
+                        <Field
+                          name="phoneNumber" placeholder="phoneNumber" as={Input}
+                        />
+                        <ErrorMessage component='div' style={{color:"red"}} name="phoneNumber" />
+                      </div>
+                      <div style={{gridArea:"email"}}>
+                        <Field
+                          name="email" placeholder="email" as={Input}
+                        />
+                        <ErrorMessage component='div' style={{color:"red"}} name="email" />
+                      </div>
+                      <div style={{gridArea:"companyName"}}>
+                        <Field
+                          name="companyName" placeholder="companyName" as={Input}
+                        />
+                        <ErrorMessage component='div' style={{color:"red"}} name="companyName" />
+                      </div>
+                      <div style={{gridArea:"preferredMethod"}}>
+                        <Field
+                          name="preferredMethod" placeholder="preferredMethod" as={Input}
+                        />
+                        <ErrorMessage component='div' style={{color:"red"}} name="preferredMethod" />
+                      </div>
+                      <div style={{gridArea:"password"}}>
+                        <Field
+                          name="password"  type="password" variant='standard' placeholder="password" as={TextField}
+                        />
+                        <ErrorMessage component='div' style={{color:"red"}} name="password" />
+                      </div>
+                      <div style={{gridArea:"confirmPassword"}}>
+                        <Field
+                          name="confirmPassword" type="password" variant='standard' placeholder="confirmPassword" as={TextField}
+                        />
+                        <ErrorMessage component='div' style={{color:"red"}} name="confirmPassword" />
+                      </div>
+                      <div style={{gridArea:"marketingSource"}}>
+                        <Select
+                          name="marketSource"
+                          label="marketSource"
+                          options={pets}
+                        />
+                        <ErrorMessage component='div' style={{color:"red"}} name="marketSource" />
+                      </div>
 
+                  </div>
+                  <div className={clsx(classes.billingGrid,classes.card)}>
+                    <Typography  variant='body1' className={classes.cardHeading} style={{gridArea:"billHeading"}}>
+                      Billing Address
+                    </Typography>  
+                    <div style={{gridArea:'line1'}}>
+                      <FormControlLabel
+                        checked={values.termsCheck}
+                        onChange={() => setFieldValue("termsCheck", !values.termsCheck)}
+                        control={<Checkbox />}
+                        label="Same as Address line 1"
+                      />
+                    </div>
+                    {!values.termsCheck &&
+                      <div style={{gridArea:"addAddress",paddingBottom:'0.8rem'}}>
+                        <Field
+                          name="billingAddress" placeholder="billingAddress" as={Input}
+                        />
+                        <ErrorMessage component='div' style={{color:"red"}} name="billingAddress" />
+                      </div>
+                    }
+                    <div style={{gridArea:"notes"}}>
+                      <Typography variant='body2' className={classes.bold}>
+                        Addition Information or notes
+                      </Typography> 
+                      <div >
+                        <Field
+                          name="notes" placeholder="notes" as={Input}
+                        />
+                        <ErrorMessage component='div' style={{color:"red"}} name="notes" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className={clsx(classes.locationGrid,classes.card)}>
+                    <Typography variant='body1' className={clsx(classes.justifyStart,classes.cardHeading)} style={{gridArea:'addHeading'}}>Address Detail</Typography>
+                    <div style={{gridArea:'address1'}} className={classes.justifyStart}>
+                      <Field
+                        name="address1" placeholder="address1" as={Input}
+                      />
+                      <ErrorMessage component='div' style={{color:"red"}} name="address1" />
+                    </div>  
+                    <div style={{gridArea:'address2'}} className={classes.justifyStart}>
+                      <Field
+                        name="address2" placeholder="address2" as={Input}
+                      />
+                      <ErrorMessage component='div' style={{color:"red"}} name="address2" />
+                    </div>  
+                    <div style={{gridArea:'city'}} className={classes.justifyStart}>
+                      <Field
+                        name="city" placeholder="city" as={Input}
+                      />
+                      <ErrorMessage component='div' style={{color:"red"}} name="city" />
+                    </div>  
+                    <div style={{gridArea:'region'}} className={classes.justifyStart}>
+                      <Field
+                        name="region" placeholder="region" as={Input}
+                      />
+                      <ErrorMessage component='div' style={{color:"red"}} name="region" />  
+                    </div>  
+                    <div style={{gridArea:'zipCode'}} className={classes.justifyStart}>
+                      <Field
+                        name="zipCode" placeholder="zipCode" as={Input}
+                      />
+                      <ErrorMessage component='div' style={{color:"red"}} name="zipCode" />
+                    </div>  
+                  </div>
+                </div>
               </Form>
               )}
             </Formik>
-
-          </div>
-        </Container>
-      </Grid>
-    </Grid>
+        {/* </Container> */}
     </Layout>
   );
 };
@@ -218,5 +359,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { NEW_CUSTOMER,CUSTOMER_UPDATE }
+  { NEW_CUSTOMER }
 )(NewCustomer);

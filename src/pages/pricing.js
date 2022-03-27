@@ -1,5 +1,4 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles';
 
 import HeroSection  from '../components/pricing/HeroSection';
 import Plans from '../components/pricing/Plans'

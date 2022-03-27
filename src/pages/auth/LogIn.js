@@ -88,18 +88,20 @@ function SignIn({isAuthenticated,loading,history, SIGN_IN}) {
 
   React.useEffect(() => {
     if (isAuthenticated) {
-      history.push('/');
+      history.push('/orders');
     }
     // eslint-disable-next-line
   }, [isAuthenticated]);
 
   return (
     <>
+      <div style={{'position':"absolute",zIndex:'3'}}>
+        <img alt='' src='wandBlue.png' />
+      </div>
       <Container style={{padding:'3rem'}} component="main" maxWidth="md">
         <CssBaseline />
         <Grid container spacing={2}>
           <Grid item md={6} className={classes.leftSide}>
-            <div>logo</div>
             <div>
               <img src='pablo-cleaning-up.png' alt='pablo cleaning' className={classes.img}/>
             </div>
@@ -169,12 +171,12 @@ function SignIn({isAuthenticated,loading,history, SIGN_IN}) {
                         <Link href="/forgot" variant="body2">
                           {"Forgot  "}
                         </Link>
-                        <Typography component="body2" variant="span" >
+                        <Typography component="span" variant="body2" >
                           Password?
                         </Typography>
                       </Grid>
                       <Grid item>
-                        <Typography component="body2" variant="span">
+                        <Typography component="span" variant="body2">
                           Don't have an account yet?
                         </Typography>
                         <Link href="/register" variant="body2" style={{}}>

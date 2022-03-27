@@ -1,11 +1,9 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {Typography, Modal,Button} from '@material-ui/core';
-import * as Yup from 'yup';
 import clsx from 'clsx'
 import SendIcon from '@material-ui/icons/Send';
 import {
-  Grid,
   IconButton,
 } from '@material-ui/core';
 
@@ -68,20 +66,6 @@ function SimpleModal({item}) {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const FORM_VALIDATION = Yup.object().shape({
-    searchTerm: Yup.string()
-      .required('Required'),
-    searchBy:Yup.string().required('enter state name'),
-  });
-  
-
-      const INITIAL_FORM_STATE = {
-        startDate: '',
-        endDate: '',
-        searchBy:'csv'
-      };
-
 
   return (
     <span>

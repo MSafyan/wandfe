@@ -13,7 +13,9 @@ import {
 	ORDER_FIND_SUCCESS,
 	ORDER_FIND_FAIL,
 	ORDER_UPDATE_SUCCESS,
-	ORDER_UPDATE_FAIL
+	ORDER_UPDATE_FAIL,
+	BOOKING_PAYMENT_SUCCESS,
+	BOOKING_PAYMENT_FAIL
 } from "../actions/types";
 
 const INITAL_AUTH_STATE = {
@@ -33,6 +35,7 @@ export default function authReducer(
 	switch (action.type) {
 		case NEW_ORDER_SUCCESS:
 		case ORDER_UPDATE_SUCCESS:
+		case BOOKING_PAYMENT_SUCCESS:
 		// case ORDER_FIND_SUCCESS:
 			return {
 				...state,
@@ -73,6 +76,7 @@ export default function authReducer(
 		case ORDER_FEATURED_FAIL:
 		case ORDER_FIND_FAIL:
 		case ORDER_UPDATE_FAIL:
+		case BOOKING_PAYMENT_FAIL:
 			return {
 				...state,
 				loading: false,

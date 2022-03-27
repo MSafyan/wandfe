@@ -8,18 +8,13 @@ import dashboard from './pages/dashboard';
 import Forgot from './pages/auth/Forgot';
 import Reset from './pages/auth/Reset';
 
-import Employees from './pages/employee/Employees';
-import EmployeeForm from './pages/employee/EmployeeForm';
 import Customers from './pages/customer/CustomerList';
 import NewCustomer from './pages/customer/NewCustomer';
-import NewVehicle from './components/customers/newVehicle'
-import NewCoupon from './pages/invoice/couponForm'
-import Coupons from './pages/invoice/coupons'
-import NewEmail from './pages/email/emailForm'
 import CompanyInfo from './pages/CompanyInfo'
+import BookingPayment from './pages/booking/BookingPayment'
+import CreateBooking from './pages/booking/createBooking'
 import Test from './pages/test';
 
-import Order from './pages/order'
 import Orders from './pages/order/Orders';
 import Pricing from './pages/pricing';
 
@@ -53,19 +48,14 @@ function App() {
             <Route exact path='/reset' component={Reset}></Route>
             <Route exact path='/test' component={Test}></Route>
 
-            <PrivateRoute exact path='/neworder' component={Order}></PrivateRoute>
-            <Route exact path='/orders' component={Orders}></Route>
-
-            <PrivateRoute exact path='/employees' component={Employees}></PrivateRoute>
-            <PrivateRoute exact path='/employeesform' component={EmployeeForm}></PrivateRoute>
-
             <Route exact path='/customers' component={Customers}></Route>
-            <Route exact path='/newcustomer' component={NewCustomer}></Route>
-            <Route exact path='/companyInfo' component={CompanyInfo}></Route>
-            <PrivateRoute exact path='/newvehicle' component={NewVehicle}></PrivateRoute>
-            <PrivateRoute exact path='/newcoupon' component={NewCoupon}></PrivateRoute>
-            <PrivateRoute exact path='/coupons' component={Coupons}></PrivateRoute>
-            <PrivateRoute exact path='/newemail' component={NewEmail}></PrivateRoute>
+            <PrivateRoute exact path='/newcustomer' component={NewCustomer}></PrivateRoute>
+
+            <PrivateRoute exact path='/orders' component={Orders}></PrivateRoute>
+            <PrivateRoute exact path='/bookingPayment' component={BookingPayment}></PrivateRoute>
+            <PrivateRoute exact path='/createBooking' component={CreateBooking}></PrivateRoute>
+
+            <PrivateRoute exact path='/companyInfo' component={CompanyInfo}></PrivateRoute>
           </Switch>
         </Router>
         </ThemeProvider>

@@ -210,7 +210,7 @@ function SignUp({isAuthenticated,loading,history, SIGN_UP}) {
                     <div>
                       <Grid container>
                         <Grid item className={classes.center}>
-                          <Typography component="span" variant="body2">
+                          <Typography component="span">
                             Already has an account?
                           </Typography>
                           <Link href="/login" variant="body2" style={{margin:'auto'}}>

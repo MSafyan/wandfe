@@ -2,6 +2,13 @@ import React from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography,Grid,Container} from '@material-ui/core';
+import {
+  Work,
+  // CurrencyPound,
+  LocalAtm,
+  Sync,
+
+} from '@material-ui/icons';
 
 import Card from './Card'
 
@@ -9,13 +16,21 @@ import Card from './Card'
     mainContainer:{
       paddingTop:theme.spacing(12),
       paddingBottom:theme.spacing(12),
-      textAlign:'left'
+      textAlign:'left',
+      [theme.breakpoints.down('sm')]: {
+        padding:theme.spacing(4),
+      }
     },
     bold:{
       fontWeight:"bold"
     },
     heading2:{
-      paddingBottom:theme.spacing(6)
+      paddingBottom:theme.spacing(6),
+      paddingTop:theme.spacing(6),
+      [theme.breakpoints.down('sm')]: {
+        paddingBottom:theme.spacing(4),
+        paddingTop:theme.spacing(2),
+      }
     },
     headingBlue:{
       color:theme.palette.primary.main
@@ -31,11 +46,23 @@ const Payment = () => {
   const cards=[
     {
       heading:"Convert Estimates to Jobs",
-      body:'Wipe down flat surfaces and hung surfaces, make bed if unmade.'
+      body:'Wipe down flat surfaces and hung surfaces, make bed if unmade.',
+      icon:<Work/>
     },
     {
       heading:"Offer recurring service agreements",
-      body:'Surface wipe down, mirrors, toilet and shower cleaning. Booked as full or half.'
+      body:'Surface wipe down, mirrors, toilet and shower cleaning. Booked as full or half.',
+      icon:<Work/>
+    },
+    {
+      heading:"Take credit cards, debit",
+      body:'Clean sink, counters and empty and load dishwasher if present.',
+      icon:<LocalAtm/>
+    },
+    {
+      heading:"Sync with QuickBooks Online/Desktop",
+      body:'Wipe down flat surfaces and hung surfaces, make bed if unmade.',
+      icon:<Sync/>
     },
   ]
 
@@ -50,7 +77,7 @@ const Payment = () => {
       <Grid container spacing={2}>
       {
         cards.map((val,i)=>{
-          return <Grid item md={5}><Card key={i} val={val}/></Grid>
+          return <Grid item md={4}><Card key={i} val={val}/></Grid>
         })
       }
 

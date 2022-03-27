@@ -2,6 +2,7 @@ import React from 'react';
 // import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 
+import Header from '../components/_dashboard/Header';
 import HeroSection from '../components/_dashboard/HeroSection';
 import HowWork from '../components/_dashboard/HowWork';
 import BluishOverlay from '../components/_dashboard/BluishOverlay';
@@ -22,6 +23,7 @@ function Dashboard() {
   const classes = useStyles();
 
   return (<div className={classes.homepageContainer}>
+    <Header/>
     <HeroSection/>
     <HowWork/>
     <BluishOverlay/>

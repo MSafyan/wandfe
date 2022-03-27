@@ -1,22 +1,21 @@
 import React from 'react';
-import { Formik, Form } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Grid,
   CircularProgress,
   Button,
-  Typography,
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import Select from '../../components/FormsUI/Selects';
 // import Button from '../../components/FormsUI/Buttons';
 import AddIcon from '@material-ui/icons/Add';
+import { NavLink } from 'react-router-dom'
 
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 
@@ -31,7 +30,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems:'flex-end'
   },
   appointBtn:{
-    color:'white'
+    color:'white',
+  },
+  font:{
+    textDecoration:'none'
   },
   flexEnd:{
     alignItems:'flex-end'
@@ -122,16 +124,16 @@ const SearchForm = ({ORDER_FIND,loading}) => {
 
                   <Grid item xs={12} md={3}>
                       <Button
-                      disabled={loading}
-                      type="submit"
-                      variant="outlined"
-                      
-                      startIcon={
-                        loading ? (
-                          <CircularProgress size="1rem" />
-                        ) : (<SearchIcon  size="1rem"/>)
-                      }
-                    >
+                        disabled={loading}
+                        type="submit"
+                        variant="outlined"
+                        
+                        startIcon={
+                          loading ? (
+                            <CircularProgress size="1rem" />
+                          ) : (<SearchIcon  size="1rem"/>)
+                        }
+                      >
                       {loading ? 'Searching' : 'Search'}
                     </Button>
                   </Grid>
@@ -141,14 +143,16 @@ const SearchForm = ({ORDER_FIND,loading}) => {
             </Formik>
         {/* </Grid> */}
         <Grid item md={3}>
-          <Button
-            variant="contained"
-            className={classes.appointBtn}
-            color="primary"
-            endIcon={<AddIcon />}
-          >
-            Add Appointment
-          </Button>
+          <NavLink to="/createBooking" variant="body2" className={classes.font}>
+            <Button
+              variant="contained"
+              className={classes.appointBtn}
+              color="primary"
+              endIcon={<AddIcon />}
+            >
+              Add Appointment
+            </Button>
+          </NavLink>
         </Grid>
       </Grid>
 

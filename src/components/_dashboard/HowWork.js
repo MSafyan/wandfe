@@ -1,7 +1,21 @@
 import React from 'react'
-import clsx from 'clsx'
+import clsx from 'clsx';
+// import Slider from "react-slick";
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography,Grid,Container} from '@material-ui/core';
+import {
+  Payment,
+  Beenhere,
+  ThumbUpAlt,
+  Build
+} from '@material-ui/icons';
+// import { MobileView} from 'react-device-detect';
+// import Carousel from 'react-material-ui-carousel';
+// import Carousel from "react-simply-carousel";
+// import {
+//   Done,
+//   Facebook
+// } from '@material-ui/icons';
 
 import CardOutlined from './CardOutlined'
 
@@ -9,7 +23,10 @@ import CardOutlined from './CardOutlined'
     mainContainer:{
       paddingTop:theme.spacing(12),
       paddingBottom:theme.spacing(12),
-      textAlign:'left'
+      textAlign:'left',
+      [theme.breakpoints.down('xs')]: {
+        paddingTop:theme.spacing(0)
+      }
     },
     bold:{
       fontWeight:"bold",
@@ -27,19 +44,39 @@ import CardOutlined from './CardOutlined'
     }
   }));
 
-const Payment = () => {
+const Payments = () => {
   const classes = useStyles();
+  // const [activeSlide, setActiveSlide] = useState(0);
 
   const cards=[
     {
       heading:"Easily find new Cleaning Job",
-      body:'Easily view all of your local cleaners ready for for a one time job, or recurring visits.'
+      body:'Easily view all of your local cleaners ready for for a one time job, or recurring visits.',
+      icon:<Payment style={{fill:'white'}}/>
     },
     {
       heading:"notify & dispatch cleaning crews in real time",
-      body:'Securely book & pay right inside of the app'
+      body:'Securely book & pay right inside of the app',
+      icon:<Beenhere style={{fill:'white'}}/>
     },
+    {
+      heading:"Manage time, location, and other job details",
+      body:'In app reviews let you know exactly who you are working with',
+      icon:<ThumbUpAlt style={{fill:'white'}}/>
+    },
+    {
+      heading:"Look up job & customer history on any device",
+      body:'Anytime you need anything, give our 24/7 customer support a call',
+      icon:<Build style={{fill:'white'}}/>
+    }
   ]
+  // const settings = {
+  //   dots: true,
+  //   infinite: true,
+  //   speed: 500,
+  //   slidesToShow: 1,
+  //   slidesToScroll: 1
+  // };
 
   return (
     <Container className={classes.mainContainer} component="main" maxWidth="lg">
@@ -52,16 +89,20 @@ const Payment = () => {
         {" Wand"}
       </span>
       </Typography>
-      <Grid container spacing={2}>
-      {
-        cards.map((val,i)=>{
-          return <Grid item md={5}><CardOutlined key={i} val={val}/></Grid>
-        })
-      }
+      <Grid container spacing={4}>
+      {/* <MobileView>
+      <Slider {...settings}> */}
+        {
+          cards.map((val,i)=>{
+            return <Grid item md={4}><CardOutlined key={i} val={val}/></Grid>
+          })
+        }
+        {/* </Slider>
+      </MobileView> */}
 
       </Grid>
     </Container>
   )
 }
 
-export default Payment
+export default Payments

@@ -7,10 +7,25 @@ import clsx from 'clsx'
   const useStyles = makeStyles((theme) => ({
     mainContainer:{
       paddingBottom:theme.spacing(12),
-      textAlign:'left'
+      textAlign:'left',
+      [theme.breakpoints.down('sm')]: {
+        padding:theme.spacing(2),
+      }
     },
     content:{
       paddingBottom:theme.spacing(6),
+      [theme.breakpoints.down('sm')]: {
+        paddingBottom:theme.spacing(3),
+      }
+    },
+    hide:{
+      [theme.breakpoints.down('sm')]: {
+        display:'none'
+      }
+    },
+    imgContainer:{
+      display:'flex',
+      alignItems:'center'
     },
     bold:{
       fontWeight:'bold',
@@ -29,13 +44,16 @@ const GetInApp = () => {
   return (
     <Container className={classes.mainContainer} component="main" maxWidth="lg">
       <Grid container>
-        <Grid item sm={12} md={6}>
+        <Grid item md={6}>
           <Typography variant='h6'>
             GET IN TOUCH
           </Typography >
-          <Typography variant='h4' className={clsx(classes.content,classes.bold)}>
+          <Typography variant='h2' className={clsx(classes.content,classes.bold)}>
             Let us earn your
             <span className={classes.headingBlue}> trust</span>
+          </Typography>
+          <Typography variant='body1' className={clsx(classes.content,classes.hide)}>
+            It’s never been this easy, until now. Finally a user-friendly way to find, and hire reputable cleaners in your area, all within our app. Connect with an experienced cleaner within minutes!
           </Typography>
           <Typography variant='h2' className={classes.content}>
             It's never Been
@@ -43,19 +61,19 @@ const GetInApp = () => {
           <div style={{padding:'8px'}}>
             <MobileStoreButton
               store="ios"
-              width={'200px'}
+              width={'20vw'}
               linkProps={{ title: 'iOS Store Button' }}
             />
 
             <MobileStoreButton
               store="android"
-              width={'200px'}
-              linkProps={{ title: 'iOS Store Button' }}
+              width={'20vw'}
+              linkProps={{ title: 'Play Store Button' }}
             />
           </div>
         </Grid>
-        <Grid item sm={12} md={6}>
-          <img alt='' src='pablo-cleaning-up.png'/>
+        <Grid item md={6} className={classes.imgContainer}>
+          <img style={{width:'45vw'}} alt='' src='pablo-cleaning-up.png'/>
         </Grid>
       </Grid>
     </Container>

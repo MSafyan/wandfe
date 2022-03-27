@@ -11,6 +11,7 @@ import {
 const INITAL_AUTH_STATE = {
 	token: localStorage.getItem("token"),
 	user: null,
+	company:null,
 	isAuthenticated: false,
 	loading: false,
 	error: null,

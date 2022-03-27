@@ -11,14 +11,10 @@ import {
 	TablePagination,
 	TableFooter,
 	TableContainer,
-	Button,
 	Typography
 } from '@material-ui/core';
 
 import { connect } from "react-redux";
-import { EMPLOYEE_EDIT } from "../../actions/employeeActions";
-import {INVOICE_DOWNLOAD} from '../../actions/orderAction'
-import Moment from 'react-moment';
 
 const useStyles = makeStyles((theme) => ({
 	bold:{
@@ -68,40 +64,7 @@ const sortedRowInformation = (rowArray, comparator) => {
 	return stabilizedRowArray.map((el) => el[0]);
 };
 
-const orderList = [
-	{
-		time:'9:00 am',
-		date:'2021-12-08',
-		duration:'30 minutes',
-		status:'Active',
-		description:'Debian Sardon(Example Description)',
-		address:'12 hamston street no 2 siatle 30032',
-		assigned:'none',
-		amount:29,
-	},
-	{
-		time:'9:00 am',
-		date:'2021-12-08',
-		duration:'30 minutes',
-		status:'Active',
-		description:'Debian Sardon(Example Description)',
-		address:'12 hamston street no 2 siatle 30032',
-		assigned:'none',
-		amount:29,
-	},
-	{
-		time:'9:00 am',
-		date:'2021-12-08',
-		duration:'30 minutes',
-		status:'Active',
-		description:'Debian Sardon(Example Description)',
-		address:'12 hamston street no 2 siatle 30032',
-		assigned:null,
-		amount:29,
-	}
-]
-
-const TableContent = ({type,EMPLOYEE_EDIT,loading,history}) => {
+const TableContent = ({type,loading,orderList}) => {
 	const classes = useStyles();
 
 	const [orderDirection, setOrderDirection] = useState('asc');
@@ -123,22 +86,7 @@ const TableContent = ({type,EMPLOYEE_EDIT,loading,history}) => {
 		setRowsPerPage(parseInt(event.target.value), 10);
 		setPage(0);
 	};
-const warrentyPredictor=(per)=>{
-	console.log(per.created_at)
-	if(!per.services){
-		return;
-	}
-	return per?.services.map((val,i)=>{
-		
-		var myArray = /(\d)(Y)/g.exec(val.serviceName);
-
-			// console.log(myArray);
-			if(!myArray){
-				return <Typography variant='body1' color='secondary'>No warranty</Typography>
-			}
-			return <div key={i}><Moment add={{years:myArray[1]}} format="YYYY/MM/DD">{val.created_at}</Moment></div>})
-		
-}
+	
 	return (
 		<div>
 			{!loading && orderList?.length>0 ? (
@@ -170,12 +118,12 @@ const warrentyPredictor=(per)=>{
 										</TableCell>
 										<TableCell>
 											<Typography variant='h5' className={clsx(classes.statusActive)}>
-												{item.status || ''}
+												{item.status || 'ACTIVE'}
 											</Typography>
 										</TableCell>
 										<TableCell>
 											<Typography variant='body1' className={classes.bold}>
-												{item.description}
+												{item.instructions.substring(0, 30)}
 											</Typography>
 											{item.address}
 										</TableCell>
@@ -224,5 +172,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ EMPLOYEE_EDIT ,INVOICE_DOWNLOAD}
+	{ }
 )(TableContent);

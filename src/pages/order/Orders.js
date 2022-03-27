@@ -1,5 +1,5 @@
 import React from 'react'
-import { Paper, makeStyles,Toolbar } from '@material-ui/core';
+import { Paper, makeStyles } from '@material-ui/core';
 import TableContent from '../../components/orders/TableContent'
 import SearchForm from '../../components/orders/SearchForm';
 import { connect } from "react-redux";
@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-function ORDER_List({type,ORDER_LIST,ORDER_COUNT,history}) {
+function ORDER_List({ORDER_LIST,history}) {
 
     const classes = useStyles();
     React.useEffect(()=>{

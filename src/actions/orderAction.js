@@ -10,6 +10,8 @@ import {
   ORDER_COUNT_FAIL,
   NEW_ORDER_SUCCESS,
   NEW_ORDER_FAIL,
+	BOOKING_PAYMENT_SUCCESS,
+	BOOKING_PAYMENT_FAIL,
 	SET_LOADING_ORDER,
 	ORDER_REVENUE_SUCCESS,
 	ORDER_REVENUE_FAIL,
@@ -26,49 +28,40 @@ import {errMsg} from './utils';
 
 export const NEW_ORDER = (form_data) => async (dispatch,getState) => {
 
-	const {email} = getState().auth.user;
-	console.log(email)
+	// const {email} = getState().auth.user;
+	// console.log(email)
+
+	try {
+		dispatch({ type: NEW_ORDER_SUCCESS, payload: form_data.values });
+		form_data.history.push('/bookingPayment')
+	} catch (error) {
+		dispatch({ type: NEW_ORDER_FAIL});
+		errMsg(error)
+	}
+};
+export const BOOKING_PAYMENT = (form_data) => async (dispatch,getState) => {
 
 	try {
     dispatch({ type: SET_LOADING_ORDER });
 
+		const {id} = getState().auth.user;
+		const {order} = getState().order;
+		debugger;
+		const time = moment(order.time).format('HH:mm:ss.SSS')
     const data={
-      customer:form_data.id,
-			vehicle:form_data.vehicleId,
-			suggestedPrice:form_data.suggestedPrice,
-			discount:form_data.discount,
-			price:form_data.price,
-			status:form_data.status,
-			paidBy:form_data.paidBy,
-			paidAmount:form_data.paidAmount,
-			description:form_data.description,
-			coupon:form_data.coupon,
-			addedBy:email
+			...order,
+			time,
+			customer:id,
+			cleaner:6
     };
 
-		const res = await axios.post(`${url}/sales/`, data);
+		const res = await axios.post(`${url}/bookings`,data);
 
-		for(let ser of form_data.services){
-
-			const service={
-				vehicleType:ser.vehicleType,
-				serviceName:ser.serviceName,
-				servicePrice:ser.discountPrice,
-				sale:res.data.id
-			}
-	  await axios.post(`${url}/services/`, service);
-		// console.log(resService.data)
-		}
-		await axios.get(`${url}/sales/invoice/${res.data.id}`)
-		await axios.get(`${url}/sales/checkLoyalty/${form_data.id}`)
-
-    // console.log(res.data);
-
-		dispatch({ type: NEW_ORDER_SUCCESS, payload: res.data });
-		toast.success("ORDER updated scuccessfully...");
+		dispatch({ type: BOOKING_PAYMENT_SUCCESS, payload: res.data });
+		// form_data.history.push('/orders')
+		toast.success("Booking created scuccessfully...");
 	} catch (error) {
-
-		dispatch({ type: NEW_ORDER_FAIL});
+		dispatch({ type: BOOKING_PAYMENT_FAIL});
 		errMsg(error)
 	}
 };
@@ -97,31 +90,13 @@ export const UPDATE_ORDER = (form_data) => async (dispatch) => {
 export const ORDER_LIST = () => async (dispatch,getState) => {
 	try {
     dispatch({ type: SET_LOADING_ORDER });
-		debugger;
-		const type = getState().auth.user.type;
+		const type = getState().auth.user.role.name;
 		let res=[];
-		if(type==='admin'){
-			res = await axios.get(`${url}/sales`);
+		if(type==='cleaner' || type==='premium'){
+			res = await axios.get(`${url}/bookings`);
+			console.log(res.data);
+			dispatch({ type: ORDER_LIST_SUCCESS, payload: res.data });
 		}
-		else if(type==='sales'){
-			const today=moment().add(14,'days').format('YYYY-MM-DD');
-			res = await axios.get(`${url}/sales?created_at_gte=${today}`);
-			res.data=[];
-		}
-		else if(type==='manager'){
-		const today=moment().subtract(14,'days').format('YYYY-MM-DD');
-
-			res = await axios.get(`${url}/sales?created_at_gte=${today}`);
-		}
-		else if(type==='supervisor'){
-		const today=moment().subtract(2,'days').format('YYYY-MM-DD');
-
-			res = await axios.get(`${url}/sales?created_at_gte=${today}`);
-		}
-
-    console.log(res.data);
-
-		dispatch({ type: ORDER_LIST_SUCCESS, payload: res.data });
 	} catch (error) {
 
 		dispatch({ type: ORDER_LIST_FAIL});

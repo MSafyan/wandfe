@@ -1,21 +1,21 @@
 import React from 'react'
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import {alpha, makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
+import Popper from '@material-ui/core/Popper';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import InputBase from '@material-ui/core/InputBase';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
-import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { Button } from '@material-ui/core';
-
-import AppMenu from './AppMenu';
+import { Avatar,Button } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
+import EmailIcon from '@material-ui/icons/Email';
+import Sidebar from './sidebar'
 
 import { connect } from "react-redux";
 import {LOGOUT} from '../../actions/authActions'
@@ -41,6 +41,10 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
+    display:'grid',
+    gridTemplateColumns:"3fr 1fr 1fr 1fr",
+    gridTemplateAreas:`"search messages next avatar"`,
+    alignItems:'flex-start'
   },
   toolbarIcon: {
     display: 'flex',
@@ -52,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     boxShadow:'none',
+    paddingTop:theme.spacing(3),
     background:theme.palette.primary.light,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -106,6 +111,47 @@ const useStyles = makeStyles((theme) => ({
       display:'none',
     },
   },
+  search: {
+    gridArea:"search",
+    display:'flex',
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(1),
+      width: 'auto',
+    },
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputRoot: {
+    color: 'inherit',
+  },
+  inputInput: {
+    fontWeight:'bold',
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      '&:focus': {
+        width: '20ch',
+      },
+    },
+  },
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
@@ -144,50 +190,103 @@ const useStyles = makeStyles((theme) => ({
   },
   lightFill:{
     color:theme.palette.lightFill.main
+  },
+  messagesWrapper:{
+    gridArea:"messages",
+    display:'flex',
+    textAlign:'start'
+  },
+  nextWrapper:{
+    gridArea:"next",
+    display:'flex',
+    textAlign:'start'
+  },
+  avatarWrapper:{
+    gridArea:'avatar',
+    display:'flex',
+    textAlign:'start'
+  },
+  bold:{
+    fontWeight:'bold'
+  },
+  icon:{
+    marginRight:theme.spacing(0.5)
+  },
+  flex:{
+    display:'flex',
+    textAlign:'start'
   }
 }));
 
-const Index = (props) => {
+const Index = ({LOGOUT,children}) => {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(true);
-    const handleDrawerOpen = () => {
-        setOpen(true);
+    const [open] = React.useState(true);
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+      setAnchorEl(anchorEl ? null : event.currentTarget);
     };
-    const handleDrawerClose = () => {
-      // console.log(props);
-      setOpen(false);
-    };
+  
+    const openPopper = Boolean(anchorEl);
+    const id = open ? 'simple-popper' : undefined;
+
     return (
         <>
       <div className={classes.root}>
       <CssBaseline />
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Dashboard
-          </Typography>
-          {props.isAuthenticated === false ? (
-						<Link href='/register' style={{ textDecoration: 'none' }}>
-							<Button variant='outlined'>
-								SignUp
-							</Button>
-						</Link>
-						) : (
-            <Link style={{ textDecoration: 'none' }}>
-							<Button variant='outlined' onClick={()=>props.LOGOUT()} className={classes.getStartMobile}>
-								LogOut
-							</Button>
-						</Link>
-						)}
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon className={classes.icon}/>
+            </div>
+            <InputBase
+              placeholder="Search Anything…"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </div>
+          <div className={classes.messagesWrapper}>
+            <EmailIcon className={classes.icon}/>
+            <div>
+              <Typography variant='body2' className={classes.bold}>
+                Your Messages
+              </Typography>
+            </div>
+          </div>
+          <div className={classes.nextWrapper}>
+            <ChevronLeftIcon className={classes.icon}/>
+            <div>
+              <Typography variant='body2' className={classes.bold}>
+                Next Cleaner Service
+              </Typography>
+              <Typography variant='body2'>
+                23 march 2012
+              </Typography>
+            </div>
+          </div>
+          <div className={classes.avatarWrapper} onClick={handleClick}>
+            <Avatar src='lady.jpg' className={classes.icon}/>
+            <div>
+              <Typography variant='body2' className={classes.bold}>
+                Benjamin A
+              </Typography>
+              <Typography variant='body2'>
+                x.y.z company
+              </Typography>
+            </div>
+            <Popper id={id} open={openPopper} anchorEl={anchorEl}>
+              <div className={classes.paper}>
+                <Button variant='outlined' onClick={()=>LOGOUT()} >
+                  LogOut
+                </Button>
+              </div>
+            </Popper>
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -197,26 +296,12 @@ const Index = (props) => {
         }}
         open={open}
       >
-        <div className={classes.toolbarIcon}>
-          <div className={classes.logo}>
-            <Typography variant="h4">
-              V
-            </Typography>
-            <Typography variant="h6">
-              olante
-            </Typography>
-          </div>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon className={classes.lightFill}/>
-          </IconButton>
-        </div>
-        <Divider />
-        <AppMenu />
+        <Sidebar />
       </Drawer>
       <main className={classes.main}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          {props.children}
+        <Container maxWidth='xl' className={classes.container}>
+          {children}
           <Box pt={4}>
             <Copyright />
           </Box>

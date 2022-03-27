@@ -1,14 +1,14 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography,Button,Grid, Container } from '@material-ui/core';
-
-import {
-  Twitter} from '@material-ui/icons';
+import { Typography,Grid, Container } from '@material-ui/core';
 
   const useStyles = makeStyles((theme) => ({
     mainGrid:{
       textAlign:'left',
-      paddingBottom:theme.spacing(12)
+      paddingBottom:theme.spacing(12),
+      [theme.breakpoints.down('sm')]: {
+        padding:theme.spacing(2),
+      }
     },
     fontBold:{
       fontSize:"1.1rem",
@@ -27,16 +27,16 @@ const Footer = () => {
   const classes = useStyles();
 
   return (
-    <Container style={{padding:'3rem'}} component="main" maxWidth="lg">
+    <Container component="main" maxWidth="lg">
       <Grid container spacing={2} className={classes.mainGrid}>
 
         {/* Logo */}
-        <Grid item sm={12} md={6}  lg={3}>
-          Logo
+        <Grid item md={6}  lg={3}>
+          <img src='allblack.png' alt='' width='70%'/>
         </Grid>
 
         {/* Cleaner */}
-        <Grid item sm={12} md={6}  lg={3}>
+        <Grid item md={6}  lg={3}>
           <Typography variant='h6' className={classes.subHeading}>
             Become a Cleaner
           </Typography>
@@ -52,7 +52,7 @@ const Footer = () => {
         </Grid>
 
         {/* Terms of Services */}
-        <Grid item sm={12} md={6}  lg={3}>
+        <Grid item md={6}  lg={3}>
         <Typography variant='h6' className={classes.subHeading}>
             Terms of Services
           </Typography>
@@ -68,7 +68,7 @@ const Footer = () => {
         </Grid>
         
         {/* Contact Us */}
-        <Grid item sm={12} md={6}  lg={3}>
+        <Grid item md={6}  lg={3}>
         <Typography variant='h6' className={classes.subHeading}>
             Become a Cleaner
           </Typography>

@@ -29,29 +29,32 @@ import {errMsg} from './utils';
 // const url = 'http://localhost:1337';
 // const url = process.env.REACT_APP_BE_HOST_URL;
 
-export const NEW_CUSTOMER = (form_data) => async (dispatch) => {
+export const NEW_CUSTOMER = (form_data) => async (dispatch,getState) => {
 	try {
     dispatch({ type: SET_LOADING_CUSTOMER });
-    const data={
-      firstName:form_data.firstName || '',
-      lastName:form_data.lastName || '',
-      address:form_data.address || '',
-      email:form_data.email || '',
-      contactNo1:form_data.contactNo1 || '',
-      contactNo2:form_data.contactNo2 || '',
-      DOB:form_data.DOB || ''
-    };
+    if(form_data.termsCheck){
+      form_data.billingAddress = form_data.address1;
+      delete form_data.termsCheck;
+    }
 
-		const res = await axios.post(`${url}/customers/`, data);
-
+		const res = await axios.post(`${url}/customers/`, form_data);
+    toast.success("Customer successfully added...");
+    debugger;
+    var inviteObj = {
+      businessID:getState().auth.user.cleaner.business,
+      body:`you are inviting in Wandcleaners as a customer userName:${form_data.email} password:'${form_data.password}`,
+      URL:"wand.com/register/323",
+      sendTo:form_data.email
+    }
+    const a = await axios.post(`${url}/notifications/invite`,inviteObj)
+    console.log(a)
+    dispatch({ type: NEW_CUSTOMER_SUCCESS, payload: res.data });
     // console.log(res.data);
 
-		dispatch({ type: NEW_CUSTOMER_SUCCESS, payload: res.data });
-		toast.success("Customer successfully added...");
 	} catch (error) {
 
 		dispatch({ type: NEW_CUSTOMER_FAIL});
-    toast.warn('server error or customer email not unique')
+    // toast.warn('server error or customer email not unique')
     
 		// errMsg(error)
 	}

@@ -2,10 +2,10 @@ import { createTheme } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
 
 const themeColor=false;
-export const theme = createTheme({
+const defaultTheme  = createTheme({
   typography:{
     fontFamily:[
-      'Inter', '-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', "Helvetica Neue", 'Arial, sans-serif', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
+      'Urbanist', '-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', "Helvetica Neue", 'Arial, sans-serif', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
     ]
   },
   overrides: {
@@ -16,6 +16,7 @@ export const theme = createTheme({
         },
       },
     },
+
     MuiAppBar:{
       colorPrimary:{
         color:'rgb(158, 158, 158)',
@@ -73,6 +74,7 @@ export const theme = createTheme({
     primary: {
       main: '#00C5C8',
       light:'#F2FCFC',
+      lightDark:"#005051",
       dark:'#005F60'
     },
     secondary: {
@@ -80,6 +82,9 @@ export const theme = createTheme({
     },
     ternary:{
       main:'#002f79'
+    },
+    fontPrimary:{
+      main:'#005051'
     },
     fontSecondary:{
       main:'#eee'
@@ -101,5 +106,53 @@ export const theme = createTheme({
     },
   },
 });
+const { breakpoints,palette } = defaultTheme;
+const theme = {
+  ...defaultTheme,
+  overrides: {
+    MuiTypography: {
+      h2: {
+        fontSize: "3.75rem",
+        [breakpoints.down("sm")]: {
+          fontSize: "1.7rem"
+        }
+      },
+      h4: {
+        fontSize: "3rem",
+        [breakpoints.down("sm")]: {
+          fontSize: "1rem"
+        }
+      },
+      h5: {
+        fontSize: "1.5rem",
+        [breakpoints.down("sm")]: {
+          fontSize: "0.9rem"
+        }
+      },
+      h6: {
+        fontSize: "1.5rem",
+        [breakpoints.down("sm")]: {
+          fontSize: "0.8rem"
+        }
+      },
+      body2:{
+        color:palette.fontPrimary.main,
+      }
+    },
+    MuiSvgIcon:{
+      root:{
+        fill:palette.fontPrimary.main
+      }
+    },
+    MuiButton:{
+      root:{
+        fontSize:'1.2rem',
+        [breakpoints.down("sm")]: {
+          fontSize:'0.8rem'
+        }
+      }
+    }
+  }
+}
 
 export  default theme;
