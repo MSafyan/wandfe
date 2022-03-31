@@ -2,14 +2,13 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography,Button,Container,Grid } from '@material-ui/core';
 import clsx from 'clsx';
-// import {BrowserView} from 'react-device-detect';
-import { MobileView} from 'react-device-detect';
+import {BrowserView,MobileView} from 'react-device-detect';
 
 import {
   Done,
-  Facebook
+  // Facebook
 } from '@material-ui/icons';
-import Carousel from 'react-material-ui-carousel'
+// import Carousel from 'react-material-ui-carousel'
 
 const useStyles = makeStyles((theme) => ({
   mainContainer:{
@@ -20,7 +19,10 @@ const useStyles = makeStyles((theme) => ({
   },
   bold:{
     fontWeight:"bold",
-    paddingBottom:theme.spacing(8)
+    paddingBottom:theme.spacing(8),
+    [theme.breakpoints.down('xs')]: {
+      paddingBottom:theme.spacing(4),
+    }
   },
   Button:{
     fontSize:'1.2rem',
@@ -61,7 +63,8 @@ const useStyles = makeStyles((theme) => ({
   },
   featuresText:{
     paddingBottom:theme.spacing(1),
-    fontWeight:'bold'
+    fontWeight:'bold',
+    color:"white"
   }
 }))
 
@@ -105,50 +108,59 @@ var cards = [
   },
 ] 
 
-var items = [
-  {
-      name: "Random Name #1",
-      description: "Probably the most random thing you have ever seen!"
-  },
-  {
-      name: "Random Name #2",
-      description: "Hello World!"
-  },
-  {
-      name: "Random Name #3",
-      description: "Hello World!"
-  }
-]
-
 
 const Plans = () => {
   const classes = useStyles();
 
   return (
-    <Container className={classes.mainContainer} component="main" maxWidth="lg">
+    <Container className={classes.mainContainer} component="main" maxWidth="xl">
       <Grid container spacing={3} className={classes.cardWrapper}>
       {/* <BrowserView> */}
         {
           cards.map((val,i)=>{
             return <Grid item xs={12} md={4}>
+              <MobileView>
               {
-                i===1 && 
-                <>
-                  <Typography variant='h2' className={classes.bold}>
-                    Start Now Your 
-                    <span className={classes.headingBlue}>
-                      {" Plan"}
-                    </span>
-                  </Typography>
-                  <Button
-                    className={classes.Button}
-                    variant="contained"
-                    color="primary"
-                  >
-                    LEARN MORE
-                  </Button>
-                </>
-              }
+                  i===0 && 
+                  <>
+                    <Typography variant='h1' className={classes.bold}>
+                      Start Now Your 
+                      <span className={classes.headingBlue}>
+                        {" Plan"}
+                      </span>
+                    </Typography>
+                    <Button
+                      className={classes.Button}
+                      variant="contained"
+                      color="primary"
+                    >
+                      LEARN MORE
+                    </Button>
+                  </>
+                }
+              </MobileView>
+              <BrowserView>
+                {
+                  i===1 && 
+                  <>
+                    <Typography variant='h1' className={classes.bold}>
+                      Start Now Your 
+                      <span className={classes.headingBlue}>
+                        {" Plan"}
+                      </span>
+                    </Typography>
+                    <Button
+                      className={classes.Button}
+                      variant="contained"
+                      color="primary"
+                    >
+                      LEARN MORE
+                    </Button>
+                  </>
+                }
+              </BrowserView>
+                
+
               <div className={clsx(classes.card,i===1 && classes.lightBg)}>
                 {
                   val.popular &&  
@@ -171,7 +183,7 @@ const Plans = () => {
                   <div className={classes.features}>
                   {val.features.map((val,i)=>{
                       return <div className={classes.featureWrapper}>
-                        <Done style={{marginRight:"1rem"}}/>
+                        <Done style={{marginRight:"1rem",fill:'white'}}/>
                         <Typography className={classes.featuresText} key={i} variant='body2'>
                           {val}
                         </Typography>
@@ -185,7 +197,7 @@ const Plans = () => {
         }
       {/* </BrowserView> */}
       </Grid>
-      <MobileView>
+      {/* <MobileView>
         <Carousel
           NextIcon='next'
           PrevIcon='prev'
@@ -195,7 +207,7 @@ const Plans = () => {
             items.map( (item, i) => <Typography variant='h6' key={i}> {item.name}</Typography> )
           }
         </Carousel>
-      </MobileView>
+      </MobileView> */}
 
     </Container>
   )

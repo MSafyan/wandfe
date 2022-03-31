@@ -25,7 +25,8 @@ const useStyles = makeStyles((theme) => ({
     position:'fixed',
     height:'80vh',
     overflowY:"auto",
-    width:'240px'
+    width:'240px',
+    overflow:"hidden"
   },
   category:{
     marginBottom:theme.spacing(4)
@@ -65,13 +66,13 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-const links =[
+export const links =[
   {
     heading:'Workspace',
     navs:[
       {
         icon:<HomeOutlined/>,
-        link:'/',
+        link:'/dashboard',
         text:'Dashboard'
       },
       {
@@ -116,7 +117,6 @@ const links =[
       },
     ]
   },
-
 ]
 
 const Sidebar = () => {

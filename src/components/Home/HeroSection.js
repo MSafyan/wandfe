@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     textTransform:"uppercase",
     paddingBottom:theme.spacing(6),
     [theme.breakpoints.down('sm')]: {
-      paddingBottom:theme.spacing(2),
+      paddingBottom:theme.spacing(3),
     }
   },
   font:{
@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
   icons:{
     paddingBottom:theme.spacing(8),
     [theme.breakpoints.down('sm')]: {
-      paddingBottom:theme.spacing(2),
+      paddingBottom:theme.spacing(5),
     }
   },
   iconFill:{
@@ -101,13 +101,13 @@ const HeroSection = () => {
   const classes = useStyles();
   return (
     <div className={classes.outer}>
-      <Container className={classes.mainContainer} component="main" maxWidth="lg">
+      <Container className={classes.mainContainer} component="main" maxWidth="xl">
         <div className={classes.container}>
-          <Typography variant='h4' className={classes.heading}>
+          <Typography variant='h1' className={classes.heading}>
             Simplify Your Maid Service With This Simple  
             <span className={classes.headingBlue}> Scheduling Software </span>
           </Typography>
-          <Typography variant='h6' className={classes.heading2}>
+          <Typography variant='h5' className={classes.heading2}>
             DISCOVER HOW YOU CAN CLEAN MORE HOMES AND MAKE MORE MONEY THAN EVER BEFORE
           </Typography>
           <div className={classes.buttons}>

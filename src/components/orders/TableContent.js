@@ -104,41 +104,41 @@ const TableContent = ({type,loading,orderList}) => {
 							)
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 								.map((item, index) => (
-									<TableRow key={index}>
-										<TableCell>
-											<Typography variant='body1' className={classes.bold}>
-											{item.time}
-											</Typography>
-										</TableCell>
-										<TableCell>
-											{item.date || ''}
-										</TableCell>
-										<TableCell>
-											{item.duration}
-										</TableCell>
-										<TableCell>
-											<Typography variant='h5' className={clsx(classes.statusActive)}>
-												{item.status || 'ACTIVE'}
-											</Typography>
-										</TableCell>
-										<TableCell>
-											<Typography variant='body1' className={classes.bold}>
-												{item.instructions.substring(0, 30)}
-											</Typography>
-											{item.address}
-										</TableCell>
-										<TableCell>
-											{item.assigned ===null ? (
-												<Typography variant='body2' className={classes.bold}>
-													'No cleaner Assigned'
+										<TableRow key={index}>
+											<TableCell>
+												<Typography variant='body1' className={classes.bold}>
+												{item.time}
 												</Typography>
-											):null}
-										</TableCell>
-										<TableCell>
-											${item.amount || 'Anonymous'}
-											<Export item={item}/>
-										</TableCell>
-									</TableRow>
+											</TableCell>
+											<TableCell>
+												{item.date || ''}
+											</TableCell>
+											<TableCell>
+												{item.duration}
+											</TableCell>
+											<TableCell>
+												<Typography variant='h6' className={clsx(classes.statusActive)}>
+													{item.status || 'ACTIVE'}
+												</Typography>
+											</TableCell>
+											<TableCell>
+												<Typography variant='body1' className={classes.bold}>
+													{item.instructions.substring(0, 30)}
+												</Typography>
+												{item.address}
+											</TableCell>
+											<TableCell>
+												{item.assigned ===null ? (
+													<Typography variant='body2' className={classes.bold}>
+														'No cleaner Assigned'
+													</Typography>
+												):null}
+											</TableCell>
+											<TableCell>
+												${item.amount || 'Anonymous'}
+												<Export item={item}/>
+											</TableCell>
+										</TableRow>	
 								))}
 						</Table>
 					</TableContainer>

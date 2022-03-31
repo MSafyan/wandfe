@@ -5,10 +5,10 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import Register from './pages/auth/Register';
 import Login from './pages/auth/LogIn';
 import dashboard from './pages/dashboard';
+import Home from './pages/Homoe';
 import Forgot from './pages/auth/Forgot';
 import Reset from './pages/auth/Reset';
 
-import Customers from './pages/customer/CustomerList';
 import NewCustomer from './pages/customer/NewCustomer';
 import CompanyInfo from './pages/CompanyInfo'
 import BookingPayment from './pages/booking/BookingPayment'
@@ -40,7 +40,7 @@ function App() {
         <Router>
         <PersistGate persistor={persistor} />
           <Switch>
-            <Route exact path='/' component={dashboard}></Route>
+            <Route exact path='/' component={Home}></Route>
             <Route exact path='/pricing' component={Pricing}></Route>
             <Route exact path='/login' component={Login}></Route>
             <Route exact path='/register' component={Register}></Route>
@@ -48,7 +48,7 @@ function App() {
             <Route exact path='/reset' component={Reset}></Route>
             <Route exact path='/test' component={Test}></Route>
 
-            <Route exact path='/customers' component={Customers}></Route>
+            <PrivateRoute exact path='/dashboard' component={dashboard}></PrivateRoute>
             <PrivateRoute exact path='/newcustomer' component={NewCustomer}></PrivateRoute>
 
             <PrivateRoute exact path='/orders' component={Orders}></PrivateRoute>

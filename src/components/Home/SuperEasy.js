@@ -10,7 +10,10 @@ import clsx from 'clsx'
       textAlign:'left',
       background:theme.palette.primary.main,
       display:'flex',
-      justifyContent:'space-between'
+      justifyContent:'space-between',
+      [theme.breakpoints.down('sm')]:{
+        marginBottom:theme.spacing(4),
+      }
     },
     contentWrapper:{
       padding:theme.spacing(6),
@@ -21,6 +24,7 @@ import clsx from 'clsx'
     },
     content:{
       paddingBottom:theme.spacing(6),
+      fontWeight:"normal",
       [theme.breakpoints.down('sm')]: {
         paddingBottom:theme.spacing(2),
       }
@@ -51,19 +55,19 @@ const SuperEasy = () => {
   return (
     <div className={classes.mainContainer}>
       <div className={classes.contentWrapper}>
-        <Typography variant='h6' className={classes.bold}>
+        <Typography variant='h5' className={classes.bold}>
           WHAT OUR HOME CLEANING PROS SAY
         </Typography >
-        <Typography variant='h2' className={clsx(classes.content,classes.bold)}>
+        <Typography variant='h1' className={clsx(classes.content,classes.bold)}>
           Super easy to use.
         </Typography>
         <Typography variant='h5' className={clsx(classes.content)}>
           After Wand cleaners my apartment always clean and fresh. Plus I know that with Wand cleaners my home is secure.
         </Typography>
-        <Typography variant='h4' className={classes.author}>
+        <Typography variant='h2' className={classes.author}>
           James, Brooklyn, NY.
         </Typography>
-        <Typography variant='h4' className={classes.author}>
+        <Typography variant='h2' className={classes.author}>
           {".  .   .   ."}
         </Typography>
       </div>

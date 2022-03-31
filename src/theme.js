@@ -111,10 +111,16 @@ const theme = {
   ...defaultTheme,
   overrides: {
     MuiTypography: {
+      h1: {
+        fontSize: "4.5rem",
+        [breakpoints.down("sm")]: {
+          fontSize: "1.8rem"
+        }
+      },
       h2: {
         fontSize: "3.75rem",
         [breakpoints.down("sm")]: {
-          fontSize: "1.7rem"
+          fontSize: "1.5rem"
         }
       },
       h4: {
@@ -124,7 +130,7 @@ const theme = {
         }
       },
       h5: {
-        fontSize: "1.5rem",
+        fontSize: "2.1rem",
         [breakpoints.down("sm")]: {
           fontSize: "0.9rem"
         }
@@ -137,6 +143,13 @@ const theme = {
       },
       body2:{
         color:palette.fontPrimary.main,
+      }
+    },
+    MuiInputBase:{
+      root:{
+        [breakpoints.down('sm')]: {
+          width:"100%"
+        }
       }
     },
     MuiSvgIcon:{

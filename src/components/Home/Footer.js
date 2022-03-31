@@ -27,7 +27,7 @@ const Footer = () => {
   const classes = useStyles();
 
   return (
-    <Container component="main" maxWidth="lg">
+    <Container component="main" maxWidth="xl">
       <Grid container spacing={2} className={classes.mainGrid}>
 
         {/* Logo */}
@@ -36,7 +36,7 @@ const Footer = () => {
         </Grid>
 
         {/* Cleaner */}
-        <Grid item md={6}  lg={3}>
+        <Grid item xs={12} md={6}  lg={3}>
           <Typography variant='h6' className={classes.subHeading}>
             Become a Cleaner
           </Typography>

@@ -37,7 +37,7 @@ export default function SimpleCard({val}) {
         <Typography className={classes.title} variant='h5'>
           {val.heading}
         </Typography>
-        <Typography variant="body2" component="h2">
+        <Typography variant="body1" component="h2">
           {val.body}
         </Typography>
       </CardContent>

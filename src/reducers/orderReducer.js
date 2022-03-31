@@ -3,6 +3,8 @@ import {
   NEW_ORDER_FAIL,
 	ORDER_LIST_SUCCESS,
 	ORDER_LIST_FAIL,
+	FETCH_APPOINTLIST_SUCCESS,
+	FETCH_APPOINTLIST_FAIL,
 	ORDER_COUNT_FAIL,
 	ORDER_COUNT_SUCCESS,
 	ORDER_REVENUE_SUCCESS,
@@ -15,17 +17,24 @@ import {
 	ORDER_UPDATE_SUCCESS,
 	ORDER_UPDATE_FAIL,
 	BOOKING_PAYMENT_SUCCESS,
-	BOOKING_PAYMENT_FAIL
+	BOOKING_PAYMENT_FAIL,
+	FETCH_CLEANER_SUCCESS,
+	FETCH_STATS_SUCCESS,
+	FETCH_STATS_FAIL,
+	FETCH_CLEANER_FAIL,
 } from "../actions/types";
 
 const INITAL_AUTH_STATE = {
 	order: null,
 	loading: false,
 	orderList:[],
+	appointmentList:[],
 	count:10,
 	edit:false,
 	revenueData:null,
-	featuredData:null
+	featuredData:null,
+	stats:{},
+	cleanerInfo:null,
 };
 
 export default function authReducer(
@@ -51,6 +60,38 @@ export default function authReducer(
 				edit:false,
 				orderList:action.payload
 			};
+		case FETCH_CLEANER_SUCCESS:
+			return {
+				...state,
+				cleanerInfo:action.payload
+			};
+		case FETCH_CLEANER_FAIL:
+			return {
+				...state,
+				cleanerInfo:null
+			};
+		case FETCH_STATS_SUCCESS:
+			return {
+				...state,
+				stats:action.payload
+			};
+		case FETCH_STATS_FAIL:
+			return {
+				...state,
+				stats:null
+			};
+		case FETCH_APPOINTLIST_SUCCESS:
+			return {
+				...state,
+				appointmentList:action.payload,
+				loading:false
+			};
+		case FETCH_APPOINTLIST_FAIL:
+			return {
+				...state,
+				appointmentList:[],
+				loading:false
+			}
 		case ORDER_COUNT_SUCCESS:
 			return {
 				...state,

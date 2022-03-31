@@ -15,8 +15,10 @@ import KingBedOutlinedIcon from '@material-ui/icons/KingBedOutlined';
 import TableChartOutlinedIcon from '@material-ui/icons/TableChartOutlined';
 import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined';
 import MoneyOutlinedIcon from '@material-ui/icons/MoneyOutlined';
-// import Textfield from '../components/FormsUI/Textfields';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
+import Select from '../../components/FormsUI/Selects'
+
+import {types} from './createBooking'
 
 import Layout from '../../components/layout/Index'
 import StarRatings from 'react-star-ratings';
@@ -36,6 +38,14 @@ const useStyles = makeStyles((theme) => ({
     gridTemplateRows:'0.6 1fr 1fr',
     gridColumnGap:theme.spacing(2),
     gridColumnRow:theme.spacing(2),
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns:'1fr 1fr',
+      gridTemplateRows:'0.4fr 1fr 1fr 1.7fr' ,
+      gridTemplateAreas:`"heading confirmBtn" 
+      "cleanerInfo cleanerInfo" 
+      "paymentInfo paymentInfo"
+      "breakdown breakdown"`,
+    }
   },
   bold:{
     fontWeight:"bold"
@@ -60,16 +70,22 @@ const useStyles = makeStyles((theme) => ({
     width:'70%'
   },
   justifyStart:{
-    justifySelf:'start'
+    textAlign:'left'
   },
   header:{
     justifySelf:'Start',
     paddingBottom:theme.spacing(3)
   },
   confirmBtn:{
-    background:theme.palette.primary.main,
+    background:theme.palette.primary.lightDark,
     width:'70%',
-    padding:'0px'
+    height:theme.spacing(7),
+    padding:'0px',
+    color:"white",
+    paddingRight:theme.spacing(1),
+    [theme.breakpoints.down('sm')]: {
+      width:'100%'
+    }
   },
   cleanerHeader:{
     paddingBottom:theme.spacing(2)
@@ -79,55 +95,90 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const breakdown =[
-  {icon:<BathtubOutlinedIcon style={{color:"#004A6B"}}/>,
-  category:'Bathroom',
-  price:'$25 x1 = $25'},
-  {icon:<KitchenOutlinedIcon/>,
-  category:'Kitchen',
-  price:'$25 x1 = $25'},
-  {icon:<KingBedOutlinedIcon/>,
-  category:'Bedroom',
-  price:'$25 x1 = $25'},
-  {icon:<TableChartOutlinedIcon/>,
-  category:'LivingRoom',
-  price:'$25 x1 = $25'},
-  {icon:<ReportProblemOutlinedIcon/>,
-  category:'Covid',
-  price:'x1.5'},
-  {icon:<MoneyOutlinedIcon/>,
-  category:'total',
-  price:'$150'},
-]
 
-const FORM_VALIDATION = Yup.object().shape({
-});
 
-const CompanyInfo = ({BOOKING_PAYMENT,CUSTOMER_UPDATE,customer,edit}) => {
+
+
+const CompanyInfo = ({BOOKING_PAYMENT,service,order,cleanerInfo,onBoarding}) => {
   const classes = useStyles();
   React.useEffect(()=>{
 
     // eslint-disable-next-line
   },[])
 
-  const formState=()=>{
-    const INITIAL_FORM_STATE = {
-
-    };
-
-    const EDIT_FORM_STATE={
-    }
-
-    if(!edit){
-      return INITIAL_FORM_STATE;
-    }else{
-      return EDIT_FORM_STATE;
-    }
+  const pricer=()=>{
+    var price= types.filter((val)=>{
+      return val.label===order.type
+    })
+    return price[0].value
   }
 
- 
+  const totalCal = ()=>{
+    return ((service.bathroomDuration*order.bathroomCount + 
+      service.bedroomDuration*order.kitchenCount +
+      service.bedroomDuration*order.bedroomCount +
+      service.livingroomDuration ) /60) * service.ratePerHour * pricer();
+  }
 
+  const breakdown =[
+    {icon:<BathtubOutlinedIcon style={{color:"#004A6B"}}/>,
+    category:'Bathroom',
+    price:`${service.bathroomDuration}mint x${order.bathroomCount} 
+    = ${service.bathroomDuration*order.bathroomCount}mint`},
+    {icon:<KitchenOutlinedIcon/>,
+    category:'Kitchen',
+    price:`${service.kitchenDuration}mint x${order.kitchenCount} 
+    = ${service.bedroomDuration*order.kitchenCount}mint`},
+    {icon:<KingBedOutlinedIcon/>,
+    category:'Bedroom',
+    price:`${service.bedroomDuration}mint x${order.bedroomCount} 
+    = ${service.bedroomDuration*order.bedroomCount}mint`},
+    {icon:<TableChartOutlinedIcon/>,
+    category:'LivingRoom',
+    price:`${service.livingroomDuration}mint x${1} 
+    = ${service.livingroomDuration}mint`},
+    {icon:<ReportProblemOutlinedIcon/>,
+    category:`${order.type}`,
+    price:`${pricer()}`},
+    {icon:<MoneyOutlinedIcon/>,
+    category:'hourly Rate',
+    price:`${service.ratePerHour}usd`},
+    {icon:<MoneyOutlinedIcon/>,
+    category:'total',
+    price:`${totalCal()}usd`},
+  ]
 
+  const paidBy={
+    BY_HAND:'ByHand',
+    STRIPE:'Stripe',
+  }
+
+  const FORM_VALIDATION = Yup.object().shape({
+    paidBy: Yup.string()
+    .required('Required')
+    .test((paidBy,_)=>{
+      if(paidBy==='STRIPE' && onBoarding!==true){
+        return new Yup.ValidationError(
+          `Can pay via strape, please choose By_hand`,
+          undefined,
+          'paidBy'
+        );
+      }
+      return true;
+    })
+  });
+
+  const formState=()=>{
+    const INITIAL_FORM_STATE = {
+      paidBy:''
+    };
+
+    // if(!edit){
+      return INITIAL_FORM_STATE;
+    // }else{
+    //   return EDIT_FORM_STATE;
+    // }
+  }
 
   return (
     <Layout>
@@ -136,18 +187,18 @@ const CompanyInfo = ({BOOKING_PAYMENT,CUSTOMER_UPDATE,customer,edit}) => {
               validationSchema={FORM_VALIDATION}
               onSubmit={values => {
                 // console.log(values);
-                if(edit) {
-                  CUSTOMER_UPDATE(values);
-                }else{
+                // if(edit) {
+                //   CUSTOMER_UPDATE(values);
+                // }else{
                   BOOKING_PAYMENT(values)
-                  }
+                  // }
               }}
               enableReinitialize
             >
               {({ values, errors, isSubmitting, isValid }) => (
               <Form>
                 <div className={classes.gridWrapper}>
-                  <Typography variant='h4' style={{gridArea:'heading'}} className={classes.header}>
+                  <Typography variant='h4' style={{gridArea:'heading'}} className={clsx(classes.header,classes.justifyStart)}>
                     <span className={classes.bold}> Create a Booking - </span>
                     Payment Information
                   </Typography>
@@ -155,7 +206,7 @@ const CompanyInfo = ({BOOKING_PAYMENT,CUSTOMER_UPDATE,customer,edit}) => {
                     className={classes.confirmBtn}
                     type='submit'
                     variant='contained'
-                    endIcon={<ArrowRightAltIcon/>}
+                    endIcon={<ArrowRightAltIcon style={{fill:'white'}}/>}
                   >
                     Confirm Booking  
                   </Button>  
@@ -200,6 +251,12 @@ const CompanyInfo = ({BOOKING_PAYMENT,CUSTOMER_UPDATE,customer,edit}) => {
 
                   <div style={{gridArea:"paymentInfo"}} className={classes.card}>
                     <Typography variant='h6'>Add Payment Information</Typography>
+                    <Select
+                      style={{paddingBottom:'1rem'}}
+                      name="paidBy"
+                      label="Paid By"
+                      options={paidBy}
+                    />
                     <StripeContainer/>  
                   </div>
 
@@ -230,7 +287,9 @@ const mapStateToProps = state => ({
   edit: state.customer.edit,
   customer:state.customer.customer,
   loading:state.customer.loading,
-  success:state.customer.success,
+  service:state.order.cleanerInfo.service,
+  onBoarding:state.order.cleanerInfo.wallet,
+  order:state.order.order
 });
 
 export default connect(

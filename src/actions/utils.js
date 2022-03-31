@@ -1,8 +1,8 @@
 import { toast } from "react-toastify";
 
 export const errMsg=(error)=>{
-	console.log(error.response)
 	debugger;
+	console.log(error.response)
 	try {
 		if(!error.response){
 			return toast.warn("server error");

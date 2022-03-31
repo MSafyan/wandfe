@@ -29,8 +29,15 @@ const useStyles = makeStyles((theme) => ({
     borderTopRightRadius:'13%',
     alignItems:'flex-end'
   },
-  appointBtn:{
-    color:'white',
+  confirmBtn:{
+    background:theme.palette.primary.lightDark,
+    width:'70%',
+    height:theme.spacing(7),
+    padding:'0px',
+    color:"white",
+    [theme.breakpoints.down('sm')]: {
+      width:'100%'
+    }
   },
   font:{
     textDecoration:'none'
@@ -41,35 +48,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const allStatus={
-  'OrderId':'OrderId',
-  'customerId':'customerId',
-  'vehicleRegNo':'vehicleRegNo'
+  'ACTIVE':'ACTIVE',
+  'COMPLETED':'COMPLETED'
 }
 const allDurations={
-  'OrderId':'OrderId',
-  'customerId':'customerId',
-  'vehicleRegNo':'vehicleRegNo'
+  '60mints':'60mints',
+  '120mints':'120mints',
 }
 
 
 const FORM_VALIDATION = Yup.object().shape({
-  searchTerm: Yup.string()
+  allStatus: Yup.string()
     .required('Required'),
-  searchBy:Yup.string().required('enter state name'),
+  allDurations:Yup.string().required('enter state name'),
 });
 
 const SearchForm = ({ORDER_FIND,loading}) => {
-  const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
 
   const classes = useStyles();
 
     const INITIAL_FORM_STATE = {
-      searchTerm: '',
-      searchBy: '',
+      allStatus: '',
+      allDurations: '',
+      date:null
     };
 
   return (
@@ -80,15 +81,15 @@ const SearchForm = ({ORDER_FIND,loading}) => {
               initialValues={ INITIAL_FORM_STATE}
               validationSchema={FORM_VALIDATION}
               onSubmit={values => {
-                // console.log(values);
+                console.log(values);
                 ORDER_FIND(values);
               }}
             >
-              {({ values, errors, isSubmitting, isValid }) => (
+              {({ values, errors, handleSubmit, setFieldValue }) => (
               // <Form>
                 <Grid container item md={9} spacing={3} className={classes.flexEnd}>
 
-                  <Grid item xs={12} md={3}>
+                  <Grid item xs={6} md={3}>
                     <Select
                       name="allStatus"
                       label="All Status"
@@ -96,7 +97,7 @@ const SearchForm = ({ORDER_FIND,loading}) => {
                     />
                   </Grid>
                 
-                  <Grid item xs={12} md={3}>
+                  <Grid item xs={6} md={3}>
                     <Select
                       name="allDurations"
                       label="All Durations"
@@ -104,17 +105,18 @@ const SearchForm = ({ORDER_FIND,loading}) => {
                     />
                   </Grid>
 
-                  <Grid item xs={12} md={3}>
+                  <Grid item xs={6} md={3}>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <KeyboardDatePicker
                         disableToolbar
+                        name='date'
                         variant="inline"
                         format="MM/dd/yyyy"
                         margin="normal"
                         id="date-picker-inline"
                         // label="Date picker inline"
-                        value={selectedDate}
-                        onChange={handleDateChange}
+                        value={values.date}
+                        onChange={value => setFieldValue("date", value)}
                         KeyboardButtonProps={{
                           'aria-label': 'change date',
                         }}
@@ -122,12 +124,12 @@ const SearchForm = ({ORDER_FIND,loading}) => {
                     </MuiPickersUtilsProvider>
                   </Grid>
 
-                  <Grid item xs={12} md={3}>
+                  <Grid item xs={6} md={3}>
                       <Button
                         disabled={loading}
                         type="submit"
                         variant="outlined"
-                        
+                        onClick={()=>{handleSubmit()}}
                         startIcon={
                           loading ? (
                             <CircularProgress size="1rem" />
@@ -146,7 +148,7 @@ const SearchForm = ({ORDER_FIND,loading}) => {
           <NavLink to="/createBooking" variant="body2" className={classes.font}>
             <Button
               variant="contained"
-              className={classes.appointBtn}
+              className={classes.confirmBtn}
               color="primary"
               endIcon={<AddIcon />}
             >

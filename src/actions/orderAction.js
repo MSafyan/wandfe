@@ -6,8 +6,10 @@ import moment from 'moment';
 import {
   ORDER_LIST_SUCCESS,
   ORDER_LIST_FAIL,
-  ORDER_COUNT_SUCCESS,
-  ORDER_COUNT_FAIL,
+	FETCH_APPOINTLIST_SUCCESS,
+	FETCH_APPOINTLIST_FAIL,
+	FETCH_CLEANER_SUCCESS,
+	FETCH_CLEANER_FAIL,
   NEW_ORDER_SUCCESS,
   NEW_ORDER_FAIL,
 	BOOKING_PAYMENT_SUCCESS,
@@ -15,12 +17,12 @@ import {
 	SET_LOADING_ORDER,
 	ORDER_REVENUE_SUCCESS,
 	ORDER_REVENUE_FAIL,
-	ORDER_FEATURED_FAIL,
-	ORDER_FEATURED_SUCCESS,
 	ORDER_FIND_FAIL,
 	ORDER_FIND_SUCCESS,
 	ORDER_UPDATE_SUCCESS,
-	ORDER_UPDATE_FAIL
+	ORDER_UPDATE_FAIL,
+	FETCH_STATS_SUCCESS,
+	FETCH_STATS_FAIL
 } from './types';
 
 import { toast } from "react-toastify";
@@ -47,7 +49,7 @@ export const BOOKING_PAYMENT = (form_data) => async (dispatch,getState) => {
 		const {id} = getState().auth.user;
 		const {order} = getState().order;
 		debugger;
-		const time = moment(order.time).format('HH:mm:ss.SSS')
+		const time = moment(order.time).format('HH:mm')
     const data={
 			...order,
 			time,
@@ -62,6 +64,28 @@ export const BOOKING_PAYMENT = (form_data) => async (dispatch,getState) => {
 		toast.success("Booking created scuccessfully...");
 	} catch (error) {
 		dispatch({ type: BOOKING_PAYMENT_FAIL});
+		errMsg(error)
+	}
+};
+
+export const FETCH_CLEANER = () => async (dispatch,getState) => {
+	try {
+		const res = await axios.get(`${url}/cleaners/fetchcleaner`);
+
+		dispatch({ type: FETCH_CLEANER_SUCCESS, payload: res.data });
+	} catch (error) {
+		dispatch({ type: FETCH_CLEANER_FAIL});
+		errMsg(error)
+	}
+};
+
+export const FETCH_STATS = () => async (dispatch) => {
+	try {
+		const res = await axios.get(`${url}/cleaners/stats`);
+
+		dispatch({ type: FETCH_STATS_SUCCESS, payload: res.data });
+	} catch (error) {
+		dispatch({ type: FETCH_STATS_FAIL});
 		errMsg(error)
 	}
 };
@@ -105,43 +129,46 @@ export const ORDER_LIST = () => async (dispatch,getState) => {
 	}
 };
 
-export const ORDER_COUNT = () => async (dispatch) => {
+export const FETCH_APPOINTLIST = (form_data) => async (dispatch) => {
 	try {
+		// const today= moment().format('YYYY-MM-DD')
+		// debugger;
     dispatch({ type: SET_LOADING_ORDER });
 
-		const res = await axios.get(`${url}/sales/count`);
-    // console.log(res.data);
+		const res = await axios.get(`${url}/bookings?status_eq=${form_data}`);
+		console.log(res.data);
+		dispatch({ type: FETCH_APPOINTLIST_SUCCESS, payload: res.data });
 
-		dispatch({ type: ORDER_COUNT_SUCCESS, payload: res.data });
 	} catch (error) {
-
-		dispatch({ type: ORDER_COUNT_FAIL});
+		dispatch({ type: FETCH_APPOINTLIST_FAIL});
 		errMsg(error)
-    
+	}
+};
+export const TOGGLE_ORDER_STATUS = (form_data) => async (dispatch) => {
+	try {
+		let status,res;
+    dispatch({ type: SET_LOADING_ORDER });
+		if(form_data.status==="COMPLETED"){
+			status="ACTIVE"
+		}else{
+			status="COMPLETED"
+		}
+		await axios.put(`${url}/bookings/${form_data.id}`,{status});
+		res = await axios.get(`${url}/bookings?status_eq=${form_data}`);
+		dispatch({ type: FETCH_APPOINTLIST_SUCCESS, payload: res.data });
+
+	} catch (error) {
+		errMsg(error)
 	}
 };
 
-export const ORDER_REVENUE = () => async (dispatch) => {
+
+export const ORDER_FEATURED = (form_data) => async (dispatch) => {
 	try {
     dispatch({ type: SET_LOADING_ORDER });
+		console.log(form_data)
 
-		const res = await axios.get(`${url}/sales/revenue`);
-    // console.log(res.data);
-
-		dispatch({ type: ORDER_FEATURED_SUCCESS, payload: res.data });
-	} catch (error) {
-
-		dispatch({ type: ORDER_FEATURED_FAIL});
-		errMsg(error)
-    
-	}
-};
-
-export const ORDER_FEATURED = () => async (dispatch) => {
-	try {
-    dispatch({ type: SET_LOADING_ORDER });
-
-		const res = await axios.get(`${url}/sales/revenueYearly`);
+		const res = await axios.post(`${url}/bookings/revenueYearly`,form_data);
     // console.log(res.data);
 
 		dispatch({ type: ORDER_REVENUE_SUCCESS, payload: res.data });
@@ -152,63 +179,13 @@ export const ORDER_FEATURED = () => async (dispatch) => {
 	}
 };
 
-export const INVOICE_DOWNLOAD = (id) => async (dispatch) => {
-	try {
-
-		const res = await axios.get(`${url}/sales/invoiceDownload/${id}`);
-    console.log(res.data);
-		toast.success('download successfull..')
-
-	} catch (error) {
-		dispatch({ type: ORDER_REVENUE_FAIL});
-		errMsg(error)
-	}
-};
-
 export const ORDER_FIND = (form_data) => async (dispatch) => {
 	try {
     dispatch({ type: SET_LOADING_ORDER });
     var res;
     // console.log(form_data)
-    if(form_data.searchBy==='OrderId'){
-        res = await axios.get(`${url}/sales/${form_data.searchTerm}`);
+        res = await axios.post(`${url}/bookings/finder}`,form_data);
         dispatch({ type: ORDER_FIND_SUCCESS, payload: [res.data] });
-
-      }
-      else if(form_data.searchBy==='vehicleRegNo'){
-        const vehicle = await axios.get(`${url}/vehicles?${form_data.searchBy}=${form_data.searchTerm}`);
-
-				// console.log(vehicle)
-        res = await axios.get(`${url}/sales?vehicle_eq=${vehicle.data[0].id}`);
-    
-        dispatch({ type: ORDER_FIND_SUCCESS, payload: res.data });
-        }
-      else if(form_data.searchBy==='csv'){
-
-        const data = await axios.get(`${url}/sales?created_at_gte=${form_data.startDate}&&created_at_lte=${form_data.endDate}`);
-
-				// console.log(data.data) 
-        dispatch({ type: ORDER_FIND_SUCCESS, payload: data.data });
-        }
-				else if(form_data.searchBy=== 'customerId'){
-			
-					res = await axios.get(`${url}/sales?customer_eq=${form_data.searchTerm}`);
-	
-					dispatch({ type: ORDER_FIND_SUCCESS, payload: res.data});
-				}
-    else if(form_data.searchBy=== 'name' || 'email' || 'contactNo'){
-        const customer = await axios.get(`${url}/customers?${form_data.searchBy}_eq=${form_data.searchTerm}`);
-				// console.log(customer)
-				res = await axios.get(`${url}/sales?customer_eq=${customer.data[0].id}`);
-
-				console.log(res.data)
-
-        dispatch({ type: ORDER_FIND_SUCCESS, payload: [res.data] });
-      }
-
-			// console.log('true', form_data.searchBy==='customerId');
-
-      // console.log(res);
 
 	} catch (error) {
 

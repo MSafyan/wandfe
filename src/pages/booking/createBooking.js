@@ -19,14 +19,13 @@ import {
 } from '@material-ui/pickers';
 
 import clsx from 'clsx'
-import { NavLink } from 'react-router-dom';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import Select from '../../components/FormsUI/Selects'
 
 import Layout from '../../components/layout/Index'
 
 import { connect } from "react-redux";
-import { NEW_ORDER } from "../../actions/orderAction";
+import { NEW_ORDER,FETCH_CLEANER } from "../../actions/orderAction";
 
 const useStyles = makeStyles((theme) => ({
   formWrapper: {
@@ -35,11 +34,24 @@ const useStyles = makeStyles((theme) => ({
   },
   gridWrapper:{
     display:'grid',
-    gridTemplateAreas:`"heading heading confirmBtn" "serviceDetial serviceDetial dateTime" "type type comment"`,
+    gridTemplateAreas:
+    `"heading heading confirmBtn" 
+    "serviceDetial serviceDetial dateTime" 
+    "type type comment"`,
     gridTemplateColumns:'5fr 4fr 3fr',
     gridTemplateRows:'0.4fr 1fr 1fr',
     gridColumnGap:theme.spacing(2),
     gridColumnRow:theme.spacing(2),
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateRows:'0.2fr 1.3fr 1fr 2fr 1fr',
+      gridTemplateColumns:'1fr 1fr',
+      gridTemplateAreas:
+      `"heading confirmBtn" 
+      "serviceDetial serviceDetial"
+      "dateTime dateTime" 
+      "type type"
+      "comment comment"`,
+    }
   },
   bold:{
     fontWeight:"bold"
@@ -62,7 +74,10 @@ const useStyles = makeStyles((theme) => ({
   },
   flex:{
     display:'flex',
-    justifyContent:"space-between"
+    justifyContent:"space-between",
+    [theme.breakpoints.down('sm')]: {
+      flexDirection:"column"
+    }
   },
   flexComp:{
     display:"flex",
@@ -83,14 +98,26 @@ const useStyles = makeStyles((theme) => ({
     width:'80%',
     height:theme.spacing(7),
     padding:'0px',
-    fontSize:"1.3rem",
     color:"white",
+    paddingRight:theme.spacing(1),
+    [theme.breakpoints.down('sm')]: {
+      width:'100%'
+    }
   },
   cleanerHeader:{
     paddingBottom:theme.spacing(2)
   },
   field:{
-    marginBottom:"1rem"
+    marginBottom:"1rem",
+    [theme.breakpoints.down('sm')]: {
+      width:'80vw'
+    }
+  },
+  addressField:{
+    width:'66%',
+    [theme.breakpoints.down('sm')]: {
+      width:'100%'
+    }
   },
   rightFeild:{
     marginRight:"10rem"
@@ -100,9 +127,23 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+export const types = [
+  {label:'Vacation Rental Service',
+  value:1.2,
+  body:'Lorem ipsum dolor sit amet, pellentesque quam dolor aenean ullamcorper lorem, auctor accumsan magna nam nunc.'},
+  {label:'COVID -19 Disinfectant',
+  value:1.5,
+  body:'Lorem ipsum dolor sit amet, pellentesque quam dolor aenean ullamcorper lorem, auctor accumsan magna nam nunc.'},
+  {label:'Standard cleaning',
+  value:1,
+  body:'Lorem ipsum dolor sit amet, pellentesque quam dolor aenean ullamcorper lorem, auctor accumsan magna nam nunc.'},
+  {label:'Deep cleaning',
+  value:1.3,
+  body:'Lorem ipsum dolor sit amet, pellentesque quam dolor aenean ullamcorper lorem, auctor accumsan magna nam nunc.'},
+]
+
 
 const FORM_VALIDATION = Yup.object({
-  date: new Date('12-12-2022'),
   bathroomCount: Yup.number()
     .integer()
     .typeError('Only number/digit allowed').required(),
@@ -122,9 +163,10 @@ const FORM_VALIDATION = Yup.object({
     .required(),
 });
 
-const CompanyInfo = ({NEW_ORDER,CUSTOMER_UPDATE,customer,edit,history}) => {
+const CompanyInfo = ({NEW_ORDER,FETCH_CLEANER,customer,edit,history}) => {
   const classes = useStyles();
   React.useEffect(()=>{
+    FETCH_CLEANER()
 
     // eslint-disable-next-line
   },[])
@@ -167,13 +209,13 @@ const CompanyInfo = ({NEW_ORDER,CUSTOMER_UPDATE,customer,edit,history}) => {
               initialValues={ formState()}
               validationSchema={ FORM_VALIDATION }
               onSubmit={values => {
-                console.log(values);
-                if(edit) {
-                  CUSTOMER_UPDATE(values);
-                }else{
+                // console.log(values);
+                // if(edit) {
+                //   CUSTOMER_UPDATE(values);
+                // }else{
 
                   NEW_ORDER({values,history})
-                  }
+                  // }
               }}
               enableReinitialize
             >
@@ -182,6 +224,7 @@ const CompanyInfo = ({NEW_ORDER,CUSTOMER_UPDATE,customer,edit,history}) => {
                 <div className={classes.gridWrapper}>
                   <Typography variant='h4' style={{gridArea:'heading'}} className={classes.header}>
                     <span className={classes.bold}> Create a Booking - </span>
+                    <br/>
                     Personal Details
                   </Typography>
                     {/* <NavLink to="/bookingPayment" variant="body2" className={classes.font}> */}
@@ -219,7 +262,7 @@ const CompanyInfo = ({NEW_ORDER,CUSTOMER_UPDATE,customer,edit,history}) => {
 													<ErrorMessage component='div' style={{color:"red"}} name="bedroomCount" />
                       </div>
                       <div className={classes.field}>
-													<Field style={{width:"66%"}}
+													<Field className={classes.addressField}
 														name="address" placeholder="Address" as={Input}
 													/>
 													<ErrorMessage component='div' style={{color:"red"}} name="address" />
@@ -281,33 +324,19 @@ const CompanyInfo = ({NEW_ORDER,CUSTOMER_UPDATE,customer,edit,history}) => {
                     <FormControl component="fieldset">
                       <RadioGroup name='type' value={values.selectedOption} onChange={(event) => {
                         setFieldValue('type', event.currentTarget.value)
-                        console.log(values);
+                        console.log(event.currentTarget.label);
                       }}>
-                        <div style={{display:'grid',gridTemplateColumns:`repeat(auto-fit,minmax(350px,1fr))`}}>
-                          <div>
-                            <FormControlLabel value={"Vacation Rental Service"} control={<Radio />} label="Vacation Rental Service" />
-                            <Typography variant='body2'>
-                              Lorem ipsum dolor sit amet, pellentesque quam dolor aenean ullamcorper lorem, auctor accumsan magna nam nunc.
-                            </Typography>
-                          </div>
-                          <div>
-                            <FormControlLabel value={"COVID -19 Disinfectant"} control={<Radio />} label="COVID -19 Disinfectant" />
-                            <Typography variant='body2'>
-                              Lorem ipsum dolor sit amet, pellentesque quam dolor aenean ullamcorper lorem, auctor accumsan magna nam nunc.
-                            </Typography>
-                          </div>
-                          <div>
-                            <FormControlLabel value={"Standard cleaning"} control={<Radio />} label="Standard cleaning" />
-                            <Typography variant='body2'>
-                              Lorem ipsum dolor sit amet, pellentesque quam dolor aenean ullamcorper lorem, auctor accumsan magna nam nunc.
-                            </Typography>
-                          </div>
-                          <div>
-                            <FormControlLabel value={"Deep cleaning"} control={<Radio />} label="Deep cleaning" />
-                            <Typography variant='body2'>
-                              Lorem ipsum dolor sit amet, pellentesque quam dolor aenean ullamcorper lorem, auctor accumsan magna nam nunc.
-                            </Typography>
-                          </div>
+                        <div style={{display:'grid',gridTemplateColumns:`repeat(auto-fit,minmax(300px,1fr))`}}>
+                          {
+                            types.map((val,i)=>{
+                              return <div>
+                              <FormControlLabel value={val.label} control={<Radio />} label={val.label} />
+                              <Typography variant='body2'>
+                                {val.body}
+                              </Typography>
+                            </div>
+                            })
+                          }
                         </div>
                       </RadioGroup>
 										</FormControl>
@@ -331,5 +360,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { NEW_ORDER }
+  { NEW_ORDER,FETCH_CLEANER }
 )(CompanyInfo);

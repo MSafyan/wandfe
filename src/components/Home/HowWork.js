@@ -21,16 +21,16 @@ import CardOutlined from './CardOutlined'
 
   const useStyles = makeStyles((theme) => ({
     mainContainer:{
-      paddingTop:theme.spacing(12),
-      paddingBottom:theme.spacing(12),
+      paddingTop:theme.spacing(1),
+      paddingBottom:theme.spacing(8),
       textAlign:'left',
       [theme.breakpoints.down('xs')]: {
-        paddingTop:theme.spacing(0)
+        paddingTop:theme.spacing(2)
       }
     },
     bold:{
       fontWeight:"bold",
-      paddingBottom:theme.spacing(4)
+      paddingBottom:theme.spacing(1)
     },
     heading2:{
       paddingBottom:theme.spacing(6)
@@ -79,11 +79,11 @@ const Payments = () => {
   // };
 
   return (
-    <Container className={classes.mainContainer} component="main" maxWidth="lg">
-      <Typography variant='h4' className={classes.bold}>
+    <Container className={classes.mainContainer} component="main" maxWidth="xl">
+      <Typography variant='h5' className={classes.bold}>
         HOW WE WORK
       </Typography>
-      <Typography variant='h2' className={clsx(classes.bold,classes.heading2)}>
+      <Typography variant='h1' className={clsx(classes.bold,classes.heading2)}>
       Find Work Easily By 
       <span className={classes.headingBlue}>
         {" Wand"}

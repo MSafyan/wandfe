@@ -17,7 +17,7 @@ import Card from './Card'
       paddingTop:theme.spacing(12),
       paddingBottom:theme.spacing(12),
       textAlign:'left',
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('xs')]: {
         padding:theme.spacing(4),
       }
     },
@@ -26,8 +26,8 @@ import Card from './Card'
     },
     heading2:{
       paddingBottom:theme.spacing(6),
-      paddingTop:theme.spacing(6),
-      [theme.breakpoints.down('sm')]: {
+      paddingTop:theme.spacing(2),
+      [theme.breakpoints.down('xs')]: {
         paddingBottom:theme.spacing(4),
         paddingTop:theme.spacing(2),
       }
@@ -67,11 +67,11 @@ const Payment = () => {
   ]
 
   return (
-    <Container className={classes.mainContainer} component="main" maxWidth="lg">
-      <Typography variant='h4' className={classes.bold}>
+    <Container className={classes.mainContainer} component="main" maxWidth="xl">
+      <Typography variant='h5' className={classes.bold}>
         CLEANING
       </Typography>
-      <Typography variant='h2' className={clsx(classes.bold,classes.heading2)}>
+      <Typography variant='h1' className={clsx(classes.bold,classes.heading2)}>
         Home Cleaning Estimates, Invoices, & Payments
       </Typography>
       <Grid container spacing={2}>

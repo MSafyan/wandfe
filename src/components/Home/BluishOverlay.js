@@ -52,9 +52,9 @@ const BluishOverlay = () => {
 
   return (
     <div className={classes.mainContainer}>
-      <Container className={classes.innerContainer} component="main" maxWidth="lg">
+      <Container className={classes.innerContainer} component="main" maxWidth="xl">
         <img src='WandWhite.png' alt='' width='40%' className={classes.img}/>
-        <Typography variant='h2' className={classes.heading}>
+        <Typography variant='h1' className={classes.heading}>
           You and Your Maid Service Deserve a Little Peace & Quiet
         </Typography>
         <Typography variant='h4' className={clsx(classes.heading,classes.para)}>

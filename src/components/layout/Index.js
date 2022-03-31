@@ -10,28 +10,19 @@ import Toolbar from '@material-ui/core/Toolbar';
 import InputBase from '@material-ui/core/InputBase';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { Avatar,Button } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import EmailIcon from '@material-ui/icons/Email';
 import Sidebar from './sidebar'
+import { NavLink } from 'react-router-dom'
+import { links } from './sidebar';
 
 import { connect } from "react-redux";
 import {LOGOUT} from '../../actions/authActions'
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const drawerWidth = 240;
 
@@ -44,7 +35,12 @@ const useStyles = makeStyles((theme) => ({
     display:'grid',
     gridTemplateColumns:"3fr 1fr 1fr 1fr",
     gridTemplateAreas:`"search messages next avatar"`,
-    alignItems:'flex-start'
+    alignItems:'flex-start',
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateAreas:`"logo search messages menu"`,
+      alignItems:'center',
+      textAlign:'left'
+    }
   },
   toolbarIcon: {
     display: 'flex',
@@ -70,6 +66,10 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: '0px',
+      width: `100%`,
+    }
   },
   menuButton: {
     marginRight: 36,
@@ -84,12 +84,13 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     whiteSpace: 'nowrap',
     width: drawerWidth,
+    overflow:"hidden",
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
     // background:theme.palette.backgroundSecondary.default,
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       width: '100vw',
       minHeight: '100vh',
       height:'100%',
@@ -106,7 +107,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing(9),
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       width: 0,
       display:'none',
     },
@@ -138,6 +139,9 @@ const useStyles = makeStyles((theme) => ({
   },
   inputRoot: {
     color: 'inherit',
+    [theme.breakpoints.down('sm')]: {
+      display:'none',
+    },
   },
   inputInput: {
     fontWeight:'bold',
@@ -160,7 +164,7 @@ const useStyles = makeStyles((theme) => ({
     padding:'1rem'
   },
   hideCard:{
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       display:"none !important"
     }
   },
@@ -172,6 +176,9 @@ const useStyles = makeStyles((theme) => ({
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
+    [theme.breakpoints.down('sm')]: {
+      padding:`${theme.spacing(1)}px 0px`
+    }
   },
   paper: {
     padding: theme.spacing(2),
@@ -194,7 +201,10 @@ const useStyles = makeStyles((theme) => ({
   messagesWrapper:{
     gridArea:"messages",
     display:'flex',
-    textAlign:'start'
+    textAlign:'start',
+    [theme.breakpoints.down('sm')]: {
+      justifyContent:'space-around'
+    }
   },
   nextWrapper:{
     gridArea:"next",
@@ -215,17 +225,56 @@ const useStyles = makeStyles((theme) => ({
   flex:{
     display:'flex',
     textAlign:'start'
+  },
+  category:{
+    marginBottom:theme.spacing(4),
+    paddingLeft:theme.spacing(1)
+  },
+  catHeading:{
+    fontWeight:'bold'
+  },
+  navText:{
+    paddingLeft:theme.spacing(1),
+    // color:theme.palette.fontPrimary.main
+  },
+  navLink:{
+    color:'black',
+    textDecoration:'none',
+    display:'flex',
+    alignItems:'center',
+    margin:`${theme.spacing(3)}px 0px`
+  },
+  mobileView:{
+    display:'none',
+    [theme.breakpoints.down('sm')]: {
+      display:'inline-block',
+      
+    }
+  },
+  desktopView:{
+    [theme.breakpoints.down('sm')]: {
+      display:'none'
+    }
   }
 }));
 
-const Index = ({LOGOUT,children}) => {
+const Index = ({LOGOUT,children,type,customer,cleaner}) => {
     const classes = useStyles();
     const [open] = React.useState(true);
+    const [anchorElNav, setAnchorElNav] = React.useState(null);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = (event) => {
       setAnchorEl(anchorEl ? null : event.currentTarget);
+    };
+
+    const handleOpenNavMenu = (event) => {
+      setAnchorElNav(event.currentTarget);
+    };
+  
+    const handleCloseNavMenu = () => {
+      setAnchorElNav(null);
     };
   
     const openPopper = Boolean(anchorEl);
@@ -237,6 +286,11 @@ const Index = ({LOGOUT,children}) => {
       <CssBaseline />
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
+          {/* <MobileView> */}
+            <NavLink className={classes.mobileView} to="/" variant="body2" style={{textDecoration:'none',gridArea:"logo" }}>
+              <img width='100px' alt='' src='wandBlue.PNG'/>
+            </NavLink>
+          {/* </MobileView> */}
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon className={classes.icon}/>
@@ -252,59 +306,108 @@ const Index = ({LOGOUT,children}) => {
           </div>
           <div className={classes.messagesWrapper}>
             <EmailIcon className={classes.icon}/>
-            <div>
-              <Typography variant='body2' className={classes.bold}>
-                Your Messages
-              </Typography>
-            </div>
-          </div>
-          <div className={classes.nextWrapper}>
-            <ChevronLeftIcon className={classes.icon}/>
-            <div>
-              <Typography variant='body2' className={classes.bold}>
-                Next Cleaner Service
-              </Typography>
-              <Typography variant='body2'>
-                23 march 2012
-              </Typography>
-            </div>
-          </div>
-          <div className={classes.avatarWrapper} onClick={handleClick}>
-            <Avatar src='lady.jpg' className={classes.icon}/>
-            <div>
-              <Typography variant='body2' className={classes.bold}>
-                Benjamin A
-              </Typography>
-              <Typography variant='body2'>
-                x.y.z company
-              </Typography>
-            </div>
-            <Popper id={id} open={openPopper} anchorEl={anchorEl}>
-              <div className={classes.paper}>
-                <Button variant='outlined' onClick={()=>LOGOUT()} >
-                  LogOut
-                </Button>
+              <div className={classes.desktopView}>
+                <Typography variant='body2' className={classes.bold}>
+                  Your Messages
+                </Typography>
               </div>
-            </Popper>
           </div>
+            <div className={clsx(classes.nextWrapper,classes.desktopView)}>
+              <ChevronLeftIcon className={classes.icon}/>
+              <div>
+                <Typography variant='body2' className={classes.bold}>
+                  Next Cleaner Service
+                </Typography>
+                <Typography variant='body2'>
+                  23 march 2012
+                </Typography>
+              </div>
+            </div>
+            <div className={clsx(classes.avatarWrapper,classes.desktopView)} onClick={handleClick}>
+              <Avatar src={cleaner.pic? `${cleaner.pic.url}`: 'employee.png'} className={classes.icon}/>
+              <div>
+                <Typography variant='body2' className={classes.bold}>
+                  {cleaner.firstName}
+                </Typography>
+                <Typography variant='body2'>
+                  x.y.z company
+                </Typography>
+              </div>
+              <Popper id={id} open={openPopper} anchorEl={anchorEl}>
+                <div className={classes.paper}>
+                  <Button variant='outlined' onClick={()=>LOGOUT()} >
+                    LogOut
+                  </Button>
+                </div>
+              </Popper>
+            </div>
+          <Box sx={{ flexGrow: 1, justifyContent:'right',gridArea:"menu" ,display: { sm: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              style={{paddingLeft:'20px'}}
+              sx={{
+                display: { sm: 'block', md: 'none' },
+              }}
+            >
+            {links.map((val,i)=>{
+              return <div key={i} className={classes.category}>
+                <Typography variant='body1' className={classes.catHeading}>
+                  {val.heading}  
+                </Typography>
+                {
+                  val.navs.map((nav,i)=>{
+                    return <NavLink key={i} to={nav.link} className={classes.navLink} style={{}}>
+                      {nav.icon}
+                      <Typography variant='body2' className={classes.navText}>
+                        {nav.text}  
+                      </Typography>
+                    </NavLink>
+                  })
+                }
+              </div>
+              })}
+              <Button variant='outlined' onClick={()=>LOGOUT()} >
+                LogOut
+              </Button>
+            </Menu>
+          </Box>
         </Toolbar>
       </AppBar>
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
-      >
-        <Sidebar />
-      </Drawer>
+        <Drawer
+          variant="permanent"
+          classes={{
+            paper: clsx(classes.drawerPaper,classes.desktopView, !open && classes.drawerPaperClose),
+          }}
+          open={open}
+        >
+          <Sidebar />
+        </Drawer> 
       <main className={classes.main}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth='xl' className={classes.container}>
           {children}
-          <Box pt={4}>
-            <Copyright />
-          </Box>
         </Container>
       </main>
     </div>
@@ -314,7 +417,10 @@ const Index = ({LOGOUT,children}) => {
 
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  type:state.auth.user.role.name,
+  cleaner:state.auth.user.cleaner,
+  customer:state.auth.user.customer
 });
 
 export default connect(

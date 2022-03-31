@@ -30,9 +30,20 @@ const useStyles = makeStyles((theme) => ({
     display:'grid',
     gridTemplateColumns:'2fr 1fr',
     gridTemplateRows:'0.4fr 1.4fr 1fr' ,
-    gridTemplateAreas:`"heading confirmBtn" "personal billing" "address address"`,
-    gridColumnGap:theme.spacing(3),
-    gridRowGap:theme.spacing(3)
+    gridGap:theme.spacing(3),
+    gridTemplateAreas:`
+    "heading confirmBtn" 
+    "personal billing" 
+    "address address"`,
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns:'1fr 1fr',
+      gridTemplateRows:'0.2fr 1.4fr 1fr 1fr' ,
+      gridTemplateAreas:`
+      "heading confirmBtn" 
+      "personal personal"
+      "billing billing" 
+      "address address"`,
+    }
   },
   header:{
     justifySelf:'Start',
@@ -43,8 +54,10 @@ const useStyles = makeStyles((theme) => ({
     width:'70%',
     height:theme.spacing(7),
     padding:'0px',
-    fontSize:"1.3rem",
     color:"white",
+    [theme.breakpoints.down('sm')]: {
+      width:'100%'
+    }
   },
   cardHeading:{
     fontSize:"18px",
@@ -61,6 +74,16 @@ const useStyles = makeStyles((theme) => ({
     "companyName preferredMethod password confirmPassword" 
     "marketingSource no no no"`,
     gridColumnGap:theme.spacing(2),
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns:'1fr 1fr',
+      gridTemplateAreas:`
+      "heading heading" 
+      "firstName lastName"
+      "phoneNumber email"
+      "companyName preferredMethod" 
+      "password confirmPassword" 
+      "marketingSource no"`,
+    }
   },
   locationGrid:{
     gridArea:'address',
@@ -71,6 +94,15 @@ const useStyles = makeStyles((theme) => ({
     "addHeading addHeading addHeading" 
     "address1 address2 address2"
     "city region zipCode"`,
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns:'1fr 1fr',
+      gridTemplateAreas:`
+      "addHeading addHeading" 
+      "address1 address1"
+      "address2 address2"
+      "city region" 
+      "zipCode no"`,
+    }
   },
   billingGrid:{
     gridArea:"billing",
@@ -95,7 +127,7 @@ const useStyles = makeStyles((theme) => ({
     gridRowGap:theme.spacing(3),
   },
   justifyStart:{
-    justifySelf:'start'
+    textAlign:'left'
   }
 }));
 
@@ -107,26 +139,39 @@ const FORM_VALIDATION = Yup.object().shape({
   lastName: Yup.string()
     .required('Required'),
   phoneNumber: Yup.number()
-      .integer()
-      .typeError('Please enter a valid phone number')
-      .required('Required'),
+  .integer()
+  .typeError('Please enter a valid phone number')
+  .required('Required'),
   email: Yup.string()
-    .email('Invalid email.')
-    .required('Required'),
+  .email('Invalid email.')
+  .required('Required'),
   password: Yup.string().required('password should be minimum 8character!!!').min(8),
-  confirmPassword:Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match'),
+  confirmPassword:Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required(),
+  companyName: Yup.string()
+    .required('Required'),
+  preferredMethod: Yup.string()
+    .required('Required'),
   address1: Yup.string()
+    .required('Required'),
+  city: Yup.string()
+    .required('Required'),
+  region: Yup.string()
+    .required('Required'),
+  zipCode: Yup.number()
+    .integer()
+    .typeError('Please enter a valid zipCode')
     .required('Required'),
 });
 
 
-const NewCustomer = ({success,NEW_CUSTOMER,customer,loading,edit}) => {
+const NewCustomer = ({type,history,NEW_CUSTOMER,customer,loading,edit}) => {
   const classes = useStyles();
   React.useEffect(()=>{
-    if(success){
-    }
+    if(type==='customer'){
+			history.push('/createBooking')
+		}
     // eslint-disable-next-line
-  },[success])
+  },[])
 
   const pets={
     'facebook':'facebook',
@@ -182,18 +227,18 @@ const NewCustomer = ({success,NEW_CUSTOMER,customer,loading,edit}) => {
               validationSchema={FORM_VALIDATION}
               onSubmit={values => {
                 // console.log(values);
-                if(edit) {
+                // if(edit) {
                   // CUSTOMER_UPDATE(values);
-                }else{
+                // }else{
                   NEW_CUSTOMER(values)
-                  }
+                  // }
               }}
               enableReinitialize
             >
               {({ values, setFieldValue,handleSubmit }) => (
               <Form>
                 <div className={classes.gridContainer}>
-                  <Typography variant='h4' style={{gridArea:'heading'}} className={classes.header}>
+                  <Typography variant='h1' style={{gridArea:'heading'}} className={classes.header}>
                     <span className={classes.bold}> Add New Customer  </span>
                   </Typography>
                     {/* <NavLink to="/bookingPayment" variant="body2" className={classes.font}> */}
@@ -202,10 +247,6 @@ const NewCustomer = ({success,NEW_CUSTOMER,customer,loading,edit}) => {
                       className={classes.confirmBtn}
                       type='submit'
                       variant='contained'
-                      onClick={()=>{
-                        handleSubmit()
-                        // NEW_CUSTOMER(values)
-                      }}
                       startIcon={
                         loading ? (
                           <CircularProgress size="1rem" />
@@ -351,6 +392,7 @@ const NewCustomer = ({success,NEW_CUSTOMER,customer,loading,edit}) => {
 };
 
 const mapStateToProps = state => ({
+  type:state.auth.user.role.name,
   edit: state.customer.edit,
   customer:state.customer.customer,
   loading:state.customer.loading,

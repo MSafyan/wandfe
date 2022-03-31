@@ -1,36 +1,23 @@
 import React from 'react';
 import {FormGroup,CircularProgress} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
 
 import { ErrorMessage,Field, Form, Formik} from 'formik';
 import { object, string } from 'yup';
+
+import AuthWrapper from '../../components/layout/authWrapper';
 
 import { connect } from "react-redux";
 import { FORGOT_PASSWORD } from "../../actions/authActions";
 
 const initialValues = {
   email: '',
-}
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -86,32 +73,7 @@ function Forgot({FORGOT_PASSWORD,loading}) {
   const classes = useStyles();
 
   return (
-    <>
-      <Container style={{padding:'3rem'}} component="main" maxWidth="md">
-      <CssBaseline />
-      <Grid container spacing={2}>
-          <Grid item md={6} className={classes.leftSide}>
-            <div>logo</div>
-            <div>
-              <img src='pablo-cleaning-up.png' alt='pablo cleaning' className={classes.img}/>
-            </div>
-            <Typography variant="body2" component="p">
-              better keep yourself clean and bright; you are the window through which you must see the world
-            </Typography>
-            <Typography variant="h6" component="h6">
-              - George Bernard Shaw
-            </Typography>
-          </Grid>
-        <Grid container item sm={12} md={6}>
-      {/* <div className={classes.paper}> */}
-      <Grid item>
-        <Typography component="h6" variant="h6" className={classes.onBoarding}>
-        {"ONBOARDING"}
-        </Typography>
-        <Typography component="h3" variant="h3">
-          Forgot Password!
-        </Typography>
-      </Grid>
+    <AuthWrapper>
         <Formik
           validationSchema={
             object({
@@ -159,15 +121,7 @@ function Forgot({FORGOT_PASSWORD,loading}) {
             </Form>
           )}
         </Formik>
-        <Box mt={8}>
-                <Copyright />
-              </Box>
-            {/* </div> */}
-          </Grid>
-        </Grid>
-      </Container>
-      <div className={classes.backgroundBox}></div>
-    </>
+    </AuthWrapper>
   );
 }
 

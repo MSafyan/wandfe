@@ -33,8 +33,8 @@ const useStyles = makeStyles((theme) => ({
     "address"`,
     gridTemplateColumns:'1fr',
     gridTemplateRows:'1fr 2fr 2fr',
-    gridColumnGap:theme.spacing(3),
-    gridColumnRow:theme.spacing(3),
+    gridGap:theme.spacing(3),
+    
   },
   headerGrid:{
     display:'grid',
@@ -42,7 +42,14 @@ const useStyles = makeStyles((theme) => ({
     gridTemplateAreas:`
     "companyHeading emailLable emailDrop confirmBtn"`,
     gridColumnGap:theme.spacing(2),
-    alignItems:'base-line'
+    alignItems:'base-line',
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns:'1fr 1fr',
+      gridTemplateAreas:`
+      "companyHeading companyHeading" 
+      "emailLable no"
+      "emailDrop confirmBtn"`,
+    }
   },
   detailsGrid:{
     gridArea:'details',
@@ -52,7 +59,15 @@ const useStyles = makeStyles((theme) => ({
     gridTemplateAreas:`
     "image cleaningService otherEmail otherEmail"
     "image companyPhone companyWebsite facebookPage"`,
-    alignItems:'center'
+    alignItems:'center',
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns:'1fr 1fr',
+      gridTemplateAreas:`
+      "image cleaningService" 
+      "image no"
+      "companyPhone companyWebsite"
+      "facebookPage otherEmail"`,
+    }
   },
   locationGrid:{
     gridArea:'address',
@@ -63,6 +78,16 @@ const useStyles = makeStyles((theme) => ({
     "addHeading addHeading addHeading" 
     "billingAddress address1 address2"
     "city region zipCode"`,
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns:'1fr 1fr',
+      gridTemplateAreas:`
+      "addHeading addHeading" 
+      "billingAddress billingAddress"
+      "address1 address1"
+      "address2 address2"
+      "city region"
+      "zipCode no"`,
+    }
   },
   card:{
     padding:`${theme.spacing(4)}px ${theme.spacing(3)}px`,
@@ -84,7 +109,6 @@ const useStyles = makeStyles((theme) => ({
     width:'70%',
     height:theme.spacing(7),
     padding:'0px',
-    fontSize:"1.3rem",
     color:"white",
   },
   header:{
@@ -93,7 +117,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight:"bold"
   },
   justifyStart:{
-    justifySelf:'start'
+    textAlign:'left'
   },
 }));
 
@@ -129,10 +153,12 @@ const FORM_VALIDATION = Yup.object().shape({
   
 });
 
-const CompanyInfo = ({businessId,COMPANY_INFO,loading,edit,imageUrl}) => {
+const CompanyInfo = ({history,type,businessId,COMPANY_INFO,loading,edit,imageUrl}) => {
   const classes = useStyles();
   React.useEffect(()=>{
-
+    if(type==='customer'){
+			history.push('/createBooking')
+		}
     // eslint-disable-next-line
   },[])
 
@@ -184,8 +210,9 @@ const CompanyInfo = ({businessId,COMPANY_INFO,loading,edit,imageUrl}) => {
 
   return (
     <Layout>
+      {
+        type!=='customer' && 
           <div className={classes.formWrapper}>
-
             <Formik
               initialValues={ formState()}
               validationSchema={FORM_VALIDATION}
@@ -215,10 +242,10 @@ const CompanyInfo = ({businessId,COMPANY_INFO,loading,edit,imageUrl}) => {
               {({ values, handleSubmit,setFieldValue }) => (
               <Form>
                 <div className={classes.headerGrid}>
-                  <Typography variant='h4' className={classes.header} style={{gridArea:'companyHeading'}}>
-                    Comapny Information  
+                  <Typography variant='h2' className={classes.header} style={{gridArea:'companyHeading'}}>
+                    Company Information  
                   </Typography>
-                  <Typography variant='body1' className={classes.cardHeading} style={{gridArea:'emailLable'}}>
+                  <Typography variant='body1' className={clsx(classes.cardHeading,classes.justifyStart)} style={{gridArea:'emailLable'}}>
                     I want to recieve Email  
                   </Typography>
                   <Select style={{gridArea:'emailDrop'}}
@@ -339,16 +366,17 @@ const CompanyInfo = ({businessId,COMPANY_INFO,loading,edit,imageUrl}) => {
               </Form>
               )}
             </Formik>
-
           </div>
+      }
     </Layout>
   );
 };
 
 const mapStateToProps = state => ({
+  type:state.auth.user.role.name,
   edit: state.customer.edit,
   loading:state.employee.loading,
-  businessId:state.auth.user.cleaner.business,
+  businessId:state.auth.user.cleaner?.business,
   imageUrl:state.employee.company.logo.url
 });
 

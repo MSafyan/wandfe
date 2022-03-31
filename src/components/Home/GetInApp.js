@@ -42,17 +42,17 @@ const GetInApp = () => {
   const classes = useStyles();
 
   return (
-    <Container className={classes.mainContainer} component="main" maxWidth="lg">
+    <Container className={classes.mainContainer} component="main" maxWidth="xl">
       <Grid container>
-        <Grid item md={6}>
-          <Typography variant='h6'>
+        <Grid item xs={6}>
+          <Typography variant='h5' style={{fontWeight:'bold'}}>
             GET IN TOUCH
           </Typography >
-          <Typography variant='h2' className={clsx(classes.content,classes.bold)}>
+          <Typography variant='h1' className={clsx(classes.content,classes.bold)}>
             Let us earn your
             <span className={classes.headingBlue}> trust</span>
           </Typography>
-          <Typography variant='body1' className={clsx(classes.content,classes.hide)}>
+          <Typography variant='h6' className={clsx(classes.content,classes.hide)}>
             It’s never been this easy, until now. Finally a user-friendly way to find, and hire reputable cleaners in your area, all within our app. Connect with an experienced cleaner within minutes!
           </Typography>
           <Typography variant='h2' className={classes.content}>
@@ -72,7 +72,7 @@ const GetInApp = () => {
             />
           </div>
         </Grid>
-        <Grid item md={6} className={classes.imgContainer}>
+        <Grid item xs={6} className={classes.imgContainer}>
           <img style={{width:'45vw'}} alt='' src='pablo-cleaning-up.png'/>
         </Grid>
       </Grid>
