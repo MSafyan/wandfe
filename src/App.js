@@ -17,6 +17,7 @@ import Test from './pages/test';
 
 import Orders from './pages/order/Orders';
 import Pricing from './pages/pricing';
+import NotFound from './pages/NotFound'
 
 // import Test from './pages/test'
 
@@ -56,6 +57,8 @@ function App() {
             <PrivateRoute exact path='/createBooking' component={CreateBooking}></PrivateRoute>
 
             <PrivateRoute exact path='/companyInfo' component={CompanyInfo}></PrivateRoute>
+
+            <Route component={NotFound} />
           </Switch>
         </Router>
         </ThemeProvider>

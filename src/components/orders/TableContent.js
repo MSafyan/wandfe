@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
 		background:theme.palette.primary.light,
 		padding:`${theme.spacing(1)}px`,
 		borderRadius:'50%',
-		width:'100px',
 		textAlign:'center',
 		fontWeight:'bold'
 	}
@@ -89,7 +88,7 @@ const TableContent = ({type,loading,orderList}) => {
 	
 	return (
 		<div>
-			{!loading && orderList?.length>0 ? (
+			{orderList ? (
 				<>
 					<TableContainer>
 						<Table>
@@ -107,7 +106,7 @@ const TableContent = ({type,loading,orderList}) => {
 										<TableRow key={index}>
 											<TableCell>
 												<Typography variant='body1' className={classes.bold}>
-												{item.time}
+												{item.time.substring(0, 5)}
 												</Typography>
 											</TableCell>
 											<TableCell>
@@ -128,11 +127,9 @@ const TableContent = ({type,loading,orderList}) => {
 												{item.address}
 											</TableCell>
 											<TableCell>
-												{item.assigned ===null ? (
-													<Typography variant='body2' className={classes.bold}>
-														'No cleaner Assigned'
-													</Typography>
-												):null}
+												<Typography variant='body2' className={classes.bold}>
+													{item.cleaner? `${item.cleaner.firstName}` : 'No cleaner Assigned'}
+												</Typography>
 											</TableCell>
 											<TableCell>
 												${item.amount || 'Anonymous'}
@@ -167,7 +164,7 @@ const TableContent = ({type,loading,orderList}) => {
 const mapStateToProps = state => ({
   orderList:state.order.orderList,
 	loading:state.order.loading,
-	type:state.auth.user?.type
+	type:state.auth.user.role.name
 });
 
 export default connect(

@@ -94,10 +94,13 @@ const useStyles = makeStyles((theme) => ({
 		fontWeight:"bold"
 	},
 	item:{
-		display:'flex',
 		justifyContent:'space-between',
 		alignItems:'center',
-		padding:theme.spacing(2)
+		padding:theme.spacing(2),
+		display:'grid',
+		gridTemplateColumns:'1fr 0.8fr 1.2fr',
+		gridTemplateAreas:`
+		"name time action"`,
 	},
 	justifyStart:{
 		justifySelf:'start'
@@ -237,7 +240,7 @@ const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,F
 					</div>
 					<div style={{gridArea:"chart2"}} className={clsx(classes.chart,classes.card)}>
 						<Typography variant='body1' className={classes.cardHeading}>
-							TODAY'S APPOINTMENT
+							APPOINTMENT's
 						</Typography>
 						<Select
 							name="pets"
@@ -255,7 +258,7 @@ const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,F
 						{
 							appointmentList.map((val,i)=>{
 								return <div key={i} className={classes.item}>
-									<div>
+									<div style={{gridArea:"name"}}>
 										<Typography variant='h6'>
 											{val.customer.firstName}
 										</Typography>
@@ -263,13 +266,14 @@ const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,F
 											{val.customer.companyName}
 										</Typography>
 									</div>
-									<Typography variant='h6' className={classes.cardHeading}>
-										{val.time}
+									<Typography variant='h6' style={{gridArea:"time"}} className={classes.cardHeading}>
+										{val.time.substring(0,5)}
 									</Typography>
 									{
 										val.status==='ACTIVE' && 
 										<FormControlLabel
-											checked={val.status==="ACTIVE"}
+											style={{gridArea:"action"}}
+											checked={val.status==="COMPLETED"}
 											onChange={() =>{
 												TOGGLE_ORDER_STATUS(val)
 												FETCH_APPOINTLIST(select)
@@ -281,6 +285,7 @@ const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,F
 									{
 										val.status==='COMPLETED' && 
 										<FormControlLabel
+											style={{gridArea:"action"}}
 											checked={val.status==="COMPLETED"}
 											onChange={() =>{
 												TOGGLE_ORDER_STATUS(val)
@@ -305,7 +310,7 @@ const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,F
 		loading:state.order.loading,
 		type:state.auth.user.role.name,
 		appointmentList:state.order.appointmentList,
-		firstName:state.auth.user.cleaner.firstName,
+		firstName:state.auth.user.cleaner?.firstName,
 		stats:state.order.stats
 	});
 	

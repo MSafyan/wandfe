@@ -60,7 +60,7 @@ function AuthWrapper({isAuthenticated, children,history}) {
   return (
     <>
       <div className={classes.logo}>
-        <img alt='' src='wandBlue.png' />
+        <img alt='' src='wordcyan.png' />
       </div>
       <Container className={classes.container} component="main" maxWidth="md">
       <CssBaseline />

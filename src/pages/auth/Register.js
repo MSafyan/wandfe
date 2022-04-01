@@ -118,8 +118,7 @@ function SignUp({isAuthenticated,loading,history, SIGN_UP}) {
         }
       initialValues={initialValues}
       onSubmit={async (values) => {
-        console.log(values);
-        SIGN_UP(values);
+        SIGN_UP({...values,history});
       
       }}>
           {({ isSubmitting, isValidating }) => (
@@ -159,7 +158,7 @@ function SignUp({isAuthenticated,loading,history, SIGN_UP}) {
               </Box>
 
               <div className={classes.twoInOne}>
-                <Box marginBottom={2}>
+                <Box marginBottom={2} className={classes.firstBox}>
                   <FormGroup>
                     <Field name="zipcode" as={TextField} label="Zip Code" variant='outlined' />
                     <ErrorMessage component='div' style={{color:"red"}} name="zipcode" />

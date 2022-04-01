@@ -40,7 +40,7 @@ const ResponsiveAppBar = () => {
       <Container component="main" className=''>
         <Toolbar disableGutters>
         <NavLink to="/" variant="body2" style={{textDecoration:'none'}}>
-          <img width='100px' alt='' src='wandBlue.PNG'/>
+          <img width='100px' alt='' src='wordcyan.png'/>
         </NavLink>
 
           <Box sx={{ flexGrow: 1, justifyContent:'right' ,display: { xs: 'flex', md: 'none' } }}>
@@ -75,7 +75,7 @@ const ResponsiveAppBar = () => {
               {pages.map((page) => (
                   <NavLink to="/pricing" variant="body2" style={{textDecoration:'none'}}>
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
+                    <Typography style={{color:"black"}} textAlign="center">{page}</Typography>
                 </MenuItem>
                   </NavLink>
               ))}
@@ -86,8 +86,9 @@ const ResponsiveAppBar = () => {
               <NavLink to="/pricing" variant="body2" style={{textDecoration:'none'}}>
                 <Button
                   key={page}
+                  style={{color:'black'}}
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2,mx:3, color: 'black', display: 'block' }}
+                  sx={{ my: 2,mx:3, display: 'block' }}
                 >
                   {page}
                 </Button>

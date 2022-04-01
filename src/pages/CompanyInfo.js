@@ -1,18 +1,26 @@
 import React from 'react';
 import { Formik, Form,Field,ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles,useTheme  } from '@material-ui/core/styles';
 import {
   Input,
   Button,
   CircularProgress,
-  Typography
+  Typography,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl
 } from '@material-ui/core';
 import clsx from 'clsx';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
-
 import AddIcon from '@material-ui/icons/Add';
-import Select from '../components/FormsUI/Selects'
+import Selects from '../components/FormsUI/Selects'
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker
+} from '@material-ui/pickers';
 
 import Layout from '../components/layout/Index'
 
@@ -30,7 +38,9 @@ const useStyles = makeStyles((theme) => ({
     gridTemplateAreas:`
     "heading" 
     "details" 
-    "address"`,
+    "address"
+    "service"
+    "schedule"`,
     gridTemplateColumns:'1fr',
     gridTemplateRows:'1fr 2fr 2fr',
     gridGap:theme.spacing(3),
@@ -89,6 +99,41 @@ const useStyles = makeStyles((theme) => ({
       "zipCode no"`,
     }
   },
+  serviceGrid:{
+    gridArea:'service',
+    display:'grid',
+    gridTemplateColumns:'1fr 1fr 1fr',
+    gridTemplateRows:'1fr 1fr 1fr' ,
+    gridTemplateAreas:`
+    "addHeading addHeading addHeading" 
+    "bathroomDuration kitchenDuration bedroomDuration"
+    "livingroomDuration ratePerHour no"`,
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns:'1fr 1fr',
+      gridTemplateAreas:`
+      "addHeading addHeading" 
+      "bathroomDuration kitchenDuration"
+      "bedroomDuration livingroomDuration"
+      "ratePerHour no"`,
+    }
+  },
+  scheduleGrid:{
+    gridArea:'service',
+    display:'grid',
+    gridTemplateColumns:'1fr 1fr 1fr',
+    gridTemplateRows:'1fr 1fr 1fr' ,
+    gridTemplateAreas:`
+    "addHeading addHeading addHeading" 
+    "available startTime endTime"
+    "days ratePerHour no"`,
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns:'1fr 1fr',
+      gridTemplateAreas:`
+      "addHeading addHeading" 
+      "available days"
+      "startTime endTime"`,
+    }
+  },
   card:{
     padding:`${theme.spacing(4)}px ${theme.spacing(3)}px`,
     marginTop:theme.spacing(3),
@@ -121,6 +166,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function getStyles(name, personName, theme) {
+  return {
+    fontWeight:
+      personName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
 
 
 const FORM_VALIDATION = Yup.object().shape({
@@ -150,22 +203,68 @@ const FORM_VALIDATION = Yup.object().shape({
     .integer()
     .typeError('Please enter a valid zipCode')
     .required('Required'),
-  
+  bathroomDuration: Yup.number()
+    .integer()
+    .typeError('Please enter a valid zipCode')
+    .required('Required'),
+  kitchenDuration: Yup.number()
+    .integer()
+    .typeError('Please enter a valid zipCode')
+    .required('Required'),
+  bedroomDuration: Yup.number()
+    .integer()
+    .typeError('Please enter a valid zipCode')
+    .required('Required'),
+  livingroomDuration: Yup.number()
+    .integer()
+    .typeError('Please enter a valid zipCode')
+    .required('Required'),
+  ratePerHour: Yup.number()
+    .integer()
+    .typeError('Please enter a valid zipCode')
+    .required('Required'),
+  available:Yup.boolean().required(),
+  startTime:Yup.date(),
+  endTime:Yup.date(),
 });
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+}
+
+const names = [
+  'mon','tue','wed','thue','fri','sat','sun'
+];
+
+const allDurations={
+  'EveryDay':'EveryDay',
+  'EveryWeek':'EveryWeek',
+}
+const available={
+  true:'True',
+  false:'False',
+}
 
 const CompanyInfo = ({history,type,businessId,COMPANY_INFO,loading,edit,imageUrl}) => {
   const classes = useStyles();
+  const theme = useTheme();
   React.useEffect(()=>{
     if(type==='customer'){
 			history.push('/createBooking')
 		}
     // eslint-disable-next-line
   },[])
-
-  const allDurations={
-    'EveryDay':'EveryDay',
-    'EveryWeek':'EveryWeek',
-  }
+  const [personName, setPersonName] = React.useState(['mon']);
+  const handleChange = (event) => {
+    setPersonName(event.target.value);
+  };
 
   const formState=()=>{
     const INITIAL_FORM_STATE = {
@@ -182,7 +281,18 @@ const CompanyInfo = ({history,type,businessId,COMPANY_INFO,loading,edit,imageUrl
       city: '',
       region: '',
       zipCode: '',
+      bathroomDuration:'',
+      kitchenDuration:'',
+      bedroomDuration:'',
+      livingroomDuration:'',
+      ratePerHour:'',
+      available:true,
+      days:[],
+      startTime:new Date(),
+      endTime:new Date(),
     };
+
+ 
 
     const EDIT_FORM_STATE={
       // cleaningService:customer?.firstName || '',
@@ -203,10 +313,6 @@ const CompanyInfo = ({history,type,businessId,COMPANY_INFO,loading,edit,imageUrl
       return EDIT_FORM_STATE;
     }
   }
-
- 
-
-
 
   return (
     <Layout>
@@ -233,9 +339,10 @@ const CompanyInfo = ({history,type,businessId,COMPANY_INFO,loading,edit,imageUrl
                     body:data
                   }
                 )
+                delete values.logo;
               }
-              delete values.logo;
-              COMPANY_INFO({...values})
+
+              COMPANY_INFO({...values,days:personName})
               }}
               enableReinitialize
             >
@@ -248,7 +355,7 @@ const CompanyInfo = ({history,type,businessId,COMPANY_INFO,loading,edit,imageUrl
                   <Typography variant='body1' className={clsx(classes.cardHeading,classes.justifyStart)} style={{gridArea:'emailLable'}}>
                     I want to recieve Email  
                   </Typography>
-                  <Select style={{gridArea:'emailDrop'}}
+                  <Selects style={{gridArea:'emailDrop'}}
                     name="allDurations"
                     label="All Durations"
                     options={allDurations}
@@ -363,6 +470,101 @@ const CompanyInfo = ({history,type,businessId,COMPANY_INFO,loading,edit,imageUrl
                     </div>  
                   </div>
 
+                {/* service  */}
+                <div className={clsx(classes.serviceGrid,classes.card)}>
+                    <Typography variant='body1' className={clsx(classes.justifyStart,classes.cardHeading)} style={{gridArea:'addHeading'}}>Service Time Detail</Typography>
+                    <div style={{gridArea:'bathroomDuration'}} className={classes.justifyStart}>
+                      <Field
+                        name="bathroomDuration" placeholder="bathroomDuration" as={Input}
+                      />
+                      <ErrorMessage component='div' style={{color:"red"}} name="bathroomDuration" />
+                    </div>  
+                    <div style={{gridArea:'kitchenDuration'}} className={classes.justifyStart}>
+                      <Field
+                        name="kitchenDuration" placeholder="kitchenDuration" as={Input}
+                      />
+                      <ErrorMessage component='div' style={{color:"red"}} name="kitchenDuration" />
+                    </div>  
+                    <div style={{gridArea:'bedroomDuration'}} className={classes.justifyStart}>
+                      <Field
+                        name="bedroomDuration" placeholder="bedroomDuration" as={Input}
+                      />
+                      <ErrorMessage component='div' style={{color:"red"}} name="bedroomDuration" />
+                    </div>  
+                    <div style={{gridArea:'livingroomDuration'}} className={classes.justifyStart}>
+                      <Field
+                        name="livingroomDuration" placeholder="livingroomDuration" as={Input}
+                      />
+                      <ErrorMessage component='div' style={{color:"red"}} name="livingroomDuration" />  
+                    </div>  
+                    <div style={{gridArea:'ratePerHour'}} className={classes.justifyStart}>
+                      <Field
+                        name="ratePerHour" placeholder="ratePerHour" as={Input}
+                      />
+                      <ErrorMessage component='div' style={{color:"red"}} name="ratePerHour" />
+                    </div>  
+                  </div>
+
+                {/* schedule  */}
+                <div className={clsx(classes.scheduleGrid,classes.card)}>
+                  <Typography variant='body1' className={clsx(classes.justifyStart,classes.cardHeading)} style={{gridArea:'addHeading'}}>Schedule Time Detail</Typography>
+                <Selects style={{gridArea:'available'}}
+                    name="available"
+                    label="available"
+                    options={available}
+                  />
+              <FormControl className={classes.formControl}>
+                <InputLabel id="demo-mutiple-checkbox-label">Days you are available</InputLabel>
+                <Select style={{gridArea:'days'}}
+                    name="available"
+                    label="available"
+                    id="demo-mutiple-checkbox"
+                    multiple
+                    value={personName}
+                    onChange={(e)=>{
+                      handleChange(e)
+                      setFieldValue('city','hi');
+                      console.log(e.target.value)
+                      return setFieldValue('dayss',e.target.value)
+                    }}
+                    
+                    input={<Input />}
+                    MenuProps={MenuProps}
+                  >
+                  {names.map((name) => (
+                    <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                      {name}
+                    </MenuItem>
+                  ))}
+                  </Select>
+                </FormControl>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardTimePicker
+                        name='startTime'
+                        margin="normal"
+                        style={{gridArea:'startTime'}}
+                        id="time-picker"
+                        value={values.startTime}
+                        onChange={value => setFieldValue("startTime", value)}
+                        label="Time picker"
+                        KeyboardButtonProps={{
+                          'aria-label': 'change time',
+                        }}
+                      />
+                      <KeyboardTimePicker
+                        name='endTime'
+                        margin="normal"
+                        style={{gridArea:'endTime'}}
+                        id="time-picker"
+                        value={values.endTime}
+                        onChange={value => setFieldValue("endTime", value)}
+                        label="Time picker"
+                        KeyboardButtonProps={{
+                          'aria-label': 'change time',
+                        }}
+                      />
+                    </MuiPickersUtilsProvider>
+                  </div>
               </Form>
               )}
             </Formik>
@@ -377,7 +579,7 @@ const mapStateToProps = state => ({
   edit: state.customer.edit,
   loading:state.employee.loading,
   businessId:state.auth.user.cleaner?.business,
-  imageUrl:state.employee.company.logo.url
+  imageUrl:state.employee.company?.logo?.url
 });
 
 export default connect(

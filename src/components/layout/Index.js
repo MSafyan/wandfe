@@ -21,6 +21,8 @@ import Sidebar from './sidebar'
 import { NavLink } from 'react-router-dom'
 import { links } from './sidebar';
 
+import { NEXT_SERVICE } from '../../actions/orderAction';
+
 import { connect } from "react-redux";
 import {LOGOUT} from '../../actions/authActions'
 
@@ -258,8 +260,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Index = ({LOGOUT,children,type,customer,cleaner}) => {
+const Index = ({LOGOUT,NEXT_SERVICE,nextService,children,type,customer,cleaner}) => {
     const classes = useStyles();
+    React.useEffect(()=>{
+      NEXT_SERVICE();
+		// eslint-disable-next-line
+    },[])
     const [open] = React.useState(true);
     const [anchorElNav, setAnchorElNav] = React.useState(null);
 
@@ -288,7 +294,7 @@ const Index = ({LOGOUT,children,type,customer,cleaner}) => {
         <Toolbar className={classes.toolbar}>
           {/* <MobileView> */}
             <NavLink className={classes.mobileView} to="/" variant="body2" style={{textDecoration:'none',gridArea:"logo" }}>
-              <img width='100px' alt='' src='wandBlue.PNG'/>
+              <img width='100px' alt='' src='wordcyan.png'/>
             </NavLink>
           {/* </MobileView> */}
           <div className={classes.search}>
@@ -319,15 +325,18 @@ const Index = ({LOGOUT,children,type,customer,cleaner}) => {
                   Next Cleaner Service
                 </Typography>
                 <Typography variant='body2'>
-                  23 march 2012
+                  {nextService?.date}
                 </Typography>
               </div>
             </div>
             <div className={clsx(classes.avatarWrapper,classes.desktopView)} onClick={handleClick}>
-              <Avatar src={cleaner.pic? `${cleaner.pic.url}`: 'employee.png'} className={classes.icon}/>
+              {type==='customer'? 
+              <Avatar src={customer?.pic? `${customer.pic.url}`: 'employee.png'} className={classes.icon}/>:
+              <Avatar src={cleaner?.pic? `${cleaner.pic.url}`: 'employee.png'} className={classes.icon}/>
+              }
               <div>
                 <Typography variant='body2' className={classes.bold}>
-                  {cleaner.firstName}
+                  {type==='customer'? customer?.firstName:cleaner?.firstName}
                 </Typography>
                 <Typography variant='body2'>
                   x.y.z company
@@ -420,10 +429,11 @@ const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
   type:state.auth.user.role.name,
   cleaner:state.auth.user.cleaner,
-  customer:state.auth.user.customer
+  customer:state.auth.user.customer,
+  nextService:state.order.nextService
 });
 
 export default connect(
   mapStateToProps,
-  {LOGOUT}
+  {LOGOUT,NEXT_SERVICE}
   )(Index);

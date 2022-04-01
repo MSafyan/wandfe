@@ -17,6 +17,8 @@ import {
   KeyboardDatePicker,
   KeyboardTimePicker
 } from '@material-ui/pickers';
+import { toast } from "react-toastify";
+
 
 import clsx from 'clsx'
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
@@ -163,10 +165,16 @@ const FORM_VALIDATION = Yup.object({
     .required(),
 });
 
-const CompanyInfo = ({NEW_ORDER,FETCH_CLEANER,customer,edit,history}) => {
+const CompanyInfo = ({NEW_ORDER,FETCH_CLEANER,type,customer,edit,history}) => {
   const classes = useStyles();
   React.useEffect(()=>{
-    FETCH_CLEANER()
+    if(type==='customer'){
+      FETCH_CLEANER()
+    }else if(type==='premium' || type==='Authenticated'){
+      history.push('/orders');
+      toast.warn('only customers can create Bookings')
+    }
+
 
     // eslint-disable-next-line
   },[])
@@ -355,7 +363,7 @@ const mapStateToProps = state => ({
   edit: state.customer.edit,
   customer:state.customer.customer,
   loading:state.customer.loading,
-  success:state.customer.success,
+  type:state.auth.user.role.name
 });
 
 export default connect(

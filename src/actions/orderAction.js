@@ -13,7 +13,6 @@ import {
   NEW_ORDER_SUCCESS,
   NEW_ORDER_FAIL,
 	BOOKING_PAYMENT_SUCCESS,
-	BOOKING_PAYMENT_FAIL,
 	SET_LOADING_ORDER,
 	ORDER_REVENUE_SUCCESS,
 	ORDER_REVENUE_FAIL,
@@ -22,7 +21,8 @@ import {
 	ORDER_UPDATE_SUCCESS,
 	ORDER_UPDATE_FAIL,
 	FETCH_STATS_SUCCESS,
-	FETCH_STATS_FAIL
+	FETCH_STATS_FAIL,
+	NEXT_SERVICE_SUCCESS
 } from './types';
 
 import { toast } from "react-toastify";
@@ -46,15 +46,17 @@ export const BOOKING_PAYMENT = (form_data) => async (dispatch,getState) => {
 	try {
     dispatch({ type: SET_LOADING_ORDER });
 
-		const {id} = getState().auth.user;
+		const {id} = getState().auth.user.customer;
+		const cleanerId = getState().order.cleanerInfo.schedule?.cleaner;
 		const {order} = getState().order;
 		debugger;
-		const time = moment(order.time).format('HH:mm')
+		const time = moment(order.time).format('HH:mm:ss.SSS')
     const data={
 			...order,
 			time,
 			customer:id,
-			cleaner:6
+			cleaner:cleanerId,
+			paidBy:form_data.paidBy
     };
 
 		const res = await axios.post(`${url}/bookings`,data);
@@ -63,7 +65,6 @@ export const BOOKING_PAYMENT = (form_data) => async (dispatch,getState) => {
 		// form_data.history.push('/orders')
 		toast.success("Booking created scuccessfully...");
 	} catch (error) {
-		dispatch({ type: BOOKING_PAYMENT_FAIL});
 		errMsg(error)
 	}
 };
@@ -91,7 +92,6 @@ export const FETCH_STATS = () => async (dispatch) => {
 };
 
 export const UPDATE_ORDER = (form_data) => async (dispatch) => {
-	console.log(form_data)
 	try {
     dispatch({ type: SET_LOADING_ORDER });
 
@@ -101,7 +101,6 @@ export const UPDATE_ORDER = (form_data) => async (dispatch) => {
 
 		const res = await axios.put(`${url}/sales/${form_data.id}`, data);
 
-    console.log(res.data);
 		dispatch({ type: ORDER_UPDATE_SUCCESS, payload: res.data });
 		toast.success("ORDER updated scuccessfully...");
 	} catch (error) {
@@ -115,10 +114,10 @@ export const ORDER_LIST = () => async (dispatch,getState) => {
 	try {
     dispatch({ type: SET_LOADING_ORDER });
 		const type = getState().auth.user.role.name;
+		const cleanerId=getState().auth.user.cleaner?.id
 		let res=[];
 		if(type==='cleaner' || type==='premium'){
-			res = await axios.get(`${url}/bookings`);
-			console.log(res.data);
+			res = await axios.get(`${url}/bookings?cleaner_eq=${cleanerId}`);
 			dispatch({ type: ORDER_LIST_SUCCESS, payload: res.data });
 		}
 	} catch (error) {
@@ -129,13 +128,14 @@ export const ORDER_LIST = () => async (dispatch,getState) => {
 	}
 };
 
-export const FETCH_APPOINTLIST = (form_data) => async (dispatch) => {
+export const FETCH_APPOINTLIST = (form_data) => async (dispatch,getState) => {
 	try {
 		// const today= moment().format('YYYY-MM-DD')
 		// debugger;
     dispatch({ type: SET_LOADING_ORDER });
+		const cleanerId=getState().auth.user.cleaner.id;
 
-		const res = await axios.get(`${url}/bookings?status_eq=${form_data}`);
+		const res = await axios.get(`${url}/bookings?status_eq=${form_data}&cleaner_eq=${cleanerId}`);
 		console.log(res.data);
 		dispatch({ type: FETCH_APPOINTLIST_SUCCESS, payload: res.data });
 
@@ -144,6 +144,27 @@ export const FETCH_APPOINTLIST = (form_data) => async (dispatch) => {
 		errMsg(error)
 	}
 };
+export const NEXT_SERVICE = () => async (dispatch,getState) => {
+	try {
+		const type = getState().auth.user.role.name;
+		var res;
+		dispatch({ type: SET_LOADING_ORDER });
+		if(type==='customer'){
+			const customerId=getState().auth.user.customer.id;
+			res = await axios.get(`${url}/bookings?status_eq=ACTIVE&customer_eq=${customerId}&_sort=date:asc,time:asc&_limit=1`);
+		}else{
+			const cleanerId=getState().auth.user.cleaner.id;
+			res = await axios.get(`${url}/bookings?status_eq=ACTIVE&cleaner_eq=${cleanerId}&_sort=date:asc,time:asc&_limit=1`);
+		}
+		console.log(res);
+		
+		dispatch({ type: NEXT_SERVICE_SUCCESS, payload: res.data[0] });
+	} catch (error) {
+		dispatch({ type: FETCH_APPOINTLIST_FAIL});
+		// errMsg(error)
+	}
+};
+
 export const TOGGLE_ORDER_STATUS = (form_data) => async (dispatch) => {
 	try {
 		let status,res;
@@ -169,7 +190,6 @@ export const ORDER_FEATURED = (form_data) => async (dispatch) => {
 		console.log(form_data)
 
 		const res = await axios.post(`${url}/bookings/revenueYearly`,form_data);
-    // console.log(res.data);
 
 		dispatch({ type: ORDER_REVENUE_SUCCESS, payload: res.data });
 	} catch (error) {
@@ -183,15 +203,14 @@ export const ORDER_FIND = (form_data) => async (dispatch) => {
 	try {
     dispatch({ type: SET_LOADING_ORDER });
     var res;
-    // console.log(form_data)
-        res = await axios.post(`${url}/bookings/finder}`,form_data);
-        dispatch({ type: ORDER_FIND_SUCCESS, payload: [res.data] });
+        res = await axios.post(`${url}/bookings/finder`,form_data);
+        dispatch({ type: ORDER_FIND_SUCCESS, payload: res.data });
 
 	} catch (error) {
 
 		dispatch({ type: ORDER_FIND_FAIL});
     console.log(error.response);
-		// errMsg(error)
+		errMsg(error)
     
 	}
 };

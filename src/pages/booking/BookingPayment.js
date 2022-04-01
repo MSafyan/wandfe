@@ -99,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const CompanyInfo = ({BOOKING_PAYMENT,service,order,cleanerInfo,onBoarding}) => {
+const CompanyInfo = ({BOOKING_PAYMENT,service,order,business,onBoarding}) => {
   const classes = useStyles();
   React.useEffect(()=>{
 
@@ -110,7 +110,7 @@ const CompanyInfo = ({BOOKING_PAYMENT,service,order,cleanerInfo,onBoarding}) => 
     var price= types.filter((val)=>{
       return val.label===order.type
     })
-    return price[0].value
+    return price[0]?.value
   }
 
   const totalCal = ()=>{
@@ -159,7 +159,7 @@ const CompanyInfo = ({BOOKING_PAYMENT,service,order,cleanerInfo,onBoarding}) => 
     .test((paidBy,_)=>{
       if(paidBy==='STRIPE' && onBoarding!==true){
         return new Yup.ValidationError(
-          `Can pay via strape, please choose By_hand`,
+          `Can not pay via strape, please choose By_hand`,
           undefined,
           'paidBy'
         );
@@ -222,10 +222,10 @@ const CompanyInfo = ({BOOKING_PAYMENT,service,order,cleanerInfo,onBoarding}) => 
                     </div>
                     <div className={classes.flex}>
                       <div className={classes.flexComp}>
-                        <Avatar src="broken-image.jpg"/>
+                        <Avatar src={business.logo? business.logo.url:'employee.png'}/>
                         <div>
-                          <Typography variant='h6' className={classes.bold}>
-                            Anderson Johnson
+                          <Typography variant='h6' className={clsx(classes.bold,classes.justifyStart)}>
+                            {business.cleaningService}
                           </Typography>
                           <Typography variant='body2'>
                             wand certified cleaner
@@ -257,7 +257,9 @@ const CompanyInfo = ({BOOKING_PAYMENT,service,order,cleanerInfo,onBoarding}) => 
                       label="Paid By"
                       options={paidBy}
                     />
+                    {values.paidBy==='STRIPE' && 
                     <StripeContainer/>  
+                    }
                   </div>
 
                   <div style={{gridArea:"breakdown"}} className={classes.card}>
@@ -285,7 +287,7 @@ const CompanyInfo = ({BOOKING_PAYMENT,service,order,cleanerInfo,onBoarding}) => 
 
 const mapStateToProps = state => ({
   edit: state.customer.edit,
-  customer:state.customer.customer,
+  business:state.order.cleanerInfo.business,
   loading:state.customer.loading,
   service:state.order.cleanerInfo.service,
   onBoarding:state.order.cleanerInfo.wallet,

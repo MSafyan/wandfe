@@ -41,7 +41,6 @@ const useStyles = makeStyles(theme => ({
 		background:theme.palette.primary.light,
 		padding:`${theme.spacing(1)}px`,
 		borderRadius:'50%',
-		width:'100px',
 		textAlign:'center',
 		fontWeight:'bold'
 	},
@@ -85,7 +84,7 @@ function ORDER_List({type, ORDER_LIST,history,loading,orderList}) {
 				<div className={classes.desktopView}>
 					<TableContent  history={history}/>
 				</div>
-					{!loading && orderList?.length>0 ? (
+					{orderList ? (
 						<div className={classes.mobileView}>
 						{
 							orderList.map((item,i)=>{
@@ -103,15 +102,14 @@ function ORDER_List({type, ORDER_LIST,history,loading,orderList}) {
 									</div>
 									<div className={classes.flex}>
 										<Typography variant='body1' className={classes.bold}>
-
-											{item.time}
+											{item.time.substring(0, 5)}
 										</Typography>
 										<Typography variant='body1' className={classes.bold}>
 											{item.date}  <br/>
 											{item.duration}
 										</Typography>
 										<Typography variant='body2' className={classes.bold}>
-											{item.assigned? null : 'No cleaner Assigned'} <br/>
+											{item.cleaner? `${item.cleaner.firstName}` : 'No cleaner Assigned'} <br/>
 											{item.amount}
 										</Typography>
 									</div>

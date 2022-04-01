@@ -11,7 +11,7 @@ import {
   AssessmentOutlined,
   ArrowRightAltOutlined
 } from '@material-ui/icons';
-import { NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -125,7 +125,7 @@ const Sidebar = () => {
   return (
     <div className={classes.sidebar}>
       <div className={classes.scrollable}>
-      <img alt='' src='wandblue.png'/>
+      <img alt='' src='wordcyan.png'/>
         {links.map((val,i)=>{
           return <div key={i} className={classes.category}>
             <Typography variant='body1' className={classes.catHeading}>
@@ -133,12 +133,12 @@ const Sidebar = () => {
             </Typography>
             {
               val.navs.map((nav,i)=>{
-                return <NavLink key={i} to={nav.link} className={classes.navLink} style={{}}>
+                return <Link key={i} to={nav.link} className={classes.navLink} style={{}}>
                   {nav.icon}
                   <Typography variant='body2' className={classes.navText}>
                     {nav.text}  
                   </Typography>
-                </NavLink>
+                </Link>
               })
             }
           </div>

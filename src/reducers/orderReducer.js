@@ -22,6 +22,7 @@ import {
 	FETCH_STATS_SUCCESS,
 	FETCH_STATS_FAIL,
 	FETCH_CLEANER_FAIL,
+	NEXT_SERVICE_SUCCESS,
 } from "../actions/types";
 
 const INITAL_AUTH_STATE = {
@@ -35,6 +36,7 @@ const INITAL_AUTH_STATE = {
 	featuredData:null,
 	stats:{},
 	cleanerInfo:null,
+	nextService:null
 };
 
 export default function authReducer(
@@ -64,6 +66,11 @@ export default function authReducer(
 			return {
 				...state,
 				cleanerInfo:action.payload
+			};
+		case NEXT_SERVICE_SUCCESS:
+			return {
+				...state,
+				nextService:action.payload
 			};
 		case FETCH_CLEANER_FAIL:
 			return {
