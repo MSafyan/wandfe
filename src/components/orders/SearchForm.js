@@ -1,13 +1,11 @@
 import React from 'react';
-import { Formik } from 'formik';
+import { Formik,Form } from 'formik';
 import * as Yup from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  Grid,
   CircularProgress,
   Button,
 } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
 import Select from '../../components/FormsUI/Selects';
 // import Button from '../../components/FormsUI/Buttons';
 import AddIcon from '@material-ui/icons/Add';
@@ -27,7 +25,25 @@ const useStyles = makeStyles((theme) => ({
     padding:theme.spacing(2),
     borderTopLeftRadius:'13%',
     borderTopRightRadius:'13%',
-    alignItems:'flex-end'
+    alignItems:'flex-end',
+  },
+  formWrapper1: {
+    background:'white',
+    padding:theme.spacing(2),
+    borderTopLeftRadius:'13%',
+    borderTopRightRadius:'13%',
+    display:"grid",
+    gridTemplateAreas:
+    `"status duration date breakdown confirmBtn"`,
+    gridTemplateColumns:'1fr 1fr 1fr 1fr 1.2fr',
+    gridColumnGap:theme.spacing(2),
+
+  },
+  select:{
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      border: "none",
+      boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px'
+    },
   },
   confirmBtn:{
     background:theme.palette.primary.lightDark,
@@ -35,9 +51,36 @@ const useStyles = makeStyles((theme) => ({
     height:theme.spacing(7),
     padding:'0px',
     color:"white",
+    gridArea:'confirmBtn',
+    textAlign:'right',
+    fontSize:theme.spacing(1.8),
     [theme.breakpoints.down('sm')]: {
       width:'100%'
     }
+  },
+  dateField:{
+    boxShadow: 'rgba(149, 157, 165, 0.2) 0px 4px 12px',
+    height:"-webkit-fill-available",
+    paddingTop:theme.spacing(1.2),
+    '& .MuiFormControl-marginNormal':{
+      margin:'0px'
+    },
+    '& .MuiInputLabel-animated':{
+      top:'-40%',
+      paddingLeft:'5px'
+    },
+    '& .MuiInput-formControl':{
+      marginTop:'0px'
+    },
+    "& .MuiInput-underline::before":{
+      border: "none",
+    }
+  },
+  breakdownBtn:{
+    gridArea:'breakdown',
+    fontSize:theme.spacing(1.7),
+    bottom:'-20%',
+    textDecoration:'underline',
   },
   font:{
     textDecoration:'none'
@@ -75,8 +118,6 @@ const SearchForm = ({ORDER_FIND,loading}) => {
 
   return (
     <>
-      <Grid container className={classes.formWrapper}>
-        {/* <Grid item container md={9}> */}
             <Formik
               initialValues={ INITIAL_FORM_STATE}
               validationSchema={FORM_VALIDATION}
@@ -86,29 +127,30 @@ const SearchForm = ({ORDER_FIND,loading}) => {
               }}
             >
               {({ values, errors, handleSubmit, setFieldValue }) => (
-              // <Form>
-                <Grid container item md={9} spacing={3} className={classes.flexEnd}>
-
-                  <Grid item xs={6} md={3}>
+                <Form>
+                <div className={classes.formWrapper1}>
+                  <div style={{gridArea:"status"}}>
                     <Select
                       name="allStatus"
                       label="All Status"
                       options={allStatus}
+                      className={classes.select}
                     />
-                  </Grid>
+                  </div>
                 
-                  <Grid item xs={6} md={3}>
+                  <div style={{gridArea:"duration"}}>
                     <Select
                       name="allDurations"
                       label="All Durations"
                       options={allDurations}
+                      className={classes.select}
                     />
-                  </Grid>
-
-                  <Grid item xs={6} md={3}>
+                  </div>
+                  <div style={{gridArea:"date"}} className={classes.dateField}>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <KeyboardDatePicker
                         disableToolbar
+                        label="Select Date"
                         name='date'
                         variant="inline"
                         format="MM/dd/yyyy"
@@ -122,42 +164,38 @@ const SearchForm = ({ORDER_FIND,loading}) => {
                         }}
                       />
                     </MuiPickersUtilsProvider>
-                  </Grid>
+                  </div>
 
-                  <Grid item xs={6} md={3}>
+                  <div style={{gridArea:"breakdown",textAlign:'start'}} >
                       <Button
                         disabled={loading}
                         type="submit"
-                        variant="outlined"
-                        onClick={()=>{handleSubmit()}}
+                        className={classes.breakdownBtn}
                         startIcon={
                           loading ? (
                             <CircularProgress size="1rem" />
-                          ) : (<SearchIcon  size="1rem"/>)
+                          ) : null
                         }
                       >
-                      {loading ? 'Searching' : 'Search'}
+                      {loading ? 'Searching' : 'see Breakdown'}
                     </Button>
-                  </Grid>
-                </Grid>
-              // </Form>
+                  </div>
+                  <div>
+                    <NavLink to="/createBooking" variant="body2" className={classes.font}>
+                      <Button
+                        variant="contained"
+                        className={classes.confirmBtn}
+                        color="primary"
+                        endIcon={<AddIcon style={{fill:'white'}}/>}
+                      >
+                        Add Appointment
+                      </Button>
+                    </NavLink>
+                  </div>
+                </div>
+              </Form>
               )}
             </Formik>
-        {/* </Grid> */}
-        <Grid item md={3}>
-          <NavLink to="/createBooking" variant="body2" className={classes.font}>
-            <Button
-              variant="contained"
-              className={classes.confirmBtn}
-              color="primary"
-              endIcon={<AddIcon />}
-            >
-              Add Appointment
-            </Button>
-          </NavLink>
-        </Grid>
-      </Grid>
-
     </>
   );
 };

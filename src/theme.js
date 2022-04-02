@@ -33,12 +33,7 @@ const defaultTheme  = createTheme({
         background:'#F2FCFC'
       }
     },
-    MuiTableCell:{
-      root:{
-        padding:'1.5rem 0.3rem',
-        
-      }
-    },
+
     MuiContainer:{
       root:{
         paddingRight:'0rem',
@@ -141,6 +136,9 @@ const theme = {
           fontSize: "0.8rem"
         }
       },
+      body1: {
+        fontSize: "1.1rem",
+      },
       body2:{
         color:palette.fontPrimary.main,
       }
@@ -163,8 +161,48 @@ const theme = {
         [breakpoints.down("sm")]: {
           fontSize:'0.8rem'
         }
+      },
+      endIcon:{
+        marginLeft:'13px'
       }
-    }
+    },
+    MuiOutlinedInput:{
+      root:{
+        // border:'none',
+        boxShadow: 'rgba(149, 157, 165, 0.01) 0px 4px 6px',
+      },
+      notchedOutline:{
+        // border:'none',
+        boxShadow: 'rgba(149, 157, 165, 0.01) 0px 4px 6px',
+      }
+    },
+    MuiInput:{
+      underline:{
+        '&::before': {
+          // border:'none',
+          color:palette.primary.lightDark
+        }
+      }
+    },
+    MuiSelect:{
+      select:{
+        textAlign:'start',
+        color:palette.primary.lightDark
+      }
+    },
+    MuiInputLabel:{
+      animated:{
+        fontWeight:'bold',
+        color:palette.primary.lightDark
+      }
+    },
+    MuiTableCell:{
+      root:{
+        padding:'1.5rem 0.5rem',
+        fontSize:'1.2rem',
+        color:palette.primary.lightDark
+      }
+    },
   }
 }
 

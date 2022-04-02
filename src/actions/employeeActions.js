@@ -6,7 +6,8 @@ import moment from 'moment';
 import {
   EMPLOYEE_COUNT_FAIL,
 	SET_LOADING_EMPLOYEE,
-	COMPANY_INFO_SUCCESS
+	COMPANY_INFO_SUCCESS,
+	NOT_LOADING_EMPLOYEE
 } from './types';
 
 import { toast } from "react-toastify";
@@ -51,3 +52,10 @@ export const COMPANY_INFO = (form_data) => async (dispatch,getState) => {
 	}
 };
 
+export const SET_EMPLOYEE_LOADING = () => async (dispatch) => {
+	dispatch({ type: SET_LOADING_EMPLOYEE });
+};
+
+export const UNSET_EMPLOYEE_LOADING = () => async (dispatch) => {
+	dispatch({ type: NOT_LOADING_EMPLOYEE });
+};

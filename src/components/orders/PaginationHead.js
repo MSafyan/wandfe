@@ -47,7 +47,7 @@ const Pagination = (props) => {
 						</Typography>
 					</TableSortLabel>
 				</TableCell>
-				<TableCell style={{ width: '10%',borderBottom:'none' }} key='email'>
+				<TableCell style={{ width: '8%',borderBottom:'none' }} key='email'>
 					<TableSortLabel
 						active={valueToOrderBy === 'email'}
 						direction={valueToOrderBy === 'email' ? orderDirection : 'asc'}
@@ -58,7 +58,7 @@ const Pagination = (props) => {
 						</Typography>
 					</TableSortLabel>
 				</TableCell>
-				<TableCell style={{ width: '10%',borderBottom:'none' }} key='vehicleRegNo'>
+				<TableCell style={{ width: '8%',borderBottom:'none' }} key='vehicleRegNo'>
 					<TableSortLabel
 						active={valueToOrderBy === 'vehicleRegNo'}
 						direction={valueToOrderBy === 'vehicleRegNo' ? orderDirection : 'asc'}
@@ -69,7 +69,7 @@ const Pagination = (props) => {
 						</Typography>
 					</TableSortLabel>
 				</TableCell>
-				<TableCell style={{ width: '8%',borderBottom:'none' }}>
+				<TableCell style={{ width: '14%',borderBottom:'none' }}>
 					<TableSortLabel
 						active={valueToOrderBy === 'price'}
 						direction={valueToOrderBy === 'price' ? orderDirection : 'asc'}
@@ -81,7 +81,7 @@ const Pagination = (props) => {
 						</Typography>
 					</TableSortLabel>
 				</TableCell>
-				<TableCell style={{ width: '8%',borderBottom:'none' }}>
+				<TableCell style={{ width: '12%',borderBottom:'none' }}>
 					<TableSortLabel
 						active={valueToOrderBy === 'addedBy'}
 						direction={valueToOrderBy === 'addedBy' ? orderDirection : 'asc'}
@@ -93,7 +93,7 @@ const Pagination = (props) => {
 						</Typography>
 					</TableSortLabel>
 				</TableCell>
-				<TableCell style={{ width: '8%',borderBottom:'none' }}>
+				<TableCell style={{ width: '5%',borderBottom:'none' }}>
 					<TableSortLabel
 						active={valueToOrderBy === 'status'}
 						direction={valueToOrderBy === 'status' ? orderDirection : 'asc'}

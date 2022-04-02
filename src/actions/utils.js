@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 
 export const errMsg=(error)=>{
-	debugger;
+	// debugger;
 	console.log(error.response)
 	try {
 		if(!error.response){

@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { NavLink } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   container:{
@@ -14,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
   logo:{
     'position':"absolute",
+    padding:theme.spacing(2),
     zIndex:'3',
     [theme.breakpoints.down('sm')]: {
       position:"relative",
@@ -60,7 +62,9 @@ function AuthWrapper({isAuthenticated, children,history}) {
   return (
     <>
       <div className={classes.logo}>
-        <img alt='' src='wordcyan.png' />
+      <NavLink to="/" variant="body2" style={{textDecoration:'none' }}>
+        <img alt='' src='wordcyan.png' width='150px'/>
+      </NavLink>
       </div>
       <Container className={classes.container} component="main" maxWidth="md">
       <CssBaseline />

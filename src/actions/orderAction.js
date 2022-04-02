@@ -49,7 +49,7 @@ export const BOOKING_PAYMENT = (form_data) => async (dispatch,getState) => {
 		const {id} = getState().auth.user.customer;
 		const cleanerId = getState().order.cleanerInfo.schedule?.cleaner;
 		const {order} = getState().order;
-		debugger;
+		// debugger;
 		const time = moment(order.time).format('HH:mm:ss.SSS')
     const data={
 			...order,
@@ -76,9 +76,21 @@ export const FETCH_CLEANER = () => async (dispatch,getState) => {
 		dispatch({ type: FETCH_CLEANER_SUCCESS, payload: res.data });
 	} catch (error) {
 		dispatch({ type: FETCH_CLEANER_FAIL});
-		errMsg(error)
+		// errMsg(error)
 	}
 };
+
+export const ClEANER_CLEANER=()=>async(dispatch,getState)=>{
+	try {
+		const cleanerId=getState().auth.user.cleaner.id;
+		const res = await axios.get(`${url}/cleaners/${cleanerId}`);
+
+		dispatch({ type: FETCH_CLEANER_SUCCESS, payload: res.data });
+	} catch (error) {
+		dispatch({ type: FETCH_CLEANER_FAIL});
+		// errMsg(error)
+	}
+}
 
 export const FETCH_STATS = () => async (dispatch) => {
 	try {
@@ -87,7 +99,7 @@ export const FETCH_STATS = () => async (dispatch) => {
 		dispatch({ type: FETCH_STATS_SUCCESS, payload: res.data });
 	} catch (error) {
 		dispatch({ type: FETCH_STATS_FAIL});
-		errMsg(error)
+		// errMsg(error)
 	}
 };
 
@@ -113,10 +125,11 @@ export const UPDATE_ORDER = (form_data) => async (dispatch) => {
 export const ORDER_LIST = () => async (dispatch,getState) => {
 	try {
     dispatch({ type: SET_LOADING_ORDER });
+		// debugger;
 		const type = getState().auth.user.role.name;
 		const cleanerId=getState().auth.user.cleaner?.id
 		let res=[];
-		if(type==='cleaner' || type==='premium'){
+		if(type==='cleaner' || type==='premium' || type==='Authenticated'){
 			res = await axios.get(`${url}/bookings?cleaner_eq=${cleanerId}`);
 			dispatch({ type: ORDER_LIST_SUCCESS, payload: res.data });
 		}
@@ -141,7 +154,7 @@ export const FETCH_APPOINTLIST = (form_data) => async (dispatch,getState) => {
 
 	} catch (error) {
 		dispatch({ type: FETCH_APPOINTLIST_FAIL});
-		errMsg(error)
+		// errMsg(error)
 	}
 };
 export const NEXT_SERVICE = () => async (dispatch,getState) => {
@@ -195,7 +208,7 @@ export const ORDER_FEATURED = (form_data) => async (dispatch) => {
 	} catch (error) {
 
 		dispatch({ type: ORDER_REVENUE_FAIL});
-		errMsg(error)
+		// errMsg(error)
 	}
 };
 

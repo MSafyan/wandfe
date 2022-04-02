@@ -13,30 +13,31 @@ import Container from '@material-ui/core/Container';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { Avatar,Button } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import EmailIcon from '@material-ui/icons/Email';
 import Sidebar from './sidebar'
 import { NavLink } from 'react-router-dom'
 import { links } from './sidebar';
+import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 
 import { NEXT_SERVICE } from '../../actions/orderAction';
 
 import { connect } from "react-redux";
 import {LOGOUT} from '../../actions/authActions'
 
-const drawerWidth = 240;
+const drawerWidth = '18vw';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    height:'100vh'
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
     display:'grid',
     gridTemplateColumns:"3fr 1fr 1fr 1fr",
-    gridTemplateAreas:`"search messages next avatar"`,
+    gridTemplateAreas:`"search next messages avatar"`,
     alignItems:'flex-start',
     [theme.breakpoints.down('sm')]: {
       gridTemplateAreas:`"logo search messages menu"`,
@@ -63,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBarShift: {
     marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
+    width: `calc(100% - ${drawerWidth})`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -141,6 +142,9 @@ const useStyles = makeStyles((theme) => ({
   },
   inputRoot: {
     color: 'inherit',
+    "& input::placeholder": {
+      fontSize: "20px",
+    color:"black"},
     [theme.breakpoints.down('sm')]: {
       display:'none',
     },
@@ -151,7 +155,7 @@ const useStyles = makeStyles((theme) => ({
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create('width'),
-    width: '100%',
+    width: '100%',  
     [theme.breakpoints.up('sm')]: {
       '&:focus': {
         width: '20ch',
@@ -260,7 +264,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Index = ({LOGOUT,NEXT_SERVICE,nextService,children,type,customer,cleaner}) => {
+const Index = ({LOGOUT,NEXT_SERVICE,nextService,children,type,customer,cleanerInfo}) => {
     const classes = useStyles();
     React.useEffect(()=>{
       NEXT_SERVICE();
@@ -313,15 +317,17 @@ const Index = ({LOGOUT,NEXT_SERVICE,nextService,children,type,customer,cleaner})
           <div className={classes.messagesWrapper}>
             <EmailIcon className={classes.icon}/>
               <div className={classes.desktopView}>
-                <Typography variant='body2' className={classes.bold}>
+                <Typography variant='body1' className={classes.bold}>
                   Your Messages
                 </Typography>
               </div>
           </div>
+          {
+            nextService && 
             <div className={clsx(classes.nextWrapper,classes.desktopView)}>
-              <ChevronLeftIcon className={classes.icon}/>
+              <NotificationsActiveIcon className={classes.icon}/>
               <div>
-                <Typography variant='body2' className={classes.bold}>
+                <Typography variant='body1' className={classes.bold}>
                   Next Cleaner Service
                 </Typography>
                 <Typography variant='body2'>
@@ -329,17 +335,18 @@ const Index = ({LOGOUT,NEXT_SERVICE,nextService,children,type,customer,cleaner})
                 </Typography>
               </div>
             </div>
+          }
             <div className={clsx(classes.avatarWrapper,classes.desktopView)} onClick={handleClick}>
               {type==='customer'? 
               <Avatar src={customer?.pic? `${customer.pic.url}`: 'employee.png'} className={classes.icon}/>:
-              <Avatar src={cleaner?.pic? `${cleaner.pic.url}`: 'employee.png'} className={classes.icon}/>
+              <Avatar src={cleanerInfo?.business?.logo ? `${cleanerInfo.business.logo.url}`: 'employee.png'} className={classes.icon}/>
               }
               <div>
-                <Typography variant='body2' className={classes.bold}>
-                  {type==='customer'? customer?.firstName:cleaner?.firstName}
+                <Typography variant='body1' className={classes.bold}>
+                  {type==='customer'? customer?.firstName:cleanerInfo?.firstName}
                 </Typography>
                 <Typography variant='body2'>
-                  x.y.z company
+                {type==='customer'? customer?.companyName:cleanerInfo?.business.cleaningService}
                 </Typography>
               </div>
               <Popper id={id} open={openPopper} anchorEl={anchorEl}>
@@ -428,7 +435,7 @@ const Index = ({LOGOUT,NEXT_SERVICE,nextService,children,type,customer,cleaner})
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
   type:state.auth.user.role.name,
-  cleaner:state.auth.user.cleaner,
+  cleanerInfo:state.order.cleanerInfo,
   customer:state.auth.user.customer,
   nextService:state.order.nextService
 });

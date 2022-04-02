@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import PaginationHead from './PaginationHead';
 import clsx from 'clsx';
-import Export from './ExportDialog'
+// import Export from './ExportDialog'
 
 import {
 	Table,
@@ -29,11 +29,18 @@ const useStyles = makeStyles((theme) => ({
 		padding:'0.1rem'
 	},
 	statusActive:{
-		background:theme.palette.primary.light,
+		background:'rgba(11, 199, 202, 0.1)',
+		opticity:"0.1",
 		padding:`${theme.spacing(1)}px`,
-		borderRadius:'50%',
+		borderRadius:'10%',
 		textAlign:'center',
 		fontWeight:'bold'
+	},
+	description:{
+		// fontSize
+	},
+	address:{
+		color:"#C8CBCB"
 	}
 }));
 
@@ -113,7 +120,7 @@ const TableContent = ({type,loading,orderList}) => {
 												{item.date || ''}
 											</TableCell>
 											<TableCell>
-												{item.duration}
+												{item.duration} Minutes
 											</TableCell>
 											<TableCell>
 												<Typography variant='h6' className={clsx(classes.statusActive)}>
@@ -121,19 +128,22 @@ const TableContent = ({type,loading,orderList}) => {
 												</Typography>
 											</TableCell>
 											<TableCell>
-												<Typography variant='body1' className={classes.bold}>
+												<Typography variant='h6' className={classes.description}>
 													{item.instructions.substring(0, 30)}
 												</Typography>
+												<Typography variant='body2' className={classes.address}>
 												{item.address}
+												</Typography>
+												
 											</TableCell>
 											<TableCell>
-												<Typography variant='body2' className={classes.bold}>
+												<Typography className={classes.bold}>
 													{item.cleaner? `${item.cleaner.firstName}` : 'No cleaner Assigned'}
 												</Typography>
 											</TableCell>
 											<TableCell>
-												${item.amount || 'Anonymous'}
-												<Export item={item}/>
+												${item.amount.toFixed(2) || 'Anonymous'}
+												{/* <Export item={item}/> */}
 											</TableCell>
 										</TableRow>	
 								))}

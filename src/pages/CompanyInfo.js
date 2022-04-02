@@ -7,26 +7,27 @@ import {
   Button,
   CircularProgress,
   Typography,
-  Select,
-  MenuItem,
-  InputLabel,
-  FormControl
+  // Select,
+  // MenuItem,
+  // InputLabel,
+  // FormControl
 } from '@material-ui/core';
 import clsx from 'clsx';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import AddIcon from '@material-ui/icons/Add';
 import Selects from '../components/FormsUI/Selects'
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker
-} from '@material-ui/pickers';
+// import DateFnsUtils from '@date-io/date-fns';
+// import {
+//   MuiPickersUtilsProvider,
+//   KeyboardTimePicker
+// } from '@material-ui/pickers';
 
 import Layout from '../components/layout/Index'
 
 import {url} from '../actions/customAxios';
 import { connect } from "react-redux";
-import { COMPANY_INFO } from "../actions/employeeActions";
+import { COMPANY_INFO,SET_EMPLOYEE_LOADING,UNSET_EMPLOYEE_LOADING } from "../actions/employeeActions";
+import { ClEANER_CLEANER } from '../actions/orderAction';
 
 const useStyles = makeStyles((theme) => ({
   formWrapper: {
@@ -39,8 +40,8 @@ const useStyles = makeStyles((theme) => ({
     "heading" 
     "details" 
     "address"
-    "service"
-    "schedule"`,
+    "country"
+    `,
     gridTemplateColumns:'1fr',
     gridTemplateRows:'1fr 2fr 2fr',
     gridGap:theme.spacing(3),
@@ -52,7 +53,8 @@ const useStyles = makeStyles((theme) => ({
     gridTemplateAreas:`
     "companyHeading emailLable emailDrop confirmBtn"`,
     gridColumnGap:theme.spacing(2),
-    alignItems:'base-line',
+    alignItems:'center',
+    paddingBottom:'1rem',
     [theme.breakpoints.down('sm')]: {
       gridTemplateColumns:'1fr 1fr',
       gridTemplateAreas:`
@@ -97,6 +99,15 @@ const useStyles = makeStyles((theme) => ({
       "address2 address2"
       "city region"
       "zipCode no"`,
+    }
+  },
+  countryGrid:{
+    gridArea:'country',
+    display:'grid',
+    gridTemplateColumns:'1fr 1fr 1fr',
+    gridTemplateAreas:`
+    "country country1 timezone"`,
+    [theme.breakpoints.down('sm')]: {
     }
   },
   serviceGrid:{
@@ -146,6 +157,32 @@ const useStyles = makeStyles((theme) => ({
     fontSize:"18px",
     fontWeight:'bold'
   },
+  select:{
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      border: "none",
+      boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px'
+    },
+  },
+  label:{
+    textAlign:'left',
+    color:theme.palette.primary.lightDark
+  },
+  imgBg:{
+    borderRadius:'10px',
+    background:theme.palette.primary.light,
+    position:'relative',
+    height:"150px",
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  imgBgChip:{
+    position:'absolute',
+    background:'white',
+    borderRadius:'10px',
+    top:'15px',
+    left:'10px'
+  },
   emailWrapper:{
     width:'70%'
   },
@@ -158,7 +195,6 @@ const useStyles = makeStyles((theme) => ({
   },
   header:{
     justifySelf:'Start',
-    paddingBottom:theme.spacing(3),
     fontWeight:"bold"
   },
   justifyStart:{
@@ -166,14 +202,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function getStyles(name, personName, theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
+// function getStyles(name, personName, theme) {
+//   return {
+//     fontWeight:
+//       personName.indexOf(name) === -1
+//         ? theme.typography.fontWeightRegular
+//         : theme.typography.fontWeightMedium,
+//   };
+// }
 
 
 const FORM_VALIDATION = Yup.object().shape({
@@ -188,8 +224,7 @@ const FORM_VALIDATION = Yup.object().shape({
     .required('Required'),
   companyWebsite: Yup.string()
     .required('Required'),
-  facebookPage: Yup.string()
-    .required('Required'),
+  facebookPage: Yup.string(),
   billingAddress: Yup.string()
     .required('Required'),
   city: Yup.string()
@@ -228,47 +263,52 @@ const FORM_VALIDATION = Yup.object().shape({
   endTime:Yup.date(),
 });
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-}
+// const ITEM_HEIGHT = 48;
+// const ITEM_PADDING_TOP = 8;
+// const MenuProps = {
+//   PaperProps: {
+//     style: {
+//       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+//       width: 250,
+//     },
+//   },
+// }
 
-const names = [
-  'mon','tue','wed','thue','fri','sat','sun'
-];
+// const names = [
+//   'Monday','Thuesday','Wednesday','Thursday','Friday','Saturday','Sunday'
+// ];
 
 const allDurations={
-  'EveryDay':'EveryDay',
-  'EveryWeek':'EveryWeek',
+  'EveryDay':'Every Day',
+  'EveryWeek':'Every Week',
 }
-const available={
-  true:'True',
-  false:'False',
-}
+// const available={
+//   true:'True',
+//   false:'False',
+// }
 
-const CompanyInfo = ({history,type,businessId,COMPANY_INFO,loading,edit,imageUrl}) => {
+const CompanyInfo = ({history,type,ClEANER_CLEANER,businessId,COMPANY_INFO,loading,edit,imageUrl,SET_EMPLOYEE_LOADING,UNSET_EMPLOYEE_LOADING}) => {
+  // const [loader,setLoader]=React.useState(false);
   const classes = useStyles();
-  const theme = useTheme();
+  // const theme = useTheme();
+  // const [imgState, setImgState] = React.useState({path:""});
   React.useEffect(()=>{
     if(type==='customer'){
 			history.push('/createBooking')
-		}
+		}else{
+      ClEANER_CLEANER()
+      UNSET_EMPLOYEE_LOADING()
+    }
     // eslint-disable-next-line
   },[])
-  const [personName, setPersonName] = React.useState(['mon']);
-  const handleChange = (event) => {
-    setPersonName(event.target.value);
-  };
+  const [personName, setPersonName] = React.useState(['Monday']);
+  // const handleChange = (event) => {
+  //   setPersonName(event.target.value);
+  // };
 
   const formState=()=>{
     const INITIAL_FORM_STATE = {
-      allDurations:'',
+      allDurations:'EveryDay',
       logo:null,
       cleaningService: '',
       otherEmail: '',
@@ -287,7 +327,7 @@ const CompanyInfo = ({history,type,businessId,COMPANY_INFO,loading,edit,imageUrl
       livingroomDuration:'',
       ratePerHour:'',
       available:true,
-      days:[],
+      days:['Monday'],
       startTime:new Date(),
       endTime:new Date(),
     };
@@ -323,26 +363,31 @@ const CompanyInfo = ({history,type,businessId,COMPANY_INFO,loading,edit,imageUrl
               initialValues={ formState()}
               validationSchema={FORM_VALIDATION}
               onSubmit={async(values) => {
-                console.log('hi')
-                debugger;
                 if(values.logo){
                   let data=new FormData();
                   data.append('refId',businessId);
                   data.append('field','logo');
                   data.append('ref','business');
                   data.append('files',values.logo);
-
-                await fetch(
-                  `${url}/upload/`,
-                  {
-                    method:'POST',
-                    body:data
+                  SET_EMPLOYEE_LOADING()
+                  // debugger;
+                  try {
+                    await fetch(
+                      `${url}/upload/`,
+                      {
+                        method:'POST',
+                        body:data
+                      }
+                    )
+                    
+                  } catch (error) {
+                    console.log(error)
                   }
-                )
+                UNSET_EMPLOYEE_LOADING()
                 delete values.logo;
               }
 
-              COMPANY_INFO({...values,days:personName})
+              COMPANY_INFO({...values})
               }}
               enableReinitialize
             >
@@ -357,8 +402,8 @@ const CompanyInfo = ({history,type,businessId,COMPANY_INFO,loading,edit,imageUrl
                   </Typography>
                   <Selects style={{gridArea:'emailDrop'}}
                     name="allDurations"
-                    label="All Durations"
                     options={allDurations}
+                    className={classes.select}
                   />
                     <Button style={{gridArea:'confirmBtn'}}
                       disabled={loading}
@@ -377,16 +422,22 @@ const CompanyInfo = ({history,type,businessId,COMPANY_INFO,loading,edit,imageUrl
                 </div>
                 
                 <div className={clsx(classes.detailsGrid,classes.card)}>
-                  <div style={{gridArea: 'image'}}> 
-                    <img src={imageUrl? imageUrl: `logo512.png`} alt='' width='80%'/>
+                  <div style={{gridArea: 'image',marginRight:'1rem'}}> 
+                    <div className={classes.imgBg}>
+                      {
+                        values.logo ?
+                        <img src={URL.createObjectURL(values.logo)} width='80%' alt=''/>:
+                        <img src={imageUrl? imageUrl: `logo512.png`} alt='' width='80%'/>
+                      }
+                      <Typography className={classes.imgBgChip} variant='body2'>Your logo here</Typography>
+                    </div>
                     <Button
                       variant="outlined"
                       component="label"
                       startIcon={<AddIcon />}
-                      style={{padding:'0px',border:'none'}}
-
+                      style={{padding:'0px',border:'none',fontWeight:'bold'}}
                     >
-                      Upload File
+                      Choose a File
                       <input
                         type="file"
                         hidden
@@ -396,34 +447,49 @@ const CompanyInfo = ({history,type,businessId,COMPANY_INFO,loading,edit,imageUrl
                       />
                     </Button>
                   </div>
-                  <div style={{gridArea: 'cleaningService'}}>
+                  <div style={{gridArea: 'cleaningService',justifySelf:'start'}}>
+                    <Typography variant='body2' className={classes.label}>
+                      Cleaning Service
+                    </Typography>
                     <Field
-                      name="cleaningService" placeholder="cleaning Service" as={Input}
+                      name="cleaningService" as={Input}
                     />
                     <ErrorMessage component='div' style={{color:"red"}} name="cleaningService" />
                   </div>
-                  <div style={{gridArea: 'companyPhone'}}>
+                  <div style={{gridArea: 'companyPhone',justifySelf:'start'}}>
+                    <Typography variant='body2' className={classes.label}>
+                      Company Phone
+                    </Typography>
                     <Field
-                      name="companyPhone" placeholder="companyPhone" as={Input}
+                      name="companyPhone" as={Input}
                     />
                     <ErrorMessage component='div' style={{color:"red"}} name="companyPhone" />
                   </div>
 
                   <div style={{gridArea: 'otherEmail',justifySelf:'start'}} className={classes.emailWrapper} >
+                    <Typography variant='body2' className={classes.label}>
+                      Other Email
+                    </Typography>
                     <Field
-                      name="otherEmail" placeholder="otherEmail" fullWidth as={Input}
+                      name="otherEmail" fullWidth as={Input}
                     />
                     <ErrorMessage component='div' style={{color:"red"}} name="otherEmail" />
                   </div>
                   <div style={{gridArea: 'companyWebsite',justifySelf:'start'}}> 
+                    <Typography variant='body2' className={classes.label}>
+                      Company Website
+                    </Typography>
                     <Field
-                      name="companyWebsite" placeholder="companyWebsite" as={Input}
+                      name="companyWebsite" as={Input}
                     />
                     <ErrorMessage component='div' style={{color:"red"}} name="companyWebsite" />
                   </div>
                   <div style={{gridArea: 'facebookPage',justifySelf:'start'}}> 
+                    <Typography variant='body2' className={classes.label}>
+                      Facebook Page
+                    </Typography>
                     <Field
-                      name="facebookPage" placeholder="facebookPage" as={Input}
+                      name="facebookPage" as={Input}
                     />
                     <ErrorMessage component='div' style={{color:"red"}} name="facebookPage" />
                   </div>
@@ -433,45 +499,94 @@ const CompanyInfo = ({history,type,businessId,COMPANY_INFO,loading,edit,imageUrl
                 <div className={clsx(classes.locationGrid,classes.card)}>
                     <Typography variant='body1' className={clsx(classes.justifyStart,classes.cardHeading)} style={{gridArea:'addHeading'}}>Address Detail</Typography>
                     <div style={{gridArea:'billingAddress'}} className={classes.justifyStart}>
+                      <Typography variant='body2' className={classes.label}>
+                        Your Company Billing Address
+                      </Typography>
                       <Field
-                        name="billingAddress" placeholder="billingAddress" as={Input}
+                        name="billingAddress" as={Input}
                       />
                       <ErrorMessage component='div' style={{color:"red"}} name="billingAddress" />
                     </div>  
                     <div style={{gridArea:'address1'}} className={classes.justifyStart}>
+                      <Typography variant='body2' className={classes.label}>
+                        Address Line 1
+                      </Typography>
                       <Field
-                        name="address1" placeholder="address1" as={Input}
+                        name="address1" as={Input}
                       />
                       <ErrorMessage component='div' style={{color:"red"}} name="address1" />
                     </div>  
                     <div style={{gridArea:'address2'}} className={classes.justifyStart}>
+                      <Typography variant='body2' className={classes.label}>
+                        Address Line 2
+                      </Typography>
                       <Field
-                        name="address2" placeholder="address2" as={Input}
+                        name="address2" as={Input}
                       />
                       <ErrorMessage component='div' style={{color:"red"}} name="address2" />
                     </div>  
                     <div style={{gridArea:'city'}} className={classes.justifyStart}>
+                      <Typography variant='body2' className={classes.label}>
+                        City/Town
+                      </Typography>
                       <Field
-                        name="city" placeholder="city" as={Input}
+                        name="city" as={Input}
                       />
                       <ErrorMessage component='div' style={{color:"red"}} name="city" />
                     </div>  
                     <div style={{gridArea:'region'}} className={classes.justifyStart}>
+                      <Typography variant='body2' className={classes.label}>
+                        State/Province/Region
+                      </Typography>
                       <Field
-                        name="region" placeholder="region" as={Input}
+                        name="region" as={Input}
                       />
                       <ErrorMessage component='div' style={{color:"red"}} name="region" />  
                     </div>  
                     <div style={{gridArea:'zipCode'}} className={classes.justifyStart}>
+                      <Typography variant='body2' className={classes.label}>
+                        ZipCode/PostalCode
+                      </Typography>
                       <Field
-                        name="zipCode" placeholder="zipCode" as={Input}
+                        name="zipCode" as={Input}
                       />
                       <ErrorMessage component='div' style={{color:"red"}} name="zipCode" />
                     </div>  
-                  </div>
+                </div>
+
+                {/* Country  */}
+                <div className={clsx(classes.countryGrid,classes.card)}>
+                    <div style={{gridArea:'country'}} className={classes.justifyStart}>
+                      <Typography variant='body2' className={classes.label}>
+                        country
+                      </Typography>
+                      <Field
+                        name="country" as={Input}
+                      />
+                      <ErrorMessage component='div' style={{color:"red"}} name="country" />
+                    </div>  
+                    <div style={{gridArea:'country1'}} className={classes.justifyStart}>
+                      <Typography variant='body2' className={classes.label}>
+                        country
+                      </Typography>
+                      <Field
+                        name="country1" as={Input}
+                      />
+                      <ErrorMessage component='div' style={{color:"red"}} name="country1" />
+                    </div>  
+                    <div style={{gridArea:'timezone'}} className={classes.justifyStart}>
+                      <Typography variant='body2' className={classes.label}>
+                        Date and Time Format
+                      </Typography>
+                      <Field
+                        name="timezone" as={Input}
+                      />
+                      <ErrorMessage component='div' style={{color:"red"}} name="timezone" />
+                    </div>  
+                </div>
 
                 {/* service  */}
-                <div className={clsx(classes.serviceGrid,classes.card)}>
+                {/* <div className={clsx(classes.serviceGrid,classes.card)}>
                     <Typography variant='body1' className={clsx(classes.justifyStart,classes.cardHeading)} style={{gridArea:'addHeading'}}>Service Time Detail</Typography>
                     <div style={{gridArea:'bathroomDuration'}} className={classes.justifyStart}>
                       <Field
@@ -503,10 +618,10 @@ const CompanyInfo = ({history,type,businessId,COMPANY_INFO,loading,edit,imageUrl
                       />
                       <ErrorMessage component='div' style={{color:"red"}} name="ratePerHour" />
                     </div>  
-                  </div>
+                </div> */}
 
                 {/* schedule  */}
-                <div className={clsx(classes.scheduleGrid,classes.card)}>
+                {/* <div className={clsx(classes.scheduleGrid,classes.card)}>
                   <Typography variant='body1' className={clsx(classes.justifyStart,classes.cardHeading)} style={{gridArea:'addHeading'}}>Schedule Time Detail</Typography>
                 <Selects style={{gridArea:'available'}}
                     name="available"
@@ -520,12 +635,9 @@ const CompanyInfo = ({history,type,businessId,COMPANY_INFO,loading,edit,imageUrl
                     label="available"
                     id="demo-mutiple-checkbox"
                     multiple
-                    value={personName}
+                    value={values.days}
                     onChange={(e)=>{
-                      handleChange(e)
-                      setFieldValue('city','hi');
-                      console.log(e.target.value)
-                      return setFieldValue('dayss',e.target.value)
+                      setFieldValue('days',e.target.value)
                     }}
                     
                     input={<Input />}
@@ -564,7 +676,7 @@ const CompanyInfo = ({history,type,businessId,COMPANY_INFO,loading,edit,imageUrl
                         }}
                       />
                     </MuiPickersUtilsProvider>
-                  </div>
+                </div> */}
               </Form>
               )}
             </Formik>
@@ -584,5 +696,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { COMPANY_INFO }
+  { COMPANY_INFO,ClEANER_CLEANER,SET_EMPLOYEE_LOADING,UNSET_EMPLOYEE_LOADING }
 )(CompanyInfo);

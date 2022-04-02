@@ -4,7 +4,7 @@ import { clearJwt } from './jwt';
 import {errMsg} from './utils';
 
 import {
-	SIGN_UP_SUCCESS,
+	// SIGN_UP_SUCCESS,
 	SIGN_UP_FAIL,
 	SIGN_IN_SUCCESS,
 	SIGN_IN_FAIL,
@@ -26,14 +26,11 @@ export const SIGN_UP = (form_data) => async (dispatch) => {
 		const res = await axios.post(`${url}/cleaners`, form_data);
 		debugger;
 		console.log(res.data)
-		if(res.data.user?.user){
-			dispatch({ type: SIGN_UP_SUCCESS,payload:res.data.user.user });
-			setAuthHeader(res.data.user.jwt);
+			// dispatch({ type: SIGN_UP_SUCCESS,payload:res.data.user.user });
+			// setAuthHeader(res.data.jwt);
 			toast.success("User successfully created...");
-		}else{
-			dispatch({ type: SIGN_UP_FAIL});
-		}
-
+			form_data.history.push('/login')
+			dispatch({ type: NOT_LOADING_AUTH });
 	} catch (error) {
 
 		dispatch({ type: SIGN_UP_FAIL});

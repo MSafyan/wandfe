@@ -1,6 +1,8 @@
 import {
 	COMPANY_INFO_SUCCESS,
 	COMPANY_INFO_FAIL,
+	SET_LOADING_EMPLOYEE,
+	NOT_LOADING_EMPLOYEE
 } from "../actions/types";
 
 const INITAL_AUTH_STATE = {
@@ -29,6 +31,16 @@ export default function authReducer(
 			company:null,
 			loading:false
 		};
+		case SET_LOADING_EMPLOYEE:
+		return {
+			...state,
+			loading:true
+		};
+		case NOT_LOADING_EMPLOYEE:
+		return {
+			...state,
+			loading:false
+		}
 		default:
 			return state;
 	}

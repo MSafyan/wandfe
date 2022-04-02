@@ -17,8 +17,6 @@ import {
   KeyboardDatePicker,
   KeyboardTimePicker
 } from '@material-ui/pickers';
-import { toast } from "react-toastify";
-
 
 import clsx from 'clsx'
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
@@ -168,12 +166,12 @@ const FORM_VALIDATION = Yup.object({
 const CompanyInfo = ({NEW_ORDER,FETCH_CLEANER,type,customer,edit,history}) => {
   const classes = useStyles();
   React.useEffect(()=>{
-    if(type==='customer'){
-      FETCH_CLEANER()
-    }else if(type==='premium' || type==='Authenticated'){
-      history.push('/orders');
-      toast.warn('only customers can create Bookings')
-    }
+    // if(type==='customer'){
+    //   FETCH_CLEANER()
+    // }else if(type==='premium' || type==='Authenticated'){
+    //   history.push('/orders');
+    //   toast.warn('only customers can create Bookings')
+    // }
 
 
     // eslint-disable-next-line
@@ -291,9 +289,10 @@ const CompanyInfo = ({NEW_ORDER,FETCH_CLEANER,type,customer,edit,history}) => {
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <KeyboardDatePicker
                         name='date'
+                        views={["year"]}
                         disableToolbar
                         variant="inline"
-                        format="MM/dd/yyyy"
+                        format="yyyy"
                         margin="normal"
                         id="date-picker-inline"
                         value={values.date}

@@ -16,26 +16,32 @@ import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   sidebar:{
-    padding:theme.spacing(2),
     textAlign:'left',
     width:'240px'
-
+    
+  },
+  logo:{
+    width:theme.spacing(15),
+    // padding:theme.spacing(3),
+    paddingBottom:'1vw'
   },
   scrollable:{
     position:'fixed',
     height:'80vh',
+    padding:'2vw',
     overflowY:"auto",
-    width:'240px',
+    width:'18vw',
     overflow:"hidden"
   },
   category:{
     marginBottom:theme.spacing(4)
   },
   catHeading:{
-    fontWeight:'bold'
+    fontWeight:'bold',
+    fontSize:theme.spacing(2.2)
   },
   navText:{
-    paddingLeft:theme.spacing(1),
+    paddingLeft:'1.6vw',
     // color:theme.palette.fontPrimary.main
   },
   navLink:{
@@ -43,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
     textDecoration:'none',
     display:'flex',
     alignItems:'center',
+    padding:'.3vw',
     margin:`${theme.spacing(3)}px 0px`
   },
   support:{
@@ -50,8 +57,14 @@ const useStyles = makeStyles((theme) => ({
     bottom:theme.spacing(1),
     background:theme.palette.primary.dark,
     color:'white',
-    padding:theme.spacing(1),
+    padding:'1.3vw',
+    paddingRight:'3.3vw',
     borderRadius:theme.spacing(1),
+    margin:'1.5vw'
+  },
+  supportLabel:{
+    fontWeight:'bold',
+    paddingBottom:'0.4vw',
   },
   flex:{
     display:'flex',
@@ -125,7 +138,10 @@ const Sidebar = () => {
   return (
     <div className={classes.sidebar}>
       <div className={classes.scrollable}>
-      <img alt='' src='wordcyan.png'/>
+          <div className={classes.logo}>
+            <img alt='' src='wandbluefav.png' width='35px' style={{paddingRight:'4px'}} />
+            <img alt='' src='wordcyan.png' width='90px' />
+          </div>
         {links.map((val,i)=>{
           return <div key={i} className={classes.category}>
             <Typography variant='body1' className={classes.catHeading}>
@@ -135,7 +151,7 @@ const Sidebar = () => {
               val.navs.map((nav,i)=>{
                 return <Link key={i} to={nav.link} className={classes.navLink} style={{}}>
                   {nav.icon}
-                  <Typography variant='body2' className={classes.navText}>
+                  <Typography variant='body1' className={classes.navText}>
                     {nav.text}  
                   </Typography>
                 </Link>
@@ -146,7 +162,7 @@ const Sidebar = () => {
         </div>
         <div className={classes.support}>
           <div className={classes.flex}>
-            <Typography variant='body1'>
+            <Typography variant='body1' className={classes.supportLabel}>
               Contact Support
             </Typography>
             <ArrowRightAltOutlined className={classes.arrow}/>

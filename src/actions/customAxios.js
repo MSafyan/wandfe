@@ -30,9 +30,9 @@ if (getJwt()) {
 // }, error => {
 //   return { ok: false, error, errMessage: error.response.statusText, data: (error.response || {}).data }
 // });
-// export const url='http://volantestrapi-env.eba-kzqbnykc.us-east-1.elasticbeanstalk.com';
-// export const url='https://api.volantedetailing.net';
-export const url='http://localhost:1337';
+// export const url='https://api.wandcleaning.pro';
+export const url='http://test2-env.eba-2ijsyuym.us-east-1.elasticbeanstalk.com';
+// export const url='http://localhost:1337';
 
 export { setAuthHeader };
 
