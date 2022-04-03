@@ -1,33 +1,42 @@
-// material
-import React from 'react'
-import { Box, Grid, Container, Typography } from '@material-ui/core';
-// components
-// import Page from '../components';
-// import Layout from '../components/layout/Index'
-import { connect } from "react-redux";
+import React, { Component } from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-// ----------------------------------------------------------------------
+import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 
- function DashboardApp() {
-  return (
-      <Container maxWidth="xl">
-        <Box sx={{ pb: 5 }}>
-          <Typography variant="h4">Hi, Welcome back</Typography>
-        </Box>
-        <Grid container spacing={3}>
-
-        </Grid>
-      </Container>
-  );
+class MultipleItems extends Component {
+  render() {
+    const settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      nextArrow: <ArrowRightAltIcon />,
+      prevArrow: <ArrowRightAltIcon />,
+      appendDots: dots => (
+        <div></div>
+      )
+    };
+    return (
+      <div>
+        <Slider {...settings}>
+          <div>
+          <img width='200px'  src='home.png'/> 
+          </div>
+          <div>
+          <img width='200px'  src='home.png'/> 
+          </div>
+          <div>
+          <img width='200px'  src='home.png'/> 
+          </div>
+          <div>
+          <img width='200px'  src='home.png'/> 
+          </div>
+        </Slider>
+      </div>
+    );
+  }
 }
-
-const mapStateToProps = state => ({
-  revenueData: state.order.revenueData,
-  loading:state.customer.loading,
-  customerYearly:state.customer.customerYearly
-});
-
-export default connect(
-  mapStateToProps,
-  null
-)(DashboardApp);
+export default MultipleItems;

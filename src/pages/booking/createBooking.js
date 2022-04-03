@@ -12,6 +12,7 @@ import {
   FormControl,
 } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
+import Test from '../test'
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     "serviceDetial serviceDetial dateTime" 
     "type type comment"`,
     gridTemplateColumns:'5fr 4fr 3fr',
-    gridTemplateRows:'0.4fr 1fr 1fr',
+    gridTemplateRows:'0.2fr 1fr 1fr',
     gridColumnGap:theme.spacing(2),
     gridColumnRow:theme.spacing(2),
     [theme.breakpoints.down('sm')]: {
@@ -58,7 +59,8 @@ const useStyles = makeStyles((theme) => ({
   },
   cardHeading:{
     fontSize:"18px",
-    fontWeight:'bold'
+    fontWeight:'bold',
+    paddingBottom:theme.spacing(1)
   },
   font:{
     textDecoration:"none"
@@ -144,19 +146,19 @@ export const types = [
 
 
 const FORM_VALIDATION = Yup.object({
-  bathroomCount: Yup.number()
-    .integer()
-    .typeError('Only number/digit allowed').required(),
-	kitchenCount: Yup.number()
-    .integer()
-    .typeError('Only number/digit allowed').required(),
-  bedroomCount:  Yup.number()
-  .integer()
-  .typeError('Only number/digit allowed').required(),
-  address: Yup.string()
-    .required('Required'),
-  pets: Yup.string()
-    .required('Required'),
+  // bathroomCount: Yup.number()
+  //   .integer()
+  //   .typeError('Only number/digit allowed').required(),
+	// kitchenCount: Yup.number()
+  //   .integer()
+  //   .typeError('Only number/digit allowed').required(),
+  // bedroomCount:  Yup.number()
+  // .integer()
+  // .typeError('Only number/digit allowed').required(),
+  // address: Yup.string()
+  //   .required('Required'),
+  // pets: Yup.string()
+  //   .required('Required'),
   instructions:Yup.string()
     .required(),
   type:Yup.string()
@@ -184,11 +186,11 @@ const CompanyInfo = ({NEW_ORDER,FETCH_CLEANER,type,customer,edit,history}) => {
 
   const formState=()=>{
     const INITIAL_FORM_STATE = {
-      bathroomCount: '',
-      kitchenCount: '',
-      bedroomCount: '',
+      bathroomCount: '4',
+      kitchenCount: '4',
+      bedroomCount: '4',
       address:'',
-      pets: '',
+      pets: false,
       date:null,
       time:null,
       instructions:"",
@@ -230,7 +232,7 @@ const CompanyInfo = ({NEW_ORDER,FETCH_CLEANER,type,customer,edit,history}) => {
                 <div className={classes.gridWrapper}>
                   <Typography variant='h4' style={{gridArea:'heading'}} className={classes.header}>
                     <span className={classes.bold}> Create a Booking - </span>
-                    <br/>
+                    {/* <br/> */}
                     Personal Details
                   </Typography>
                     {/* <NavLink to="/bookingPayment" variant="body2" className={classes.font}> */}
@@ -247,7 +249,8 @@ const CompanyInfo = ({NEW_ORDER,FETCH_CLEANER,type,customer,edit,history}) => {
                       <Typography variant='body1' className={classes.cardHeading}>
                         Give us some info about house
                       </Typography>
-                      <div className={classes.flex}>
+                  <Test />
+                      {/* <div className={classes.flex}>
 												<div className={classes.field}>
 													<Field
 														name="bathroomCount" placeholder="bathroomCount" as={Input}
@@ -279,7 +282,7 @@ const CompanyInfo = ({NEW_ORDER,FETCH_CLEANER,type,customer,edit,history}) => {
                           label="Pets"
                           options={pets}
                         />
-											</div> 
+											</div>  */}
                   </div>
 
                   <div style={{gridArea:"dateTime"}} className={classes.card}>
