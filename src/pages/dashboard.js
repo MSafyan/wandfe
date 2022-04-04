@@ -6,6 +6,9 @@ import {
   FormControlLabel,
 	Select,
 	MenuItem,
+	FormControl ,
+	InputLabel ,
+	TextField,
 	CircularProgress
 } from '@material-ui/core';
 import clsx from 'clsx';
@@ -93,6 +96,12 @@ const useStyles = makeStyles((theme) => ({
 		paddingBottom:theme.spacing(1),
 		fontWeight:"bold"
 	},
+	select:{
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      border: "none",
+      boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px'
+    },
+  },
 	item:{
 		justifyContent:'space-between',
 		alignItems:'center',
@@ -182,7 +191,7 @@ const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,F
 							Forecast Revenue
 						</Typography>
 						<Typography variant='h5' className={classes.statVal}>
-							{stats?.forcastRevenue}
+							{stats?.forcastRevenue.toFixed(2)}
 						</Typography>
 					</div>
 					<div style={{gridArea:'stat3'}}>
@@ -190,7 +199,7 @@ const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,F
 							Total Revenue
 						</Typography>
 						<Typography variant='h5' className={classes.statVal}>
-							{stats?.totalRevenue}
+							{stats?.totalRevenue.toFixed(2)}
 						</Typography>
 					</div>
 					<div style={{gridArea:'stat4'}}>
@@ -210,9 +219,13 @@ const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,F
 						</Typography>
 						{
 							monthList.length>2 && <>
-								<Select
-									label="Start Date"
+							<FormControl variant="outlined" className={classes.formControl}>
+								<TextField
+									className={classes.select}
 									value={startDate}
+									select
+									variant= 'outlined'
+									fullWidth
 									onChange={(e)=>{
 										setStartDate(e.target.value)
 										ORDER_FEATURED({startDate:e.target.value,endDate})
@@ -221,37 +234,46 @@ const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,F
 											return <MenuItem key={i} value={val.val}>{val.key}</MenuItem>
 										}
 										)}
-								
-								</Select>
-								<Select
-								label="End Date"
-								value={endDate}
-								onChange={(e)=>{
-									setEndDate(e.target.value)
-									ORDER_FEATURED({startDate,endDate:e.target.value})
-								}}>
-									{monthList.map((val,i)=>{
-										return <MenuItem key={i} value={val.val}>{val.key}</MenuItem>
-									})}
-								</Select>
+									</TextField>
+							</FormControl>
+								<FormControl variant="outlined" className={classes.formControl}>
+									<TextField
+									className={classes.select}
+									select
+									variant= 'outlined'
+									fullWidth
+									value={endDate}
+									onChange={(e)=>{
+										setEndDate(e.target.value)
+										ORDER_FEATURED({startDate,endDate:e.target.value})
+									}}>
+										{monthList.map((val,i)=>{
+											return <MenuItem key={i} value={val.val}>{val.key}</MenuItem>
+										})}
+									</TextField>
+								</FormControl>
 							</>
-							}
+						}
 							<Revenue/>
 					</div>
 					<div style={{gridArea:"chart2"}} className={clsx(classes.chart,classes.card)}>
 						<Typography variant='body1' className={classes.cardHeading}>
 							APPOINTMENT's
 						</Typography>
-						<Select
-							name="pets"
-							label="Appointments"
-							value={select}
-							onChange={(e)=>{
-								setSelect(e.target.value)
-							}}>
-							<MenuItem value={'ACTIVE'}>Active Appointments</MenuItem>
-							<MenuItem value={'COMPLETED'}>Completed Appointments</MenuItem>
-						</Select>
+						<FormControl variant="outlined" className={classes.formControl}>
+							<TextField
+								select
+								variant= 'outlined'
+								fullWidth
+								value={select}
+								className={classes.select}
+								onChange={(e)=>{
+									setSelect(e.target.value)
+								}}>
+								<MenuItem value={'ACTIVE'}>Active Appointments</MenuItem>
+								<MenuItem value={'COMPLETED'}>Completed Appointments</MenuItem>
+							</TextField>
+						</FormControl>
 						{
 							loading && <CircularProgress/>
 						}

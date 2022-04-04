@@ -45,7 +45,8 @@ const defaultTheme  = createTheme({
         backgroundColor:"rgb(244, 67, 54)"
       },
       root:{
-        margin:"0.2rem"
+        margin:"0.2rem",
+        fontSize:'0.9rem'
       }
     },
     MuiIconButton:{
@@ -157,9 +158,9 @@ const theme = {
     },
     MuiButton:{
       root:{
-        fontSize:'1.2rem',
+        fontSize:'0.9rem',
         [breakpoints.down("sm")]: {
-          fontSize:'0.8rem'
+          fontSize:'0.7rem'
         }
       },
       endIcon:{

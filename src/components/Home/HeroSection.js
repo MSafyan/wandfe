@@ -15,11 +15,17 @@ const useStyles = makeStyles((theme) => ({
   },
   mainContainer:{
     marginBottom:theme.spacing(12),
+    paddingTop:theme.spacing(12),
+    paddingBottom:theme.spacing(12),
     textAlign:'left',
-    display:'flex',
+    display:'grid',
+    gridTemplateAreas:"hero image",
+    gridTemplateColumns:'6fr 5fr',
     justifyContent:'space-between',
     [theme.breakpoints.down('sm')]: {
     marginBottom:theme.spacing(2),
+    paddingTop:theme.spacing(2),
+    paddingBottom:theme.spacing(2),
     }
   },
   container:{
@@ -38,14 +44,15 @@ const useStyles = makeStyles((theme) => ({
   },
   heading:{
     fontWeight:'bold',
-    paddingBottom:theme.spacing(3),
-
+    paddingBottom:theme.spacing(4),
+    color:theme.palette.primary.lightDark,
   },
   headingBlue:{
     color:theme.palette.primary.main
   },
   heading2:{
     textTransform:"uppercase",
+    color:theme.palette.primary.lightDark,
     paddingBottom:theme.spacing(6),
     [theme.breakpoints.down('sm')]: {
       paddingBottom:theme.spacing(3),
@@ -64,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
     width:'15rem',
     marginBottom:'1rem',
     color:'white',
+    fontSize:'1.8rem',
     [theme.breakpoints.down('sm')]: {
       width:theme.spacing(20),
       padding:theme.spacing(0.5)
@@ -77,14 +85,18 @@ const useStyles = makeStyles((theme) => ({
   },
   iconFill:{
     fill:theme.palette.primary.main,
-    marginRight:'1rem'
+    marginRight:'1rem',
+    width:"1.5rem",
+    height:"1.5rem",
   },
   borderNull:{
     border:'0px',
-    color:'black'
+    color:'black',
+    fontWeight:'bold',
+    fontSize:'1.5rem'
+    // width:'70%'
   },
   imgContainer:{
-    width:'50%',
     minWidth:"500px",
     alignSelf:'right',
     display:'grid',
@@ -103,12 +115,12 @@ const HeroSection = () => {
     <div className={classes.outer}>
       <Container className={classes.mainContainer} component="main" maxWidth="xl">
         <div className={classes.container}>
-          <Typography variant='h1' className={classes.heading}>
+          <Typography variant='h4' className={classes.heading}>
             Simplify Your Maid Service With This Simple  
             <span className={classes.headingBlue}> Scheduling Software </span>
           </Typography>
-          <Typography variant='h5' className={classes.heading2}>
-            DISCOVER HOW YOU CAN CLEAN MORE HOMES AND MAKE MORE MONEY THAN EVER BEFORE
+          <Typography variant='h6' className={classes.heading2}>
+            DISCOVER HOW YOU CAN CLEAN MORE HOMES AND<br/> MAKE MORE MONEY THAN EVER BEFORE
           </Typography>
           <div className={classes.buttons}>
             <NavLink to="/login" variant="body2" className={classes.font}>

@@ -16,13 +16,13 @@ import clsx from 'clsx';
 
     },
     img:{
-      padding:theme.spacing(8),
+      padding:theme.spacing(12),
       [theme.breakpoints.down('sm')]: {
       padding:theme.spacing(3),
       }
     },
     heading:{
-      paddingBottom:theme.spacing(6),
+      paddingBottom:theme.spacing(10),
       fontWeight:'bold'
     },
     para:{
@@ -30,7 +30,9 @@ import clsx from 'clsx';
       fontWeight:'normal'
     },
     Button:{
-      width:'15rem',
+      width:'22rem',
+      height:'5rem',
+      fontSize:'1.8rem',
       marginBottom:'1rem',
       color:'white',
       [theme.breakpoints.down('sm')]: {
@@ -55,10 +57,10 @@ const BluishOverlay = () => {
       <Container className={classes.innerContainer} component="main" maxWidth="xl">
         <img src='WandWhite.png' alt='' width='40%' className={classes.img}/>
         <Typography variant='h1' className={classes.heading}>
-          You and Your Maid Service Deserve a Little Peace & Quiet
+          You and Your Maid Service Deserve<br/> a Little Peace & Quiet
         </Typography>
         <Typography variant='h4' className={clsx(classes.heading,classes.para)}>
-          The Easiest-to-Use and the Best Rated Maid Software on Capterra. Rated 5 stars by Owners just like YOU!
+          The Easiest-to-Use and the Best Rated Maid Software on Capterra.<br/> Rated 5 stars by Owners just like YOU!
         </Typography>
         <div className={classes.buttons}>
           <Button

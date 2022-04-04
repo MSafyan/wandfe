@@ -2,6 +2,10 @@ import React from 'react';
 import { Formik, Form,Field,ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
+import DatePicker from "react-multi-date-picker";
+import TimePicker from "react-multi-date-picker/plugins/time_picker";
+import Moment from 'react-moment';
+import './date.css';
 import {
   Input,
   Button,
@@ -11,17 +15,17 @@ import {
   FormControlLabel,
   FormControl,
 } from '@material-ui/core';
-import DateFnsUtils from '@date-io/date-fns';
+// import DateFnsUtils from '@date-io/date-fns';
 import Test from '../test'
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-  KeyboardTimePicker
-} from '@material-ui/pickers';
+// import {
+//   MuiPickersUtilsProvider,
+//   KeyboardDatePicker,
+//   KeyboardTimePicker
+// } from '@material-ui/pickers';
 
 import clsx from 'clsx'
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
-import Select from '../../components/FormsUI/Selects'
+// import Select from '../../components/FormsUI/Selects'
 
 import Layout from '../../components/layout/Index'
 
@@ -108,6 +112,29 @@ const useStyles = makeStyles((theme) => ({
   },
   cleanerHeader:{
     paddingBottom:theme.spacing(2)
+  },
+  dot:{
+    height: '8px',
+    width: '8px',
+    backgroundColor: 'black',
+    borderRadius: '50%',
+    display: 'inline-block',
+    marginRight:'1rem'
+  },
+  datewrapper:{
+    display:'grid',
+    gridTemplateAreas:
+    `"day month year"`,
+  },
+  dayChip:{
+    marginTop:theme.spacing(3),
+    marginBottom:theme.spacing(3),
+    color:"white",
+    background:theme.palette.primary.dark,
+    width:"7rem",
+    padding:theme.spacing(0.5),
+    textAlign:'center',
+    borderRadius:theme.spacing(2)
   },
   field:{
     marginBottom:"1rem",
@@ -242,7 +269,7 @@ const CompanyInfo = ({NEW_ORDER,FETCH_CLEANER,type,customer,edit,history}) => {
                       variant='contained'
                       endIcon={<ArrowRightAltIcon style={{fill:'white'}}/>}
                     >
-                      Confirm Booking  
+                      Proceed to Payment
                     </Button>  
                   {/* </NavLink> */}
                   <div style={{gridArea:"serviceDetial"}} className={classes.card}>
@@ -289,34 +316,65 @@ const CompanyInfo = ({NEW_ORDER,FETCH_CLEANER,type,customer,edit,history}) => {
                     <Typography variant='body1' className={classes.cardHeading}>
                       When should the cleaner come
                     </Typography>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                      <KeyboardDatePicker
-                        name='date'
-                        views={["year"]}
-                        disableToolbar
-                        variant="inline"
-                        format="yyyy"
-                        margin="normal"
-                        id="date-picker-inline"
+                    
+                    <Typography variant='body1' className={clsx(classes.cardHeading, classes.timeHeading)}>
+                      <span className={classes.dot}></span>
+                      PICK A DATE
+                    </Typography>
+                    {/* <Moment date={values.time} format={'MMM'}/> */}
+                    <div className={classes.datewrapper}>
+                      <DatePicker
+                        inputClass="day-input"
                         value={values.date}
-                        onChange={value => setFieldValue("date", value)}
-                        label="Date picker"
-                        KeyboardButtonProps={{
-                          'aria-label': 'change date',
-                        }}
+                        format="DD"
+                        onChange={value => {
+                          
+                          setFieldValue("date", value)}}
                       />
-                      <KeyboardTimePicker
-                        name='time'
-                        margin="normal"
-                        id="time-picker"
-                        value={values.time}
-                        onChange={value => setFieldValue("time", value)}
-                        label="Time picker"
-                        KeyboardButtonProps={{
-                          'aria-label': 'change time',
-                        }}
+                      <DatePicker
+                        inputClass="month-input"
+                        value={values.date}
+                        format="MMM"
+                        onChange={value => {
+                          setFieldValue("date", value)}}
                       />
-                    </MuiPickersUtilsProvider>
+                      <DatePicker
+                        inputClass="year-input"
+                        value={values.date}
+                        format="YYYY"
+                        onChange={value => {
+                          setFieldValue("date", value)}}
+                      />
+                    </div>
+                    <Typography variant='body1' className={classes.dayChip}>
+                      <Moment date={values.time} format="dddd"/>
+                    </Typography>
+                    <Typography variant='body1' className={clsx(classes.cardHeading, classes.timeHeading)}>
+                      <span className={classes.dot}></span>
+                      PICK A TIME
+                    </Typography>
+                    <DatePicker
+                      inputClass="month-input"
+                      disableDayPicker
+                      format="HH"
+                      value={values.time}
+                      onChange={value => {
+                        setFieldValue("time", value)}}
+                      plugins={[
+                        <TimePicker hideSeconds />
+                      ]} 
+                    />
+                    <DatePicker
+                      inputClass="month-input"
+                      disableDayPicker
+                      format="mm"
+                      value={values.time}
+                      onChange={value => {
+                        setFieldValue("time", value)}}
+                      plugins={[
+                        <TimePicker hideSeconds />
+                      ]} 
+                    />
                   </div>
                   <div style={{gridArea:"comment"}} className={classes.card}>
                     <Typography variant='body1' className={classes.cardHeading}>Any extra comments you’d like to add?</Typography>

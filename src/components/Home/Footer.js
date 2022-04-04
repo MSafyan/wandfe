@@ -5,17 +5,20 @@ import { Typography,Grid, Container } from '@material-ui/core';
   const useStyles = makeStyles((theme) => ({
     mainGrid:{
       textAlign:'left',
+      paddingTop:theme.spacing(10),
+      paddingBottom:theme.spacing(10),
       paddingBottom:theme.spacing(12),
       [theme.breakpoints.down('sm')]: {
         padding:theme.spacing(2),
       }
     },
     fontBold:{
-      fontSize:"1.1rem",
+      // fontSize:"1.1rem",
       paddingBottom:theme.spacing(0.5)
     },
     subHeading:{
-      paddingBottom:theme.spacing(2)
+      paddingBottom:theme.spacing(2),
+      fontWeight:'bold'
     },
     copyright:{
       textAlign:'center'
@@ -40,13 +43,13 @@ const Footer = () => {
           <Typography variant='h6' className={classes.subHeading}>
             Become a Cleaner
           </Typography>
-          <Typography variant='body2' className={classes.fontBold}>
+          <Typography variant='h6' className={classes.fontBold}>
             Services
           </Typography>
-          <Typography variant='body2' className={classes.fontBold}>
+          <Typography variant='h6' className={classes.fontBold}>
             Products
           </Typography>
-          <Typography variant='body2' className={classes.fontBold}>
+          <Typography variant='h6' className={classes.fontBold}>
             FQA
           </Typography>
         </Grid>
@@ -56,13 +59,13 @@ const Footer = () => {
         <Typography variant='h6' className={classes.subHeading}>
             Terms of Services
           </Typography>
-          <Typography variant='body2' className={classes.fontBold}>
+          <Typography variant='h6' className={classes.fontBold}>
             privary Policy
           </Typography>
-          <Typography variant='body2' className={classes.fontBold}>
+          <Typography variant='h6' className={classes.fontBold}>
             Press
           </Typography>
-          <Typography variant='body2' className={classes.fontBold}>
+          <Typography variant='h6' className={classes.fontBold}>
             Blog Feed
           </Typography>
         </Grid>
@@ -72,7 +75,7 @@ const Footer = () => {
         <Typography variant='h6' className={classes.subHeading}>
             Become a Cleaner
           </Typography>
-          <Typography variant='body2' className={classes.subHeading}>
+          <Typography variant='h6' className={classes.subHeading}>
             4818 Washington Blvd St. Louis, MO 63108 Phone: 1-844-GET-WAND 
             <div className={classes.subHeading}>
               E-Mail: support@wandusa.com 
@@ -83,7 +86,9 @@ const Footer = () => {
           </Typography>
         </Grid>
         <Grid item sm={12} className={classes.copyright}>
-          Copyright- All Rights Reserved by WAND USA Inc.
+          <Typography variant='h6'>
+            Copyright- All Rights Reserved by WAND USA Inc.
+          </Typography>
         </Grid>
       </Grid>
     </Container>

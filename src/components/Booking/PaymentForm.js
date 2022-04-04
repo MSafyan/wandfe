@@ -1,4 +1,9 @@
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
+import { 
+	CardElement, 
+	useElements, 
+	useStripe,
+	CardCvcElement,
+	CardNumberElement } from "@stripe/react-stripe-js"
 import axios from "axios"
 import React from 'react'
 
@@ -73,7 +78,9 @@ export default function PaymentForm() {
 										<CardElement options={CARD_OPTIONS}/>
 								</div>
 						</fieldset>
-						<button onClick={(e)=>{handleSubmit(e)}}>Pay</button>
+										{/* <CardNumberElement />
+										<CardCvcElement /> */}
+						{/* <button onClick={(e)=>{handleSubmit(e)}}>Pay</button> */}
 				</>
 		)
 }

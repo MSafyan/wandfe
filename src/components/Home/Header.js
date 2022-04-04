@@ -1,24 +1,47 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
+import { makeStyles } from '@material-ui/core/styles';
+
+import {
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  AppBar,
+  Button,
+  MenuItem,
+  Container
+} from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
 
 // import icon from '/image2vector.svg'
 import { NavLink } from 'react-router-dom'
 
 const pages = ['Become a cleaner', 'Services', 'Products', 'FAQ'];
 
+const useStyles = makeStyles((theme) => ({
+  appbar: {
+    backgroundColor:theme.palette.primary.light,
+    padding:'3rem'
+  },
+  navBtn:{
+    fontSize:'1.5rem',
+    color:theme.palette.primary.lightDark,
+    paddingRight:'2rem'
+  },
+  logo:{
+    width:theme.spacing(18),
+    display:'flex',
+    // padding:theme.spacing(3),
+    paddingBottom:'1.2vw'
+  },
+}))
+
 const ResponsiveAppBar = () => {
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   // const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const classes = useStyles();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -36,11 +59,14 @@ const ResponsiveAppBar = () => {
   // };
 
   return (
-    <AppBar position="static" sx={{background:'#F2FCFC',boxShadow:'none',color:'black'}}>
-      <Container component="main" className=''>
+    <AppBar className={classes.appbar} position="static" sx={{boxShadow:'none',color:'black'}}>
+      <Container component="main" maxWidth="xl">
         <Toolbar disableGutters>
-        <NavLink to="/" variant="body2" style={{textDecoration:'none'}}>
-          <img width='100px' alt='' src='wordcyan.png'/>
+        <NavLink to="/" style={{textDecoration:'none'}}>
+        <div className={classes.logo}>
+            <img alt='' src='wandbluefav.png' width='45px' style={{paddingRight:'4px'}} />
+            <img alt='' src='wordcyan.png' width='110px' />
+          </div>
         </NavLink>
 
           <Box sx={{ flexGrow: 1, justifyContent:'right' ,display: { xs: 'flex', md: 'none' } }}>
@@ -88,6 +114,7 @@ const ResponsiveAppBar = () => {
                   key={page}
                   style={{color:'black'}}
                   onClick={handleCloseNavMenu}
+                  className={classes.navBtn}
                   sx={{ my: 2,mx:3, display: 'block' }}
                 >
                   {page}

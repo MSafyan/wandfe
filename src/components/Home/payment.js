@@ -22,18 +22,20 @@ import Card from './Card'
       }
     },
     bold:{
-      fontWeight:"bold"
+      fontWeight:"bold",
+      color:theme.palette.primary.dark,
     },
     heading2:{
-      paddingBottom:theme.spacing(6),
-      paddingTop:theme.spacing(2),
+      paddingBottom:theme.spacing(10),
+      paddingTop:theme.spacing(4),
+      color:theme.palette.primary.dark,
       [theme.breakpoints.down('xs')]: {
         paddingBottom:theme.spacing(4),
         paddingTop:theme.spacing(2),
       }
     },
     headingBlue:{
-      color:theme.palette.primary.main
+      color:theme.palette.primary.dark,
     },
     cardRoot:{
       minWidth: 275,
@@ -47,22 +49,22 @@ const Payment = () => {
     {
       heading:"Convert Estimates to Jobs",
       body:'Wipe down flat surfaces and hung surfaces, make bed if unmade.',
-      icon:<Work/>
+      icon:<Work style={{fill:'white'}}/>
     },
     {
       heading:"Offer recurring service agreements",
       body:'Surface wipe down, mirrors, toilet and shower cleaning. Booked as full or half.',
-      icon:<Work/>
+      icon:<Work style={{fill:'white'}}/>
     },
     {
       heading:"Take credit cards, debit",
       body:'Clean sink, counters and empty and load dishwasher if present.',
-      icon:<LocalAtm/>
+      icon:<LocalAtm style={{fill:'white'}}/>
     },
     {
       heading:"Sync with QuickBooks Online/Desktop",
       body:'Wipe down flat surfaces and hung surfaces, make bed if unmade.',
-      icon:<Sync/>
+      icon:<Sync style={{fill:'white'}}/>
     },
   ]
 
@@ -72,9 +74,9 @@ const Payment = () => {
         CLEANING
       </Typography>
       <Typography variant='h1' className={clsx(classes.bold,classes.heading2)}>
-        Home Cleaning Estimates, Invoices, & Payments
+        Home Cleaning Estimates,<br/> Invoices, & Payments
       </Typography>
-      <Grid container spacing={2}>
+      <Grid container spacing={10}>
       {
         cards.map((val,i)=>{
           return <Grid item md={4}><Card key={i} val={val}/></Grid>

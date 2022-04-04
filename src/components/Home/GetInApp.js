@@ -13,7 +13,8 @@ import clsx from 'clsx'
       }
     },
     content:{
-      paddingBottom:theme.spacing(6),
+      paddingBottom:theme.spacing(8),
+      color:theme.palette.primary.dark,
       [theme.breakpoints.down('sm')]: {
         paddingBottom:theme.spacing(3),
       }
@@ -25,15 +26,25 @@ import clsx from 'clsx'
     },
     imgContainer:{
       display:'flex',
-      alignItems:'center'
+      alignItems:'center',
+      // position:'absolute',
+      right:'1px',
+      top:'-10rem'
     },
     bold:{
       fontWeight:'bold',
-      paddingTop:theme.spacing(3)
+      paddingTop:theme.spacing(6),
+      color:theme.palette.primary.dark
     },
     headingBlue:{
       color:theme.palette.primary.main,
       display:'block'
+    },
+    mobileView:{
+      display:'none',
+      [theme.breakpoints.down('sm')]: {
+        display:'inline-block',
+      }
     },
   }));
   
@@ -45,7 +56,7 @@ const GetInApp = () => {
     <Container className={classes.mainContainer} component="main" maxWidth="xl">
       <Grid container>
         <Grid item xs={6}>
-          <Typography variant='h5' style={{fontWeight:'bold'}}>
+          <Typography variant='h5' className={classes.bold}>
             GET IN TOUCH
           </Typography >
           <Typography variant='h1' className={clsx(classes.content,classes.bold)}>
@@ -53,27 +64,18 @@ const GetInApp = () => {
             <span className={classes.headingBlue}> trust</span>
           </Typography>
           <Typography variant='h6' className={clsx(classes.content,classes.hide)}>
-            It’s never been this easy, until now. Finally a user-friendly way to find, and hire reputable cleaners in your area, all within our app. Connect with an experienced cleaner within minutes!
+            It’s never been this easy, until now. Finally a user-friendly way to find, and hire reputable cleaners in your area, all within our app. <br/> Connect with an experienced cleaner within minutes!
           </Typography>
-          <Typography variant='h2' className={classes.content}>
+          <Typography variant='h2' className={clsx(classes.content,classes.mobileView)}>
             It's never Been
           </Typography>
           <div style={{padding:'8px'}}>
-            <MobileStoreButton
-              store="ios"
-              width={'20vw'}
-              linkProps={{ title: 'iOS Store Button' }}
-            />
-
-            <MobileStoreButton
-              store="android"
-              width={'20vw'}
-              linkProps={{ title: 'Play Store Button' }}
-            />
+            <img src='store2.png' style={{paddingRight:'1rem'}}/>
+            <img src='store1.png'/>
           </div>
         </Grid>
         <Grid item xs={6} className={classes.imgContainer}>
-          <img style={{width:'45vw'}} alt='' src='pablo-cleaning-up.png'/>
+          <img style={{width:'40vw'}} alt='' src='mobile.png'/>
         </Grid>
       </Grid>
     </Container>

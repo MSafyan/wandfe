@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   gridWrapper:{
     display:'grid',
     gridTemplateAreas:`"heading heading confirmBtn" "cleanerInfo breakdown empty" "paymentInfo breakdown empty"`,
-    gridTemplateColumns:'5fr 4fr 3fr',
+    gridTemplateColumns:'5fr 4fr 4fr',
     gridTemplateRows:'0.6 1fr 1fr',
     gridColumnGap:theme.spacing(2),
     gridColumnRow:theme.spacing(2),
@@ -58,13 +58,18 @@ const useStyles = makeStyles((theme) => ({
     gridColumnGap:theme.spacing(2),
     gridRowGap:theme.spacing(3),
   },
+  breakHeading:{
+    paddingBottom:theme.spacing(4),
+  },
   flex:{
     display:'flex',
-    justifyContent:"space-between"
+    justifyContent:"space-between",
+    paddingBottom:theme.spacing(1)
   },
   flexComp:{
     display:"flex",
-    
+    justifyContent:'center',
+    alignItems:'center'
   },
   emailWrapper:{
     width:'70%'
@@ -78,20 +83,35 @@ const useStyles = makeStyles((theme) => ({
   },
   confirmBtn:{
     background:theme.palette.primary.lightDark,
-    width:'70%',
+    width:'60%',
     height:theme.spacing(7),
     padding:'0px',
     color:"white",
+    justifySelf:'right',
     paddingRight:theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
       width:'100%'
     }
+  },
+  dot:{
+    height: '8px',
+    width: '8px',
+    backgroundColor: 'black',
+    borderRadius: '50%',
+    display: 'inline-block',
+    marginRight:'1rem'
   },
   cleanerHeader:{
     paddingBottom:theme.spacing(2)
   },
   fontLight:{
     color:"#004A6B"
+  },
+  hide:{
+    background:'white'
+  },
+  nameCert:{
+    paddingLeft:theme.spacing(1)
   }
 }));
 
@@ -140,12 +160,14 @@ const CompanyInfo = ({BOOKING_PAYMENT,service,order,business,onBoarding}) => {
     {icon:<ReportProblemOutlinedIcon/>,
     category:`${order.type}`,
     price:`${pricer()}`},
-    {icon:<MoneyOutlinedIcon/>,
-    category:'hourly Rate',
-    price:`${service.ratePerHour}usd`},
+    {
+    //  icon:<MoneyOutlinedIcon/>,
+    // category:'hourly Rate',
+    // price:`${service.ratePerHour}usd`
+    },{},
     {icon:<MoneyOutlinedIcon/>,
     category:'total',
-    price:`${totalCal()}usd`},
+    price:`${totalCal().toFixed(2)}usd`},
   ]
 
   const paidBy={
@@ -223,25 +245,25 @@ const CompanyInfo = ({BOOKING_PAYMENT,service,order,business,onBoarding}) => {
                     <div className={classes.flex}>
                       <div className={classes.flexComp}>
                         <Avatar src={business.logo? business.logo.url:'employee.png'}/>
-                        <div>
+                        <div className={classes.nameCert}>
                           <Typography variant='h6' className={clsx(classes.bold,classes.justifyStart)}>
                             {business.cleaningService}
                           </Typography>
-                          <Typography variant='body2'>
+                          <Typography variant='body2' className={clsx(classes.justifyStart)}>
                             wand certified cleaner
                           </Typography>
                         </div>
                       </div>
-                      <div>
+                      <div style={{textAlign:'right',paddingTop:'1rem'}}>
                         <StarRatings
                           rating={5}
                           starRatedColor="black"
-                          starDimension="10px"
+                          starDimension="12px"
                           starSpacing="0px"
                           numberOfStars={5}
                           name='rating'
                         />
-                        <Typography variant='body2'>
+                        <Typography variant='body1'>
                           <span  className={classes.bold}>(45)</span>
                             {" reviews"}
                         </Typography>
@@ -263,13 +285,17 @@ const CompanyInfo = ({BOOKING_PAYMENT,service,order,business,onBoarding}) => {
                   </div>
 
                   <div style={{gridArea:"breakdown"}} className={classes.card}>
-                    <Typography variant='h6'>Breakdown</Typography>
+                    <Typography variant='h6' 
+                      className={clsx(classes.bold,classes.justifyStart,classes.breakHeading)}>
+                        Breakdown
+                    </Typography>
                     {breakdown.map((val,i)=>(<div key={i} className={classes.flex}>
                         <div className={classes.flexComp}>
+                        {val.category &&  <span className={clsx(classes.dot,val.category==='total' && classes.hide)}></span>}
                           {val.icon}
-                          <Typography variant='body2'>{val.category}</Typography>
+                          <Typography variant='body1' style={{paddingLeft:'0.5rem'}}>{val.category}</Typography>
                         </div>
-                        <Typography variant='body2'>
+                        <Typography variant='body1' >
                           {val.price}  
                         </Typography>
                       </div>))}

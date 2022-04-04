@@ -9,10 +9,9 @@ import {
 
 const useStyles = makeStyles((theme)=>({
   root: {
-    padding:theme.spacing(4),
+    padding:theme.spacing(5),
     background:theme.palette.primary.dark,
     color:'white',
-    height:'15rem',
     borderRadius:"1rem",
     position:'relative',
     overflow:'inherit',
@@ -22,17 +21,18 @@ const useStyles = makeStyles((theme)=>({
     }
   },
   title: {
-    fontSize: '1.2rem',
+    // fontSize: '1.7rem',
     paddingBottom:theme.spacing(2),
+    paddingTop:theme.spacing(2),
     fontWeight:'bold'
   },
   iconWrapper:{
     position:'absolute',
-    top:theme.spacing(-4),
+    top:theme.spacing(-6),
     background:theme.palette.primary.main,
-    border:"0.7rem solid white ",
+    border:"0.4rem solid white ",
     borderRadius:'50%',
-    padding:theme.spacing(1)
+    padding:theme.spacing(3)
   },
 }));
 
@@ -42,15 +42,15 @@ export default function SimpleCard({val}) {
   return (
     <Card className={classes.root}>
       <CardContent>
-        <Typography className={classes.title} variant='h5'>
+        <Typography className={classes.title} variant='h6'>
           {val.heading}
         </Typography>
-        <Typography variant="body1" component="h2">
+        <Typography variant="h6">
           {val.body}
         </Typography>
       </CardContent>
       <div className={classes.iconWrapper}>
-        <Payment />
+        {val.icon}
       </div>
     </Card>
   );

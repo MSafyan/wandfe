@@ -23,7 +23,7 @@ import clsx from 'clsx'
       }
     },
     content:{
-      paddingBottom:theme.spacing(6),
+      paddingBottom:theme.spacing(10),
       fontWeight:"normal",
       [theme.breakpoints.down('sm')]: {
         paddingBottom:theme.spacing(2),
@@ -38,6 +38,14 @@ import clsx from 'clsx'
       [theme.breakpoints.down('sm')]: {
         paddingTop:theme.spacing(1),
       }
+    },
+    dot:{
+      height: '12px',
+      width: '12px',
+      backgroundColor: 'white',
+      borderRadius: '50%',
+      display: 'inline-block',
+      marginRight:'1rem'
     },
     imgContainer:{
       width:'50vw',
@@ -59,7 +67,7 @@ const SuperEasy = () => {
           WHAT OUR HOME CLEANING PROS SAY
         </Typography >
         <Typography variant='h1' className={clsx(classes.content,classes.bold)}>
-          Super easy to use.
+          Super easy to<br/> use.
         </Typography>
         <Typography variant='h5' className={clsx(classes.content)}>
           After Wand cleaners my apartment always clean and fresh. Plus I know that with Wand cleaners my home is secure.
@@ -68,7 +76,8 @@ const SuperEasy = () => {
           James, Brooklyn, NY.
         </Typography>
         <Typography variant='h2' className={classes.author}>
-          {".  .   .   ."}
+          <span className={classes.dot}></span>
+          {"  .   .   ."}
         </Typography>
       </div>
       <div className={classes.imgContainer}>

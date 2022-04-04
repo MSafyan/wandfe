@@ -30,10 +30,13 @@ import CardOutlined from './CardOutlined'
     },
     bold:{
       fontWeight:"bold",
-      paddingBottom:theme.spacing(1)
+      paddingBottom:theme.spacing(1),
+      color:theme.palette.primary.dark,
     },
     heading2:{
-      paddingBottom:theme.spacing(6)
+      paddingBottom:theme.spacing(10),
+      paddingTop:theme.spacing(4),
+      color:theme.palette.primary.dark,
     },
     headingBlue:{
       color:theme.palette.primary.main,
@@ -89,7 +92,7 @@ const Payments = () => {
         {" Wand"}
       </span>
       </Typography>
-      <Grid container spacing={4}>
+      <Grid container spacing={10}>
       {/* <MobileView>
       <Slider {...settings}> */}
         {
