@@ -6,11 +6,11 @@ import SuperEasy from '../components/Home/SuperEasy'
 import Header from '../components/Home/Header'
 import Footer from '../components/Home/Footer';
 
-const Pricing = () => {
+const Pricing = ({history}) => {
 
   return (
     <div>
-      <Header/>
+      <Header history={history}/>
       <HeroSection/>
       <Plans/>
       <SuperEasy/>

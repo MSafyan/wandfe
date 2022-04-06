@@ -19,11 +19,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Dashboard() {
+function Dashboard({history}) {
   const classes = useStyles();
 
   return (<div className={classes.homepageContainer}>
-    <Header/>
+    <Header history={history}/>
     <HeroSection/>
     <HowWork/>
     <BluishOverlay/>

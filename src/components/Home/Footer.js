@@ -14,15 +14,35 @@ import { Typography,Grid, Container } from '@material-ui/core';
     },
     fontBold:{
       // fontSize:"1.1rem",
-      paddingBottom:theme.spacing(0.5)
+      paddingBottom:theme.spacing(0.5),
+      [theme.breakpoints.down('sm')]:{
+        fontSize:"0.3rem",
+        paddingBottom:theme.spacing(0.1),
+      }
     },
     subHeading:{
       paddingBottom:theme.spacing(2),
-      fontWeight:'bold'
+      fontWeight:'bold',
+      [theme.breakpoints.down('sm')]:{
+        fontSize:"0.3rem",
+        paddingBottom:theme.spacing(0.2),
+      }
     },
     copyright:{
-      textAlign:'center'
-    }
+      textAlign:'center',
+      [theme.breakpoints.down('sm')]:{
+        paddingBottom:theme.spacing(0.2),
+        display:"flex",
+        alignItems:"center"
+        
+      }
+    },
+    copyrightText:{
+      [theme.breakpoints.down('sm')]:{
+        fontSize:"0.3rem",
+        margin:"auto"
+      }
+    },
   }));
   
 
@@ -34,12 +54,12 @@ const Footer = () => {
       <Grid container spacing={2} className={classes.mainGrid}>
 
         {/* Logo */}
-        <Grid item md={6}  lg={3}>
+        <Grid item xs={3}>
           <img src='allblack.png' alt='' width='70%'/>
         </Grid>
 
         {/* Cleaner */}
-        <Grid item xs={12} md={6}  lg={3}>
+        <Grid item xs={3}>
           <Typography variant='h6' className={classes.subHeading}>
             Become a Cleaner
           </Typography>
@@ -55,7 +75,7 @@ const Footer = () => {
         </Grid>
 
         {/* Terms of Services */}
-        <Grid item md={6}  lg={3}>
+        <Grid item xs={3}>
         <Typography variant='h6' className={classes.subHeading}>
             Terms of Services
           </Typography>
@@ -71,7 +91,7 @@ const Footer = () => {
         </Grid>
         
         {/* Contact Us */}
-        <Grid item md={6}  lg={3}>
+        <Grid item xs={3}>
         <Typography variant='h6' className={classes.subHeading}>
             Become a Cleaner
           </Typography>
@@ -85,8 +105,8 @@ const Footer = () => {
             </div>
           </Typography>
         </Grid>
-        <Grid item sm={12} className={classes.copyright}>
-          <Typography variant='h6'>
+        <Grid item xs={12} className={classes.copyright}>
+          <Typography variant='h6' className={classes.copyrightText}>
             Copyright- All Rights Reserved by WAND USA Inc.
           </Typography>
         </Grid>

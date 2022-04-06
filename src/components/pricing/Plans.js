@@ -19,16 +19,21 @@ const useStyles = makeStyles((theme) => ({
   },
   bold:{
     fontWeight:"bold",
-    paddingBottom:theme.spacing(8),
-    [theme.breakpoints.down('xs')]: {
+    color:theme.palette.primary.dark,
+    paddingBottom:theme.spacing(6),
+    [theme.breakpoints.down('sm')]: {
       paddingBottom:theme.spacing(4),
     }
   },
+  onlyBold:{
+    fontWeight:"bold",
+  },
   Button:{
-    fontSize:'1.2rem',
-    width:'15rem',
-    marginBottom:'1rem',
-    color:"white"
+    width:'22rem',
+    height:'5rem',
+    fontSize:'1.8rem',
+    marginBottom:'3rem',
+    color:'white',
   },
   line:{
     borderTop:'2px white solid',
@@ -42,7 +47,8 @@ const useStyles = makeStyles((theme) => ({
   card:{
     background:theme.palette.primary.dark,
     color:'white',
-    padding:theme.spacing(3),
+    padding:theme.spacing(5),
+    paddingBottom:theme.spacing(8),
     borderRadius:theme.spacing(2),
     textAlign:'left'
   },
@@ -52,19 +58,47 @@ const useStyles = makeStyles((theme) => ({
   namePrice:{
     display:'flex',
     justifyContent:'space-between',
+    fontWeight:'bold',
     paddingTop:theme.spacing(2),
     paddingBottom:theme.spacing(4),
   },
   features:{
-    textAlign:'left'
+    textAlign:'left',
   },
   featureWrapper:{
-    display:'flex'
+    display:'flex',
+    paddingBottom:theme.spacing(1),
   },
   featuresText:{
     paddingBottom:theme.spacing(1),
     fontWeight:'bold',
     color:"white"
+  },
+  darkBlue:{
+    color:theme.palette.primary.dark,
+  },
+  popular:{
+    color:'white'
+  },
+  large:{
+    fontSize:theme.spacing(14),
+    textAlign:'left'
+  },
+  flex:{
+    display:'flex',
+    flexDirection:'column',
+  },
+  mobileView:{
+    display:'none',
+    [theme.breakpoints.down('sm')]: {
+      display:'inline-block',
+      
+    }
+  },
+  desktopView:{
+    [theme.breakpoints.down('sm')]: {
+      display:'none'
+    }
   }
 }))
 
@@ -119,10 +153,9 @@ const Plans = () => {
         {
           cards.map((val,i)=>{
             return <Grid item xs={12} md={4}>
-              <MobileView>
               {
                   i===0 && 
-                  <>
+                  <div className={classes.mobileView}>
                     <Typography variant='h1' className={classes.bold}>
                       Start Now Your 
                       <span className={classes.headingBlue}>
@@ -136,14 +169,12 @@ const Plans = () => {
                     >
                       LEARN MORE
                     </Button>
-                  </>
+                  </div>
                 }
-              </MobileView>
-              <BrowserView>
                 {
                   i===1 && 
-                  <>
-                    <Typography variant='h1' className={classes.bold}>
+                  <div className={clsx(classes.desktopView,classes.flex)}>
+                    <Typography variant='h1' className={clsx(classes.bold,classes.large)}>
                       Start Now Your 
                       <span className={classes.headingBlue}>
                         {" Plan"}
@@ -156,24 +187,23 @@ const Plans = () => {
                     >
                       LEARN MORE
                     </Button>
-                  </>
+                  </div>
                 }
-              </BrowserView>
                 
 
               <div className={clsx(classes.card,i===1 && classes.lightBg)}>
                 {
                   val.popular &&  
-                  <Typography variant='body2'>
+                  <Typography variant='h6' className={classes.popular}>
                     Most popular
                   </Typography>
                 }
                 <div>
                   <div className={classes.namePrice}>
-                    <Typography variant='h4'>
+                    <Typography variant='h4' className={classes.onlyBold}>
                       {val.name}
                     </Typography>
-                    <Typography variant='h4'>
+                    <Typography variant='h4'  className={classes.onlyBold}>
                       {val.price}
                     </Typography>
                   </div>
@@ -184,7 +214,7 @@ const Plans = () => {
                   {val.features.map((val,i)=>{
                       return <div className={classes.featureWrapper}>
                         <Done style={{marginRight:"1rem",fill:'white'}}/>
-                        <Typography className={classes.featuresText} key={i} variant='body2'>
+                        <Typography className={classes.featuresText} key={i} variant='h6'>
                           {val}
                         </Typography>
                       </div>

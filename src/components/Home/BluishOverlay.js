@@ -9,6 +9,7 @@ import clsx from 'clsx';
       color:'white',
       padding:theme.spacing(12),
       [theme.breakpoints.down('sm')]: {
+        paddingTop:theme.spacing(6),
         padding:theme.spacing(4),
       }
     },
@@ -18,16 +19,27 @@ import clsx from 'clsx';
     img:{
       padding:theme.spacing(12),
       [theme.breakpoints.down('sm')]: {
-      padding:theme.spacing(3),
+        display:'flex',
+        justifyContent:'center',
+        width:"100%",
+        padding:theme.spacing(0),
+        paddingBottom:theme.spacing(3),
       }
     },
     heading:{
       paddingBottom:theme.spacing(10),
-      fontWeight:'bold'
+      fontWeight:'bold',
+      [theme.breakpoints.down('sm')]: {
+        fontSize:"1rem",
+        paddingBottom:theme.spacing(3),
+      }
     },
     para:{
       // fontSize:'1.4rem'
-      fontWeight:'normal'
+      fontWeight:'normal',
+      [theme.breakpoints.down('sm')]: {
+        fontSize:"0.6rem"
+      }
     },
     Button:{
       width:'22rem',
@@ -36,7 +48,9 @@ import clsx from 'clsx';
       marginBottom:'1rem',
       color:'white',
       [theme.breakpoints.down('sm')]: {
-        width:theme.spacing(20),
+        width:theme.spacing(11),
+        height:theme.spacing(3),
+        fontSize:'.4rem',
         padding:theme.spacing(0.5)
       }
     },
@@ -55,7 +69,9 @@ const BluishOverlay = () => {
   return (
     <div className={classes.mainContainer}>
       <Container className={classes.innerContainer} component="main" maxWidth="xl">
-        <img src='WandWhite.png' alt='' width='40%' className={classes.img}/>
+        <div className={classes.img}>
+          <img src='WandWhite.png' alt='' width='110px'/>
+        </div>
         <Typography variant='h1' className={classes.heading}>
           You and Your Maid Service Deserve<br/> a Little Peace & Quiet
         </Typography>

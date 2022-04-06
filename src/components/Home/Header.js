@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-
+import clsx from 'clsx'
 import {
   Box,
   Toolbar,
@@ -22,7 +22,11 @@ const pages = ['Become a cleaner', 'Services', 'Products', 'FAQ'];
 const useStyles = makeStyles((theme) => ({
   appbar: {
     backgroundColor:theme.palette.primary.light,
-    padding:'3rem'
+    padding:'3rem',
+    boxShadow:'0px 0px white',
+    [theme.breakpoints.down('sm')]: {
+      padding:'0.3rem',
+    }
   },
   navBtn:{
     fontSize:'1.5rem',
@@ -33,11 +37,23 @@ const useStyles = makeStyles((theme) => ({
     width:theme.spacing(18),
     display:'flex',
     // padding:theme.spacing(3),
-    paddingBottom:'1.2vw'
+    paddingBottom:'1.2vw',
+    [theme.breakpoints.down('sm')]: {
+      width:'14vw',
+    }
+  },
+  icon:{
+    [theme.breakpoints.down('sm')]: {
+      width:'12px',
+      height:'12px'
+    }
+  },
+  pricingPage:{
+    background:'white',
   },
 }))
 
-const ResponsiveAppBar = () => {
+const ResponsiveAppBar = ({history}) => {
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   // const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -59,13 +75,13 @@ const ResponsiveAppBar = () => {
   // };
 
   return (
-    <AppBar className={classes.appbar} position="static" sx={{boxShadow:'none',color:'black'}}>
+    <AppBar className={clsx(classes.appbar,history.location.pathname==='/pricing' && classes.pricingPage)} position="static" sx={{boxShadow:'none',color:'black'}}>
       <Container component="main" maxWidth="xl">
         <Toolbar disableGutters>
         <NavLink to="/" style={{textDecoration:'none'}}>
         <div className={classes.logo}>
-            <img alt='' src='wandbluefav.png' width='45px' style={{paddingRight:'4px'}} />
-            <img alt='' src='wordcyan.png' width='110px' />
+            <img alt='' src='wandbluefav.png' width={'30%'} style={{paddingRight:'4px'}} />
+            <img alt='' src='wordcyan.png' width={'70%'} />
           </div>
         </NavLink>
 
@@ -78,7 +94,7 @@ const ResponsiveAppBar = () => {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <MenuIcon />
+              <MenuIcon className={classes.icon}/>
             </IconButton>
             <Menu
               id="menu-appbar"

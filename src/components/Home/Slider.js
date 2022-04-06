@@ -1,60 +1,80 @@
-// import "./App.css";
-import { useState } from "react";
-import './slider.css'
+import React, { Component } from "react";
 import Slider from "react-slick";
-// import astronaut from "astronaut.png";
-// import celebrating from "celebrating.png";
-// import taken from "taken.png";
-// import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
-import {
-  Done,
-  Facebook
-} from '@material-ui/icons';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { Button } from "@material-ui/core";
+import CardOutlined from './CardOutlined'
+import Card from './Card'
+import { Typography,Grid,Container} from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 
-const images = ['./astronaut.png', './celebrating.png', './taken.png'];
+const styles = theme => ({
+  cardWrapper: {
+    paddingTop:'3rem',
+    '& .slick-active':{
+      padding:"2rem"
+    },
+    [theme.breakpoints.down('xs')]: {
+      width:'40vw'
+    }
+  },
+});
 
-function App() {
-  const NextArrow = ({ onClick }) => {
+class PreviousNextMethods extends Component {
+  constructor(props) {
+    super(props);
+    this.next = this.next.bind(this);
+    this.previous = this.previous.bind(this);
+  }
+  next() {
+    this.slider.slickNext();
+  }
+  previous() {
+    this.slider.slickPrev();
+  }
+  render() {
+    const settings = {
+      infinite: true,
+      speed: 500,
+      slidesToShow: 2,
+      slidesToScroll: 1,
+    };
+
+    const { classes } = this.props;
+
     return (
-      <div className="arrow next" onClick={onClick}>
-        <Done />
-      </div>
-    );
-  };
-
-  const PrevArrow = ({ onClick }) => {
-    return (
-      <div className="arrow prev" onClick={onClick}>
-        <Facebook />
-      </div>
-    );
-  };
-
-  const [imageIndex, setImageIndex] = useState(0);
-
-  const settings = {
-    infinite: true,
-    lazyLoad: true,
-    speed: 300,
-    slidesToShow: 3,
-    centerMode: true,
-    centerPadding: 0,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-    beforeChange: (current, next) => setImageIndex(next),
-  };
-
-  return (
-    <div className="App">
-      <Slider {...settings}>
-        {images.map((img, idx) => (
-          <div className={idx === imageIndex ? "slide activeSlide" : "slide"}>
-            <img src={img} alt={img} />
+      <div style={{display:'grid',
+        gridTemplateAreas:`"cards buttons"`,
+        gridTemplateColumns:'4fr 1fr'}}>
+        <div style={{width:'90vw'}}>
+          {/* <Grid container spacing={10}> */}
+            <Slider ref={c => (this.slider = c)} {...settings}>
+              {this.props.cards.map((val,i)=>{
+                return <div className={classes.cardWrapper}>
+                  {this.props.outlined?
+                    <CardOutlined key={i} val={val}/>:
+                    <Card key={i} val={val}/>
+                    }
+                  </div>
+              })}
+            </Slider>
+          {/* </Grid> */}
+        </div>
+        <div  style={{ textAlign: "center",gridArea:'buttons',position:'relative',top:'-10%',right:'100%' }}>
+          <div style={{display:'flex'}}>
+            <Button className="arrow-btn prev"  onClick={this.previous}>
+              <ArrowBackIcon/>
+            </Button>
+            <Button className="button" onClick={this.next}>
+              <ArrowForwardIcon/>
+            </Button>
           </div>
-        ))}
-      </Slider>
-    </div>
-  );
+        </div>
+      </div>
+    );
+  }
 }
 
-export default App;
+export default withStyles(styles)(PreviousNextMethods);

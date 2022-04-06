@@ -12,7 +12,7 @@ import clsx from 'clsx'
       display:'flex',
       justifyContent:'space-between',
       [theme.breakpoints.down('sm')]:{
-        marginBottom:theme.spacing(4),
+        marginBottom:theme.spacing(2),
       }
     },
     contentWrapper:{
@@ -27,16 +27,26 @@ import clsx from 'clsx'
       fontWeight:"normal",
       [theme.breakpoints.down('sm')]: {
         paddingBottom:theme.spacing(2),
+        fontSize:'0.4rem'
       }
     },
     author:{
-      fontWeight:'bold'
+      fontWeight:'bold',
+      [theme.breakpoints.down('sm')]: {
+        fontSize:"0.6rem"
+      }
     },
     bold:{
       fontWeight:'bold',
       paddingTop:theme.spacing(3),
       [theme.breakpoints.down('sm')]: {
         paddingTop:theme.spacing(1),
+        fontSize:"0.5rem"
+      }
+    },
+    super:{
+      [theme.breakpoints.down('sm')]: {
+        fontSize:'1rem'
       }
     },
     dot:{
@@ -45,7 +55,12 @@ import clsx from 'clsx'
       backgroundColor: 'white',
       borderRadius: '50%',
       display: 'inline-block',
-      marginRight:'1rem'
+      marginRight:'1rem',
+      [theme.breakpoints.down('sm')]: {
+        height: '3px',
+        width: '3px',
+        marginRight:'.2rem',
+      }
     },
     imgContainer:{
       width:'50vw',
@@ -66,7 +81,7 @@ const SuperEasy = () => {
         <Typography variant='h5' className={classes.bold}>
           WHAT OUR HOME CLEANING PROS SAY
         </Typography >
-        <Typography variant='h1' className={clsx(classes.content,classes.bold)}>
+        <Typography variant='h1' className={clsx(classes.bold,classes.content,classes.super)}>
           Super easy to<br/> use.
         </Typography>
         <Typography variant='h5' className={clsx(classes.content)}>

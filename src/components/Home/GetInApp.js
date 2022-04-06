@@ -15,8 +15,10 @@ import clsx from 'clsx'
     content:{
       paddingBottom:theme.spacing(8),
       color:theme.palette.primary.dark,
+      fontWeight:'bold',
       [theme.breakpoints.down('sm')]: {
         paddingBottom:theme.spacing(3),
+        fontSize:"1rem"
       }
     },
     hide:{
@@ -34,16 +36,26 @@ import clsx from 'clsx'
     bold:{
       fontWeight:'bold',
       paddingTop:theme.spacing(6),
-      color:theme.palette.primary.dark
+      color:theme.palette.primary.dark,
+      [theme.breakpoints.down('sm')]: {
+        paddingTop:theme.spacing(0),
+        fontSize:"0.4rem"
+      }
     },
     headingBlue:{
       color:theme.palette.primary.main,
       display:'block'
     },
+    store:{
+      [theme.breakpoints.down('sm')]: {
+        width:"4.3rem"
+      }
+    },
     mobileView:{
       display:'none',
       [theme.breakpoints.down('sm')]: {
         display:'inline-block',
+        fontSize:'1.5rem'
       }
     },
   }));
@@ -59,7 +71,7 @@ const GetInApp = () => {
           <Typography variant='h5' className={classes.bold}>
             GET IN TOUCH
           </Typography >
-          <Typography variant='h1' className={clsx(classes.content,classes.bold)}>
+          <Typography variant='h1' className={clsx(classes.content)}>
             Let us earn your
             <span className={classes.headingBlue}> trust</span>
           </Typography>
@@ -69,9 +81,9 @@ const GetInApp = () => {
           <Typography variant='h2' className={clsx(classes.content,classes.mobileView)}>
             It's never Been
           </Typography>
-          <div style={{padding:'8px'}}>
-            <img src='store2.png' style={{paddingRight:'1rem'}}/>
-            <img src='store1.png'/>
+          <div style={{padding:'8px',paddingLeft:'0px'}}>
+            <img src='store2.png' style={{marginRight:'1rem'}} className={classes.store}/>
+            <img src='store1.png' className={classes.store}/>
           </div>
         </Grid>
         <Grid item xs={6} className={classes.imgContainer}>

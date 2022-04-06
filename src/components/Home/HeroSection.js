@@ -23,9 +23,12 @@ const useStyles = makeStyles((theme) => ({
     gridTemplateColumns:'6fr 5fr',
     justifyContent:'space-between',
     [theme.breakpoints.down('sm')]: {
-    marginBottom:theme.spacing(2),
-    paddingTop:theme.spacing(2),
-    paddingBottom:theme.spacing(2),
+      display:'grid',
+      gridTemplateAreas:"hero",
+      gridTemplateColumns:'6fr 0fr',
+      marginBottom:theme.spacing(2),
+      paddingTop:theme.spacing(2),
+      paddingBottom:theme.spacing(2),
     }
   },
   container:{
@@ -46,6 +49,9 @@ const useStyles = makeStyles((theme) => ({
     fontWeight:'bold',
     paddingBottom:theme.spacing(4),
     color:theme.palette.primary.lightDark,
+    [theme.breakpoints.down('sm')]: {
+      fontSize:'1.2rem',
+    }
   },
   headingBlue:{
     color:theme.palette.primary.main
@@ -73,8 +79,10 @@ const useStyles = makeStyles((theme) => ({
     color:'white',
     fontSize:'1.8rem',
     [theme.breakpoints.down('sm')]: {
-      width:theme.spacing(20),
-      padding:theme.spacing(0.5)
+      width:'7rem',
+      marginBottom:'1rem',
+      color:'white',
+      fontSize:'0.5rem',
     }
   },
   icons:{
@@ -88,13 +96,20 @@ const useStyles = makeStyles((theme) => ({
     marginRight:'1rem',
     width:"1.5rem",
     height:"1.5rem",
+    [theme.breakpoints.down('sm')]: {
+      marginRight:'0.7rem',
+      width:"1rem",
+      height:"1rem",
+    }
   },
   borderNull:{
     border:'0px',
     color:'black',
     fontWeight:'bold',
-    fontSize:'1.5rem'
-    // width:'70%'
+    fontSize:'1.5rem',
+    [theme.breakpoints.down('sm')]: {
+      fontSize:'0.5rem',
+    }
   },
   imgContainer:{
     minWidth:"500px",

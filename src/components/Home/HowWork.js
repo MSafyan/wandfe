@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+
 import clsx from 'clsx';
 // import Slider from "react-slick";
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,13 +10,7 @@ import {
   ThumbUpAlt,
   Build
 } from '@material-ui/icons';
-// import { MobileView} from 'react-device-detect';
-// import Carousel from 'react-material-ui-carousel';
-// import Carousel from "react-simply-carousel";
-// import {
-//   Done,
-//   Facebook
-// } from '@material-ui/icons';
+import Sliders from './Slider';
 
 import CardOutlined from './CardOutlined'
 
@@ -24,19 +19,28 @@ import CardOutlined from './CardOutlined'
       paddingTop:theme.spacing(1),
       paddingBottom:theme.spacing(8),
       textAlign:'left',
-      [theme.breakpoints.down('xs')]: {
-        paddingTop:theme.spacing(2)
+      [theme.breakpoints.down('sm')]: {
+        paddingTop:theme.spacing(2),
+        paddingBottom:theme.spacing(2),
       }
     },
     bold:{
       fontWeight:"bold",
       paddingBottom:theme.spacing(1),
       color:theme.palette.primary.dark,
+      [theme.breakpoints.down('sm')]: {
+        fontSize:'0.7rem',
+      }
     },
     heading2:{
       paddingBottom:theme.spacing(10),
       paddingTop:theme.spacing(4),
       color:theme.palette.primary.dark,
+      [theme.breakpoints.down('sm')]: {
+        fontSize:'1.5rem',
+        paddingBottom:theme.spacing(0),
+        paddingTop:theme.spacing(1),
+      }
     },
     headingBlue:{
       color:theme.palette.primary.main,
@@ -44,42 +48,52 @@ import CardOutlined from './CardOutlined'
     },
     cardRoot:{
       minWidth: 275,
+    },
+    icon:{
+      fill:'white',
+      [theme.breakpoints.down('sm')]: {
+        width:"0.6rem"
+      }
+    },
+    mobileView:{
+      display:'none',
+      [theme.breakpoints.down('sm')]: {
+        display:'inline-block',
+        
+      }
+    },
+    desktopView:{
+      [theme.breakpoints.down('sm')]: {
+        display:'none'
+      }
     }
   }));
 
 const Payments = () => {
   const classes = useStyles();
-  // const [activeSlide, setActiveSlide] = useState(0);
 
   const cards=[
     {
       heading:"Easily find new Cleaning Job",
       body:'Easily view all of your local cleaners ready for for a one time job, or recurring visits.',
-      icon:<Payment style={{fill:'white'}}/>
+      icon:<Payment  className={classes.icon}/>
     },
     {
       heading:"notify & dispatch cleaning crews in real time",
       body:'Securely book & pay right inside of the app',
-      icon:<Beenhere style={{fill:'white'}}/>
+      icon:<Beenhere className={classes.icon}/>
     },
     {
       heading:"Manage time, location, and other job details",
       body:'In app reviews let you know exactly who you are working with',
-      icon:<ThumbUpAlt style={{fill:'white'}}/>
+      icon:<ThumbUpAlt className={classes.icon}/>
     },
     {
       heading:"Look up job & customer history on any device",
       body:'Anytime you need anything, give our 24/7 customer support a call',
-      icon:<Build style={{fill:'white'}}/>
+      icon:<Build className={classes.icon}/>
     }
   ]
-  // const settings = {
-  //   dots: true,
-  //   infinite: true,
-  //   speed: 500,
-  //   slidesToShow: 1,
-  //   slidesToScroll: 1
-  // };
 
   return (
     <Container className={classes.mainContainer} component="main" maxWidth="xl">
@@ -92,18 +106,16 @@ const Payments = () => {
         {" Wand"}
       </span>
       </Typography>
-      <Grid container spacing={10}>
-      {/* <MobileView>
-      <Slider {...settings}> */}
-        {
-          cards.map((val,i)=>{
-            return <Grid item md={4}><CardOutlined key={i} val={val}/></Grid>
-          })
-        }
-        {/* </Slider>
-      </MobileView> */}
-
-      </Grid>
+      <div className={classes.desktopView}>
+        <Grid container>
+          {
+            cards.map((val,i)=>{
+              return <Grid item md={4}><CardOutlined key={i} val={val}/></Grid>
+            })
+          }
+        </Grid>
+      </div>
+      <div className={classes.mobileView}><Sliders outlined cards={cards}/></div>
     </Container>
   )
 }

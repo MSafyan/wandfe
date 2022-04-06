@@ -4,16 +4,19 @@ import { Typography,Container } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   outer:{
-    background:theme.palette.primary.light,
-  },
-  mainContainer:{
-  background:theme.palette.primary.light,
-    textAlign:'center',
     padding:theme.spacing(6),
     paddingTop:theme.spacing(12),
     paddingBottom:theme.spacing(12),
     [theme.breakpoints.down('sm')]: {
       padding:theme.spacing(4),
+    }
+  },
+  mainContainer:{
+  background:theme.palette.primary.light,
+  paddingTop:theme.spacing(12),
+  paddingBottom:theme.spacing(12),
+    textAlign:'center',
+    [theme.breakpoints.down('sm')]: {
     }
   },
   line:{
@@ -28,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
   bold:{
     fontWeight:"bold",
+    color:theme.palette.primary.dark,
     paddingBottom:theme.spacing(8),
     [theme.breakpoints.down('sm')]: {
       padding:theme.spacing(4),
@@ -36,7 +40,9 @@ const useStyles = makeStyles((theme) => ({
   headingBlue:{
     color:theme.palette.primary.main,
   },
-
+  darkBlue:{
+    color:theme.palette.primary.dark,
+  }
 }))
 
 
@@ -48,12 +54,12 @@ const HeroSection = () => {
       <Container className={classes.mainContainer} component="main" maxWidth="xl">
         <div className={classes.line}></div>
           <Typography variant='h1' className={classes.bold}>
-            Running your maid service smoothly doesn't have to cost a 
+            Running your maid service smoothly<br/> doesn't have to cost a 
             <span className={classes.headingBlue}>
               {" fortune"}
             </span>
           </Typography>
-        <Typography variant='h5'>
+        <Typography variant='h5' className={classes.darkBlue}>
           DISCOVER HOW YOU CAN CLEAN MORE HOMES AND 
           <div>
             MAKE MORE MONEY THAN EVER BEFORE

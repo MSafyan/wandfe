@@ -39,6 +39,18 @@ import Card from './Card'
     },
     cardRoot:{
       minWidth: 275,
+    },
+    mobileView:{
+      display:'none',
+      [theme.breakpoints.down('sm')]: {
+        display:'inline-block',
+        
+      }
+    },
+    desktopView:{
+      [theme.breakpoints.down('sm')]: {
+        display:'none'
+      }
     }
   }));
 
@@ -49,22 +61,22 @@ const Payment = () => {
     {
       heading:"Convert Estimates to Jobs",
       body:'Wipe down flat surfaces and hung surfaces, make bed if unmade.',
-      icon:<Work style={{fill:'white'}}/>
+      icon:<Work className={classes.icon}/>
     },
     {
       heading:"Offer recurring service agreements",
       body:'Surface wipe down, mirrors, toilet and shower cleaning. Booked as full or half.',
-      icon:<Work style={{fill:'white'}}/>
+      icon:<Work  className={classes.icon}/>
     },
     {
       heading:"Take credit cards, debit",
       body:'Clean sink, counters and empty and load dishwasher if present.',
-      icon:<LocalAtm style={{fill:'white'}}/>
+      icon:<LocalAtm  className={classes.icon}/>
     },
     {
       heading:"Sync with QuickBooks Online/Desktop",
       body:'Wipe down flat surfaces and hung surfaces, make bed if unmade.',
-      icon:<Sync style={{fill:'white'}}/>
+      icon:<Sync  className={classes.icon}/>
     },
   ]
 
@@ -76,14 +88,16 @@ const Payment = () => {
       <Typography variant='h1' className={clsx(classes.bold,classes.heading2)}>
         Home Cleaning Estimates,<br/> Invoices, & Payments
       </Typography>
-      <Grid container spacing={10}>
-      {
-        cards.map((val,i)=>{
-          return <Grid item md={4}><Card key={i} val={val}/></Grid>
-        })
-      }
-
-      </Grid>
+      <div className={classes.desktopView}>
+        <Grid container>
+        {
+          cards.map((val,i)=>{
+            return <Grid item md={4}><Card key={i} val={val}/></Grid>
+          })
+        }
+        </Grid>
+      </div>
+      <div className={classes.mobileView}><Sliders cards={cards}/></div>
     </Container>
   )
 }
