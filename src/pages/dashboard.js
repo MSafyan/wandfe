@@ -4,10 +4,8 @@ import {
 	Typography,
 	Checkbox,
   FormControlLabel,
-	Select,
 	MenuItem,
 	FormControl ,
-	InputLabel ,
 	TextField,
 	CircularProgress
 } from '@material-ui/core';
@@ -15,6 +13,9 @@ import clsx from 'clsx';
 import moment from 'moment';
 import Layout from '../components/layout/Index';
 import Revenue from '../components/dashboard/revenue'
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import ClearIcon from '@material-ui/icons/Clear';
 
 import { connect } from "react-redux";
 import { FETCH_APPOINTLIST,FETCH_STATS,ORDER_FEATURED,TOGGLE_ORDER_STATUS } from "../actions/orderAction";
@@ -63,28 +64,56 @@ const useStyles = makeStyles((theme) => ({
 		}
 	},
 	card:{
-		padding:`${theme.spacing(4)}px ${theme.spacing(3)}px`,
+		padding:`${theme.spacing(3)}px ${theme.spacing(2)}px`,
 		marginTop:theme.spacing(3),
 		borderRadius:theme.spacing(2),
 		background:'white',
 		gridColumnGap:theme.spacing(2),
 		gridRowGap:theme.spacing(3),
+		[theme.breakpoints.down('sm')]: {
+			marginTop:theme.spacing(1),
+		}
 	},
 	chart:{
 		textAlign:'left',
 		height:'100%'
 	},
+	cardChip:{
+		background:theme.palette.primary.light,
+		fontSize:"1.1rem",
+		marginLeft:'2rem',
+		borderRadius:'1rem',
+		padding:'1rem',
+		color:theme.palette.primary.main
+	},
+	icon:{
+		fill:theme.palette.primary.main
+	},
+	moneyIcon:{
+		fontSize:'3rem',
+		fill:theme.palette.primary.main
+	},
 	cardHeading:{
 		fontSize:"18px",
-		fontWeight:'bold'
+		fontWeight:'bold',
+		color:theme.palette.primary.lightDark
 	},
 	statHead:{
 		color:theme.palette.primary.lightDark,
-		fontSize:theme.spacing(2.1)
+		fontSize:theme.spacing(2.1),
+		[theme.breakpoints.down('sm')]: {
+			textAlign:'left'
+		}
 	},
 	statVal:{
 		fontSize:theme.spacing(6),
-		fontWeight:'bold'
+		fontWeight:'bold',
+		display:'flex',
+		justifyContent:'center',
+		alignItems:'center',
+		[theme.breakpoints.down('sm')]: {
+			justifyContent:'left',
+		}
 	},
 	itemBoldVal:{
 		fontWeight:"bold",
@@ -94,7 +123,19 @@ const useStyles = makeStyles((theme) => ({
 	header:{
 		textAlign:'Start',
 		paddingBottom:theme.spacing(1),
-		fontWeight:"bold"
+		color:theme.palette.primary.lightDark,
+		fontWeight:"bold",
+		[theme.breakpoints.down('sm')]:{
+			fontSize:'1.3rem',
+			'& h1':{
+				fontSize:'2.3rem'
+			}
+		}
+	},
+	name:{
+		[theme.breakpoints.down('sm')]:{
+			fontSize:'2.3rem'
+		}
 	},
 	select:{
     "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
@@ -110,10 +151,16 @@ const useStyles = makeStyles((theme) => ({
 		gridTemplateColumns:'1fr 0.8fr 1.2fr',
 		gridTemplateAreas:`
 		"name time action"`,
+		boxShadow:'rgba(149, 157, 165, 0.2) 0px 8px 24px'
 	},
 	justifyStart:{
-		justifySelf:'start'
+		textAlign:'left'
 	},
+	delete:{
+		display:'flex',
+		alignItems:'center',
+		marginRight:"1rem"
+	}
 }));
 
 
@@ -171,9 +218,9 @@ const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,F
 			{type!=='customer' &&
 			<div className={classes.formWrapper}>
 				<div style={{gridArea:"heading"}}>
-					<Typography variant='h4' className={classes.header}>			Welcome Back
+					<Typography variant='h4' className={classes.header}>	Welcome Back
 					</Typography>
-					<Typography variant='h1' className={classes.header}>			
+					<Typography variant='h1' className={clsx(classes.header,classes.name)}>			
 						{firstName}
 					</Typography>
 				</div>
@@ -183,7 +230,10 @@ const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,F
 							Total Bookings
 						</Typography>
 						<Typography variant='h5' className={classes.statVal}>
-							{stats?.totalBookings}
+							{stats?.totalBookings} 
+							<span className={classes.cardChip}>
+								25% <ArrowUpwardIcon className={classes.icon}/>
+							</span>
 						</Typography>
 					</div>
 					<div style={{gridArea:'stat2'}}>
@@ -191,7 +241,7 @@ const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,F
 							Forecast Revenue
 						</Typography>
 						<Typography variant='h5' className={classes.statVal}>
-							{stats?.forcastRevenue.toFixed(2)}
+							<AttachMoneyIcon className={classes.moneyIcon}/>	{stats?.forcastRevenue.toFixed(2)}
 						</Typography>
 					</div>
 					<div style={{gridArea:'stat3'}}>
@@ -281,28 +331,32 @@ const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,F
 							appointmentList.map((val,i)=>{
 								return <div key={i} className={classes.item}>
 									<div style={{gridArea:"name"}}>
-										<Typography variant='h6'>
+										<Typography variant='body1'>
 											{val.customer.firstName}
 										</Typography>
 										<Typography variant='body2'>
 											{val.customer.companyName}
 										</Typography>
 									</div>
-									<Typography variant='h6' style={{gridArea:"time"}} className={classes.cardHeading}>
+									<Typography variant='body1' style={{gridArea:"time"}} className={classes.cardHeading}>
 										{val.time.substring(0,5)}
 									</Typography>
 									{
 										val.status==='ACTIVE' && 
-										<FormControlLabel
-											style={{gridArea:"action"}}
-											checked={val.status==="COMPLETED"}
-											onChange={() =>{
-												TOGGLE_ORDER_STATUS(val)
-												FETCH_APPOINTLIST(select)
-											} }
-											control={<Checkbox />}
-											label="mark as done"
-										/>
+										<div style={{gridArea:"action",display:'flex'}}>
+											<Typography variant='subtitle2' className={classes.delete}>
+												<ClearIcon/> Delete
+											</Typography>
+											<FormControlLabel
+												checked={val.status==="COMPLETED"}
+												onChange={() =>{
+													TOGGLE_ORDER_STATUS(val)
+													FETCH_APPOINTLIST(select)
+												} }
+												control={<Checkbox />}
+												label="mark as done"
+											/>
+										</div>
 									}
 									{
 										val.status==='COMPLETED' && 

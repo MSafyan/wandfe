@@ -42,15 +42,22 @@ const useStyles = makeStyles(theme => ({
 		padding:`${theme.spacing(1)}px`,
 		borderRadius:'50%',
 		textAlign:'center',
-		fontWeight:'bold'
+		fontWeight:'bold',
+		[theme.breakpoints.down('sm')]: {
+      marginTop:"1.5rem",
+			borderRadius:'20%',
+    }
 	},
 	line:{
     borderTop:'2px red solid',
-    borderTopColor:theme.palette.primary.main,
-    width:'5rem',
+    borderTopColor:theme.palette.primary.lightDark,
+    // width:'5rem',
     margin:'auto',
     padding:theme.spacing(2),
   },
+	justifyStart:{
+		textAlign:'left'
+	},
 	mobileView:{
     display:'none',
     [theme.breakpoints.down('sm')]: {
@@ -90,8 +97,8 @@ function ORDER_List({type, ORDER_LIST,history,loading,orderList}) {
 							orderList.map((item,i)=>{
 								return <div key={i} className={classes.itemWrapper}>
 									<div className={classes.flex}>
-										<div>
-											<Typography variant='body1' className={classes.bold}>
+										<div className={classes.justifyStart}>
+											<Typography variant='body1' className={clsx(classes.bold)}>
 												{item.instructions.substring(0, 30)}
 											</Typography>
 											{item.address}
@@ -106,11 +113,11 @@ function ORDER_List({type, ORDER_LIST,history,loading,orderList}) {
 										</Typography>
 										<Typography variant='body1' className={classes.bold}>
 											{item.date}  <br/>
-											{item.duration}
+											{item.duration}  Minutes
 										</Typography>
 										<Typography variant='body2' className={classes.bold}>
 											{item.cleaner? `${item.cleaner.firstName}` : 'No cleaner Assigned'} <br/>
-											{item.amount}
+											$ {item.amount.toFixed(2)}
 										</Typography>
 									</div>
 									<div className={clsx(classes.flex,classes.line)}></div>

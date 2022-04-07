@@ -60,6 +60,36 @@ const useStyles = makeStyles((theme) => ({
     width:'15rem',
     marginBottom:'1rem'
   },
+  Button:{
+    width:'18rem',
+    marginBottom:'1rem',
+    color:'white',
+    fontSize:'1.8rem',
+    [theme.breakpoints.down('sm')]: {
+      width:'7rem',
+      marginBottom:'1rem',
+      color:'white',
+      fontSize:'0.5rem',
+    }
+  },
+  field:{
+    
+    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline':{
+      border: "none",
+      boxShadow: 'rgba(149, 157, 165, 0.2) 0px 4px 8px',
+      height:"6rem"
+    },
+    '& .MuiInputLabel-outlined':{
+      fontSize:'1.5rem',
+      marginTop:"1rem"
+    },
+    '& .MuiInputBase-input':{
+      height:"4rem"
+    },
+    '& .MuiOutlinedInput-input':{
+      fontSize:'1.5rem'
+    }
+  },
   backgroundBox:{
     background:'#F2FCFC',
     width:'50%',
@@ -86,7 +116,7 @@ function SignIn({isAuthenticated,loading,history, SIGN_IN}) {
   }, [isAuthenticated]);
 
   return (
-    <AuthWrapper>
+    <AuthWrapper title="Glad to see you again!">
               <Formik
                 validationSchema={
                   object({
@@ -104,15 +134,15 @@ function SignIn({isAuthenticated,loading,history, SIGN_IN}) {
                 {({ isSubmitting, isValidating }) => (
                   <Form className={classes.form}>
 
-                    <Box marginBottom={2}>
+                    <Box marginBottom={4}>
                       <FormGroup>
-                        <Field name="identifier" as={TextField} label="Your Email Address" variant='outlined' />
+                        <Field name="identifier" as={TextField} label="Your Email Address" variant='outlined' className={classes.field}/>
                         <ErrorMessage component='div' style={{color:"red"}} name="identifier" />
                       </FormGroup>
                     </Box>
-                    <Box marginBottom={2}>
+                    <Box marginBottom={4}>
                       <FormGroup>
-                        <Field name="password" type="password" as={TextField} label="Your password" variant='outlined' />
+                        <Field name="password" type="password" as={TextField} label="Your password" variant='outlined' className={classes.field}/>
                         <ErrorMessage component='div' style={{color:"red"}} name="password" />
                       </FormGroup>
                     </Box>
@@ -122,29 +152,29 @@ function SignIn({isAuthenticated,loading,history, SIGN_IN}) {
                       type="submit"
                       variant="contained"
                       color="primary"
-                      className={classes.submitButton}
+                      className={classes.Button}
                       startIcon={
                         loading ? (
                           <CircularProgress size="1rem" />
                         ) : undefined
                       }
                     >
-                      {loading ? 'Submitting' : 'Log In'}
+                      {loading ? 'Submitting' : 'Sign Up'}
                     </Button>
                     <Grid container>
                       <Grid item xs>
-                        <Link href="/forgot" variant="body2">
+                        <Link href="/forgot" variant="h6">
                           {"Forgot  "}
                         </Link>
-                        <Typography component="span" variant="body2" >
+                        <Typography component="span" variant="h6" >
                           Password?
                         </Typography>
                       </Grid>
                       <Grid item>
-                        <Typography component="span" variant="body2">
+                        <Typography component="span" variant="h6">
                           Don't have an account yet?
                         </Typography>
-                        <Link href="/register" variant="body2" style={{}}>
+                        <Link href="/register" variant="h6" style={{}}>
                           {"  Sign Up"}
                         </Link>
                       </Grid>

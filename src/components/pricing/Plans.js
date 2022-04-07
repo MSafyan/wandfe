@@ -2,17 +2,20 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography,Button,Container,Grid } from '@material-ui/core';
 import clsx from 'clsx';
-import {BrowserView,MobileView} from 'react-device-detect';
 
 import {
   Done,
   // Facebook
 } from '@material-ui/icons';
+import PricingSlider from './PricingSlider';
 // import Carousel from 'react-material-ui-carousel'
 
 const useStyles = makeStyles((theme) => ({
   mainContainer:{
-    padding:theme.spacing(6)
+    padding:theme.spacing(6),
+    [theme.breakpoints.down('sm')]: {
+      padding:theme.spacing(1),
+    }
   },
   headingBlue:{
     color:theme.palette.primary.main,
@@ -22,7 +25,8 @@ const useStyles = makeStyles((theme) => ({
     color:theme.palette.primary.dark,
     paddingBottom:theme.spacing(6),
     [theme.breakpoints.down('sm')]: {
-      paddingBottom:theme.spacing(4),
+      paddingBottom:theme.spacing(3),
+      fontSize:"1rem"
     }
   },
   onlyBold:{
@@ -34,6 +38,12 @@ const useStyles = makeStyles((theme) => ({
     fontSize:'1.8rem',
     marginBottom:'3rem',
     color:'white',
+    [theme.breakpoints.down('sm')]: {
+      width:"7rem",
+      height:'1.7rem',
+      fontSize:'0.6rem',
+      marginBottom:'2rem',
+    }
   },
   line:{
     borderTop:'2px white solid',
@@ -102,45 +112,46 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-var cards = [
-  {
-    name:'Essentials',price:'$85',popular:true,
-    features:[
-      'All Basic features',
-      'QuickBooks integration',
-      'Visual price book',
-      'Flat rate pricing',
-      'Custom checklists',
-      'Property profiles',
-      'Premium review management',
-      'Employee GPS tracking',
-      'Employee time tracking',
-      'In-app employee chat',
-      'Custom local phone number',
-      'Customizable text notifications'
-    ]
-  },
-  {
-    name:'Basic',price:'$65',
-    features:[
-      'All Basic features',
-      'QuickBooks integration',
-      'Visual price book',
-      'Flat rate pricing',
-      'Custom checklists'
-    ]
-  },
-  {
-    name:'Max',price:'$125',
-    features:[
-      'All Basic features',
-      'QuickBooks integration',
-      'Visual price book',
-      'Flat rate pricing',
-      'Custom checklists',
-    ]
-  },
-] 
+var obj1=  {
+  name:'Essentials',price:'$85',popular:true,
+  features:[
+    'All Basic features',
+    'QuickBooks integration',
+    'Visual price book',
+    'Flat rate pricing',
+    'Custom checklists',
+    'Property profiles',
+    'Premium review management',
+    'Employee GPS tracking',
+    'Employee time tracking',
+    'In-app employee chat',
+    'Custom local phone number',
+    'Customizable text notifications'
+  ]
+}
+var obj2={
+  name:'Basic',price:'$65',
+  features:[
+    'All Basic features',
+    'QuickBooks integration',
+    'Visual price book',
+    'Flat rate pricing',
+    'Custom checklists'
+  ]
+}
+var obj3={
+  name:'Max',price:'$125',
+  features:[
+    'All Basic features',
+    'QuickBooks integration',
+    'Visual price book',
+    'Flat rate pricing',
+    'Custom checklists',
+  ]
+}
+
+var cards = [obj1,obj2,obj3];
+var mobile=[obj2,obj1,obj3];
 
 
 const Plans = () => {
@@ -148,29 +159,10 @@ const Plans = () => {
 
   return (
     <Container className={classes.mainContainer} component="main" maxWidth="xl">
-      <Grid container spacing={3} className={classes.cardWrapper}>
-      {/* <BrowserView> */}
+      <Grid container spacing={3} className={clsx(classes.cardWrapper,classes.desktopView)}>
         {
           cards.map((val,i)=>{
             return <Grid item xs={12} md={4}>
-              {
-                  i===0 && 
-                  <div className={classes.mobileView}>
-                    <Typography variant='h1' className={classes.bold}>
-                      Start Now Your 
-                      <span className={classes.headingBlue}>
-                        {" Plan"}
-                      </span>
-                    </Typography>
-                    <Button
-                      className={classes.Button}
-                      variant="contained"
-                      color="primary"
-                    >
-                      LEARN MORE
-                    </Button>
-                  </div>
-                }
                 {
                   i===1 && 
                   <div className={clsx(classes.desktopView,classes.flex)}>
@@ -189,8 +181,6 @@ const Plans = () => {
                     </Button>
                   </div>
                 }
-                
-
               <div className={clsx(classes.card,i===1 && classes.lightBg)}>
                 {
                   val.popular &&  
@@ -225,22 +215,32 @@ const Plans = () => {
             </Grid>
           })
         }
-      {/* </BrowserView> */}
       </Grid>
-      {/* <MobileView>
-        <Carousel
-          NextIcon='next'
-          PrevIcon='prev'
-          IndicatorIcon={<Facebook/>}
-        >
-          {
-            items.map( (item, i) => <Typography variant='h6' key={i}> {item.name}</Typography> )
-          }
-        </Carousel>
-      </MobileView> */}
+      <div className={classes.mobileView}>
+        <PricingSlider cards={mobile}/>
+      </div>
 
     </Container>
   )
 }
 
 export default Plans
+
+// {
+//   i===0 && 
+//   <div className={classes.mobileView}>
+//     <Typography variant='h1' className={classes.bold}>
+//       Start Now Your 
+//       <span className={classes.headingBlue}>
+//         {" Plan"}
+//       </span>
+//     </Typography>
+//     <Button
+//       className={classes.Button}
+//       variant="contained"
+//       color="primary"
+//     >
+//       LEARN MORE
+//     </Button>
+//   </div>
+// }

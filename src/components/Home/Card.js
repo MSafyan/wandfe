@@ -10,29 +10,46 @@ import {
 const useStyles = makeStyles((theme)=>({
   root: {
     padding:theme.spacing(5),
+    padding:theme.spacing(5),
     background:theme.palette.primary.dark,
-    color:'white',
     borderRadius:"1rem",
     position:'relative',
     overflow:'inherit',
-    [theme.breakpoints.down('sm')]: {
-      padding:theme.spacing(2),
-      height:'none',
+    color:'white',
+    [theme.breakpoints.down('sm')]:{
+      padding:theme.spacing(0),
+      margin:theme.spacing(2),
+      '& .MuiCardContent-root':{
+        padding:theme.spacing(1),
+        paddingTop:theme.spacing(2),
+      }
     }
   },
   title: {
     // fontSize: '1.7rem',
     paddingBottom:theme.spacing(2),
-    paddingTop:theme.spacing(2),
-    fontWeight:'bold'
+    fontWeight:'bold',
+    [theme.breakpoints.down('sm')]:{
+      paddingBottom:theme.spacing(0.3),
+    }
+  },
+  body:{
+    [theme.breakpoints.down('sm')]:{
+      fontSize:"0.6rem"
+    }
   },
   iconWrapper:{
     position:'absolute',
     top:theme.spacing(-6),
     background:theme.palette.primary.main,
-    border:"0.4rem solid white ",
-    borderRadius:'50%',
-    padding:theme.spacing(3)
+    border:"0.7rem solid white ",
+    borderRadius:'100%',
+    padding:theme.spacing(3),
+    [theme.breakpoints.down('sm')]:{
+      padding:`0px ${theme.spacing(1)}px`,
+      top:theme.spacing(-3),
+      border:"0.3rem solid white ",
+    }
   },
 }));
 
@@ -45,7 +62,7 @@ export default function SimpleCard({val}) {
         <Typography className={classes.title} variant='h6'>
           {val.heading}
         </Typography>
-        <Typography variant="h6">
+        <Typography variant="h6" className={classes.body}>
           {val.body}
         </Typography>
       </CardContent>

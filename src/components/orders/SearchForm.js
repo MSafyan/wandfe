@@ -20,13 +20,6 @@ import {
 import { connect } from "react-redux";
 import { ORDER_FIND } from "../../actions/orderAction";
 const useStyles = makeStyles((theme) => ({
-  formWrapper: {
-    background:'white',
-    padding:theme.spacing(2),
-    borderTopLeftRadius:'13%',
-    borderTopRightRadius:'13%',
-    alignItems:'flex-end',
-  },
   formWrapper1: {
     background:'white',
     padding:theme.spacing(2),
@@ -37,6 +30,14 @@ const useStyles = makeStyles((theme) => ({
     `"status duration date breakdown confirmBtn"`,
     gridTemplateColumns:'1fr 1fr 1fr 1fr 1.2fr',
     gridColumnGap:theme.spacing(2),
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateAreas:
+    `"status duration"
+      "date confirmBtn"
+      "breakdown no"`,
+    gridTemplateColumns:'1fr 1fr',
+    gridGap:theme.spacing(2)
+    }
 
   },
   select:{

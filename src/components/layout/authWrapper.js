@@ -8,7 +8,7 @@ import { NavLink } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   container:{
-    padding:theme.spacing(3),
+    padding:theme.spacing(8),
     [theme.breakpoints.down('sm')]: {
       padding:theme.spacing(1)
     }
@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
       order:1
     }
   },
+  formWrapper:{
+    padding:"3rem"
+  },
   img:{
     width:'100%'
   },
@@ -42,15 +45,24 @@ const useStyles = makeStyles((theme) => ({
       display:'none'
     }
   },
+  imgCenter:{
+    padding:'10rem',
+    paddingBottom:'1rem'
+  },
+  title:{
+    fontWeight:"bold",
+  },
   onBoarding:{
-    marginRight:'100%'
+    fontSize:"1.6rem",
+    fontWeight:"bold",
+    textAlign:"left"
   },
   center:{
     margin:"auto"
   }
 }));
 
-function AuthWrapper({isAuthenticated, children,history}) {
+function AuthWrapper({isAuthenticated,title, children,history}) {
   const classes = useStyles();
   React.useEffect(() => {
     if (isAuthenticated) {
@@ -66,27 +78,27 @@ function AuthWrapper({isAuthenticated, children,history}) {
         <img alt='' src='wordcyan.png' width='150px'/>
       </NavLink>
       </div>
-      <Container className={classes.container} component="main" maxWidth="md">
+      <Container className={classes.container} component="main" maxWidth="xl">
       <CssBaseline />
-      <Grid container spacing={2}>
+      <Grid container spacing={8}>
           <Grid item sm={12} md={6} className={classes.leftSide}>
-            <div>
+            <div className={classes.imgCenter}>
               <img src='pablo-cleaning-up.png' alt='pablo cleaning' className={classes.img}/>
             </div>
-            <Typography variant="body2" component="p">
+            <Typography variant="h6" component="p" className={classes.quote}>
               better keep yourself clean and bright; you are the window through which you must see the world
             </Typography>
             <Typography variant="h6" component="h6">
               - George Bernard Shaw
             </Typography>
           </Grid>
-          <Grid container item sm={12} md={6}>
+          <Grid container item sm={12} md={6} className={classes.formWrapper}>
             <Grid item>
-              <Typography component="h6" variant="h6" className={classes.onBoarding}>
-                {"ONBOARDING"}
+              <Typography variant="h6" className={classes.onBoarding}>
+                ON BOARDING
               </Typography>
-              <Typography component="h3" variant="h3">
-                Welcome Here
+              <Typography variant="h1" className={classes.title}>
+                {title}
               </Typography>
             </Grid>
             {children}

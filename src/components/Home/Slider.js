@@ -7,7 +7,6 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { Button } from "@material-ui/core";
 import CardOutlined from './CardOutlined'
 import Card from './Card'
-import { Typography,Grid,Container} from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 
 const styles = theme => ({

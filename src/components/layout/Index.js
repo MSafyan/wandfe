@@ -31,7 +31,7 @@ const drawerWidth = '18vw';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    height:'100vh'
+    minHeight:'100vh'
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
@@ -177,13 +177,13 @@ const useStyles = makeStyles((theme) => ({
   main:{
     padding:"1rem",
     width:"-webkit-fill-available",
-    background:theme.palette.primary.light
+    background:theme.palette.primary.light,
   },
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
     [theme.breakpoints.down('sm')]: {
-      padding:`${theme.spacing(1)}px 0px`
+      padding:`${theme.spacing(2)}px 20px`
     }
   },
   paper: {

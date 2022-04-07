@@ -192,10 +192,23 @@ const useStyles = makeStyles((theme) => ({
     height:theme.spacing(7),
     padding:'0px',
     color:"white",
+    [theme.breakpoints.down('sm')]: {
+      width:'100%',
+    }
   },
   header:{
     justifySelf:'Start',
-    fontWeight:"bold"
+    fontWeight:"bold",
+    [theme.breakpoints.down('sm')]: {
+      fontSize:"1.3rem",
+      textAlign:'left',
+      marginTop:"1rem"
+    }
+  },
+  heading2:{
+    [theme.breakpoints.down('sm')]: {
+      fontSize:'0.8rem'
+    }
   },
   justifyStart:{
     textAlign:'left'
@@ -397,7 +410,7 @@ const CompanyInfo = ({history,type,ClEANER_CLEANER,businessId,COMPANY_INFO,loadi
                   <Typography variant='h2' className={classes.header} style={{gridArea:'companyHeading'}}>
                     Company Information  
                   </Typography>
-                  <Typography variant='body1' className={clsx(classes.cardHeading,classes.justifyStart)} style={{gridArea:'emailLable'}}>
+                  <Typography variant='body1' className={clsx(classes.cardHeading,classes.justifyStart,classes.heading2)} style={{gridArea:'emailLable'}}>
                     I want to recieve Email  
                   </Typography>
                   <Selects style={{gridArea:'emailDrop'}}

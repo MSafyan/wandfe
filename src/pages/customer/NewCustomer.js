@@ -47,7 +47,13 @@ const useStyles = makeStyles((theme) => ({
   },
   header:{
     justifySelf:'Start',
-    paddingBottom:theme.spacing(3)
+    paddingBottom:theme.spacing(3),
+    [theme.breakpoints.down('sm')]: {
+      fontSize:"1.3rem",
+      textAlign:'left',
+      marginTop:"1rem"
+
+    }
   },
   confirmBtn:{
     background:theme.palette.primary.lightDark,
@@ -76,13 +82,15 @@ const useStyles = makeStyles((theme) => ({
     gridColumnGap:theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
       gridTemplateColumns:'1fr 1fr',
+      // gridTemplateRows:'0.2fr 1.4fr 1fr 1fr 1fr' ,
       gridTemplateAreas:`
-      "heading heading" 
+      "heading heading"
       "title no"
       "firstName lastName"
       "phoneNumber email"
-      "companyName preferredMethod" 
-      "marketingSource no"`,
+      "companyName preferredMethod"
+      "marketingSource marketingSource"`,
+      gridGap:theme.spacing(4)
     }
   },
   locationGrid:{
@@ -103,6 +111,7 @@ const useStyles = makeStyles((theme) => ({
       "address2 address2"
       "city region" 
       "zipCode no"`,
+      gridGap:theme.spacing(4),
     }
   },
   billingGrid:{
@@ -132,7 +141,10 @@ const useStyles = makeStyles((theme) => ({
   },
   marketSource:{
     width:"66%",
-    marginLeft:'auto'
+    [theme.breakpoints.down('sm')]: {
+      textAlign:'right',
+      marginLeft:'0px',
+    }
   },
   card:{
     padding:`${theme.spacing(4)}px ${theme.spacing(3)}px`,
@@ -253,7 +265,7 @@ const NewCustomer = ({type,history,NEW_CUSTOMER,customer,loading,edit}) => {
               <Form>
                 <div className={classes.gridContainer}>
                   <Typography variant='h4' style={{gridArea:'heading'}} className={classes.header}>
-                    <span className={classes.bold}> Add New Customer  </span>
+                    <span className={classes.bold}> Add Customer  </span>
                   </Typography>
                     {/* <NavLink to="/bookingPayment" variant="body2" className={classes.font}> */}
                     <Button style={{gridArea:'confirmBtn'}}

@@ -142,7 +142,7 @@ const TableContent = ({type,loading,orderList}) => {
 												</Typography>
 											</TableCell>
 											<TableCell>
-												${item.amount.toFixed(2) || 'Anonymous'}
+												$ {item.amount.toFixed(2) || 'Anonymous'}
 												{/* <Export item={item}/> */}
 											</TableCell>
 										</TableRow>	

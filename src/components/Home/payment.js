@@ -7,9 +7,8 @@ import {
   // CurrencyPound,
   LocalAtm,
   Sync,
-
 } from '@material-ui/icons';
-
+import Sliders from './Slider';
 import Card from './Card'
 
   const useStyles = makeStyles((theme) => ({
@@ -18,24 +17,35 @@ import Card from './Card'
       paddingBottom:theme.spacing(12),
       textAlign:'left',
       [theme.breakpoints.down('xs')]: {
-        padding:theme.spacing(4),
+        paddingTop:theme.spacing(2),
+        paddingBottom:theme.spacing(2),
       }
     },
     bold:{
       fontWeight:"bold",
       color:theme.palette.primary.dark,
+      [theme.breakpoints.down('sm')]: {
+        fontSize:'0.7rem',
+      }
     },
     heading2:{
       paddingBottom:theme.spacing(10),
       paddingTop:theme.spacing(4),
       color:theme.palette.primary.dark,
       [theme.breakpoints.down('xs')]: {
-        paddingBottom:theme.spacing(4),
-        paddingTop:theme.spacing(2),
+        fontSize:'1.5rem',
+        paddingBottom:theme.spacing(0),
+        paddingTop:theme.spacing(1),
       }
     },
     headingBlue:{
       color:theme.palette.primary.dark,
+    },
+    icon:{
+      fill:'white',
+      [theme.breakpoints.down('sm')]: {
+        width:"0.6rem"
+      }
     },
     cardRoot:{
       minWidth: 275,

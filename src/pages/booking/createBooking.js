@@ -48,8 +48,8 @@ const useStyles = makeStyles((theme) => ({
     gridColumnGap:theme.spacing(2),
     gridColumnRow:theme.spacing(2),
     [theme.breakpoints.down('sm')]: {
-      gridTemplateRows:'0.2fr 1.3fr 1fr 2fr 1fr',
-      gridTemplateColumns:'1fr 1fr',
+      gridTemplateRows:'0.2fr 1.3fr 1fr 1.6fr 0.6fr',
+      gridTemplateColumns:'1.2fr 1fr',
       gridTemplateAreas:
       `"heading confirmBtn" 
       "serviceDetial serviceDetial"
@@ -97,7 +97,11 @@ const useStyles = makeStyles((theme) => ({
   },
   header:{
     justifySelf:'Start',
-    paddingBottom:theme.spacing(3)
+    paddingBottom:theme.spacing(3),
+    [theme.breakpoints.down('sm')]: {
+      fontSize:"1.3rem",
+      textAlign:'left',
+    }
   },
   confirmBtn:{
     background:theme.palette.primary.lightDark,
@@ -107,7 +111,8 @@ const useStyles = makeStyles((theme) => ({
     color:"white",
     paddingRight:theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
-      width:'100%'
+      width:'100%',
+      fontSize:'0.6rem'
     }
   },
   cleanerHeader:{
@@ -258,9 +263,9 @@ const CompanyInfo = ({NEW_ORDER,FETCH_CLEANER,type,customer,edit,history}) => {
               <Form>
                 <div className={classes.gridWrapper}>
                   <Typography variant='h4' style={{gridArea:'heading'}} className={classes.header}>
-                    <span className={classes.bold}> Create a Booking - </span>
+                    <span className={classes.bold}> Create a Booking</span>
                     {/* <br/> */}
-                    Personal Details
+                    - Personal Details
                   </Typography>
                     {/* <NavLink to="/bookingPayment" variant="body2" className={classes.font}> */}
                     <Button style={{gridArea:'confirmBtn'}}

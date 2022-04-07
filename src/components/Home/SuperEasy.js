@@ -12,21 +12,22 @@ import clsx from 'clsx'
       display:'flex',
       justifyContent:'space-between',
       [theme.breakpoints.down('sm')]:{
-        marginBottom:theme.spacing(2),
+        marginBottom:theme.spacing(4),
       }
     },
     contentWrapper:{
       padding:theme.spacing(6),
       color:"white",
       [theme.breakpoints.down('sm')]:{
-        padding:theme.spacing(2)
+        padding:theme.spacing(1),
+        paddingLeft:theme.spacing(4)
       }
     },
     content:{
       paddingBottom:theme.spacing(10),
       fontWeight:"normal",
       [theme.breakpoints.down('sm')]: {
-        paddingBottom:theme.spacing(2),
+        paddingBottom:theme.spacing(3),
         fontSize:'0.4rem'
       }
     },
@@ -67,6 +68,7 @@ import clsx from 'clsx'
       // minWidth:"500px",
       alignSelf:'right',
       [theme.breakpoints.down('sm')]:{
+        width:'55vw',
         // minWidth:"250px",
       }
     }

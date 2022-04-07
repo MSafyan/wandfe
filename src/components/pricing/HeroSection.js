@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom:theme.spacing(12),
     [theme.breakpoints.down('sm')]: {
       padding:theme.spacing(4),
+      paddingTop:theme.spacing(2),
     }
   },
   mainContainer:{
@@ -17,6 +18,8 @@ const useStyles = makeStyles((theme) => ({
   paddingBottom:theme.spacing(12),
     textAlign:'center',
     [theme.breakpoints.down('sm')]: {
+      paddingTop:theme.spacing(6),
+      paddingBottom:theme.spacing(6),
     }
   },
   line:{
@@ -26,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     width:'5rem',
     margin:'auto',
     [theme.breakpoints.down('sm')]: {
-      padding:theme.spacing(2),
+      padding:theme.spacing(1),
     }
   },
   bold:{
@@ -34,7 +37,8 @@ const useStyles = makeStyles((theme) => ({
     color:theme.palette.primary.dark,
     paddingBottom:theme.spacing(8),
     [theme.breakpoints.down('sm')]: {
-      padding:theme.spacing(4),
+      padding:theme.spacing(3),
+      fontSize:"1rem"
     }
   },
   headingBlue:{
@@ -42,6 +46,9 @@ const useStyles = makeStyles((theme) => ({
   },
   darkBlue:{
     color:theme.palette.primary.dark,
+    [theme.breakpoints.down('sm')]: {
+      fontSize:'0.3rem'
+    }
   }
 }))
 

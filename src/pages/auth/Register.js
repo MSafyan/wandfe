@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-
+import clsx from 'clsx'
 import { ErrorMessage,Field, Form, Formik} from 'formik';
 import { object, string, ref, number } from 'yup';
 import AuthWrapper from '../../components/layout/authWrapper';
@@ -75,6 +75,35 @@ const useStyles = makeStyles((theme) => ({
     width:'15rem',
     marginBottom:'1rem'
   },
+  Button:{
+    width:'18rem',
+    marginBottom:'1rem',
+    color:'white',
+    fontSize:'1.8rem',
+    [theme.breakpoints.down('sm')]: {
+      width:'7rem',
+      marginBottom:'1rem',
+      color:'white',
+      fontSize:'0.5rem',
+    }
+  },
+  field:{
+    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline':{
+      border: "none",
+      boxShadow: 'rgba(149, 157, 165, 0.2) 0px 4px 8px',
+      height:"6rem"
+    },
+    '& .MuiInputLabel-outlined':{
+      fontSize:'1.5rem',
+      marginTop:"1rem"
+    },
+    '& .MuiInputBase-input':{
+      height:"4rem"
+    },
+    '& .MuiOutlinedInput-input':{
+      fontSize:'1.5rem'
+    }
+  },
   backgroundBox:{
     background:'#F2FCFC',
     width:'50%',
@@ -84,6 +113,9 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       display:'none'
     }
+  },
+  fifty:{
+    width:'50%'
   },
   onBoarding:{
     marginRight:'100%'
@@ -103,7 +135,7 @@ function SignUp({isAuthenticated,loading,history, SIGN_UP}) {
   }, [isAuthenticated]);
 
   return (
-    <AuthWrapper>
+    <AuthWrapper title="Welcome Here">
       <Formik
         validationSchema={
           object({
@@ -124,15 +156,15 @@ function SignUp({isAuthenticated,loading,history, SIGN_UP}) {
           {({ isSubmitting, isValidating }) => (
             <Form className={classes.form}>
               <div className={classes.twoInOne}>
-                <Box marginBottom={2} className={classes.firstBox}>
+                <Box marginBottom={2} className={clsx(classes.firstBox,classes.fifty)}>
                   <FormGroup>
-                    <Field name="firstName" as={TextField} label="First Name" variant='outlined' />
+                    <Field name="firstName" as={TextField} label="First Name" variant='outlined'  className={classes.field}/>
                     <ErrorMessage component='div' style={{color:"red"}} name="firstName" />
                   </FormGroup>
                 </Box>
-                <Box marginBottom={2}>
+                <Box marginBottom={2} className={classes.fifty}>
                   <FormGroup>
-                    <Field name="lastName" type="text" as={TextField} label="Last Name" variant='outlined' />
+                    <Field name="lastName" type="text" as={TextField} label="Last Name" variant='outlined'  className={classes.field}/>
                     <ErrorMessage component='div' style={{color:"red"}} name="lastName" />
                   </FormGroup>
                 </Box>
@@ -140,33 +172,33 @@ function SignUp({isAuthenticated,loading,history, SIGN_UP}) {
 
               <Box marginBottom={2}>
                 <FormGroup>
-                  <Field name="email" as={TextField} label="Your Email Address" variant='outlined' />
+                  <Field name="email" as={TextField} label="Your Email Address" variant='outlined'  className={classes.field}/>
                   <ErrorMessage component='div' style={{color:"red"}} name="email" />
                 </FormGroup>
               </Box>
               <Box marginBottom={2}>
                 <FormGroup>
-                  <Field name="password" type="password" as={TextField} label="Your password" variant='outlined' />
+                  <Field name="password" type="password" as={TextField} label="Your password" variant='outlined'  className={classes.field}/>
                   <ErrorMessage component='div' style={{color:"red"}} name="password" />
                 </FormGroup>
               </Box>
               <Box marginBottom={2}>
                 <FormGroup>
-                  <Field name="confirmPassword" type="password" as={TextField} label="Confirm password" variant='outlined' />
-                  <ErrorMessage component='div' style={{color:"red"}} name="confirmPassword" />
+                  <Field name="confirmPassword" type="password" as={TextField} label="Confirm password" variant='outlined' className={classes.field}/>
+                  <ErrorMessage component='div' style={{color:"red"}} name="confirmPassword"  />
                 </FormGroup>
               </Box>
 
               <div className={classes.twoInOne}>
-                <Box marginBottom={2} className={classes.firstBox}>
+                <Box marginBottom={2} className={clsx(classes.firstBox,classes.fifty)}>
                   <FormGroup>
-                    <Field name="zipcode" as={TextField} label="Zip Code" variant='outlined' />
+                    <Field name="zipcode" as={TextField} label="Zip Code" variant='outlined'  className={classes.field}/>
                     <ErrorMessage component='div' style={{color:"red"}} name="zipcode" />
                   </FormGroup>
                 </Box>
-                <Box marginBottom={2}>
+                <Box marginBottom={2} className={classes.fifty}>
                   <FormGroup>
-                    <Field name="phoneNumber" as={TextField} label="Phone Number" variant='outlined' />
+                    <Field name="phoneNumber" as={TextField} label="Phone Number" variant='outlined' className={classes.field}/>
                     <ErrorMessage component='div' style={{color:"red"}} name="phoneNumber" />
                   </FormGroup>
                 </Box>
@@ -177,7 +209,7 @@ function SignUp({isAuthenticated,loading,history, SIGN_UP}) {
                 type="submit"
                 variant="contained"
                 color="primary"
-                className={classes.submitButton}
+                className={classes.Button}
                 startIcon={
                   loading ? (
                     <CircularProgress size="1rem" />
@@ -192,7 +224,7 @@ function SignUp({isAuthenticated,loading,history, SIGN_UP}) {
                     <Typography component="span">
                       Already has an account?
                     </Typography>
-                    <Link href="/login" variant="body2" style={{margin:'auto'}}>
+                    <Link href="/login" variant="h6" style={{margin:'auto'}}>
                       {"  Sign In"}
                     </Link>
                   </Grid>
