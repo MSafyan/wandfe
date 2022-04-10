@@ -81,27 +81,40 @@ const useStyles = makeStyles((theme) => ({
     color:'white',
     fontSize:'1.8rem',
     [theme.breakpoints.down('sm')]: {
-      width:'7rem',
+      width:'11rem',
       marginBottom:'1rem',
       color:'white',
-      fontSize:'0.5rem',
+      fontSize:'0.8rem',
     }
   },
   field:{
     '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline':{
       border: "none",
       boxShadow: 'rgba(149, 157, 165, 0.2) 0px 4px 8px',
-      height:"6rem"
+      height:"6rem",
+      [theme.breakpoints.down('sm')]: {
+        height:"4rem",
+      }
     },
     '& .MuiInputLabel-outlined':{
       fontSize:'1.5rem',
-      marginTop:"1rem"
+      marginTop:"1rem",
+      [theme.breakpoints.down('sm')]: {
+        fontSize:'0.7rem',
+        marginTop:".1rem",
+      }
     },
     '& .MuiInputBase-input':{
-      height:"4rem"
+      height:"4rem",
+      [theme.breakpoints.down('sm')]: {
+        height:"2rem",
+      }
     },
     '& .MuiOutlinedInput-input':{
-      fontSize:'1.5rem'
+      fontSize:'1.5rem',
+      [theme.breakpoints.down('sm')]: {
+        fontSize:'0.7rem',
+      }
     }
   },
   backgroundBox:{
@@ -122,6 +135,12 @@ const useStyles = makeStyles((theme) => ({
   },
   center:{
     margin:"auto"
+  },
+  marginBox:{
+    marginBottom:theme.spacing(4),
+    [theme.breakpoints.down('sm')]: {
+      marginBottom:theme.spacing(2),
+    }
   }
 }));
 
@@ -156,13 +175,13 @@ function SignUp({isAuthenticated,loading,history, SIGN_UP}) {
           {({ isSubmitting, isValidating }) => (
             <Form className={classes.form}>
               <div className={classes.twoInOne}>
-                <Box marginBottom={2} className={clsx(classes.firstBox,classes.fifty)}>
+                <Box  className={clsx(classes.firstBox,classes.fifty,classes.marginBox)}>
                   <FormGroup>
                     <Field name="firstName" as={TextField} label="First Name" variant='outlined'  className={classes.field}/>
                     <ErrorMessage component='div' style={{color:"red"}} name="firstName" />
                   </FormGroup>
                 </Box>
-                <Box marginBottom={2} className={classes.fifty}>
+                <Box className={clsx(classes.fifty,classes.marginBox)}>
                   <FormGroup>
                     <Field name="lastName" type="text" as={TextField} label="Last Name" variant='outlined'  className={classes.field}/>
                     <ErrorMessage component='div' style={{color:"red"}} name="lastName" />
@@ -170,19 +189,19 @@ function SignUp({isAuthenticated,loading,history, SIGN_UP}) {
                 </Box>
               </div>
 
-              <Box marginBottom={2}>
+              <Box  className={classes.marginBox}>
                 <FormGroup>
                   <Field name="email" as={TextField} label="Your Email Address" variant='outlined'  className={classes.field}/>
                   <ErrorMessage component='div' style={{color:"red"}} name="email" />
                 </FormGroup>
               </Box>
-              <Box marginBottom={2}>
+              <Box className={classes.marginBox}>
                 <FormGroup>
                   <Field name="password" type="password" as={TextField} label="Your password" variant='outlined'  className={classes.field}/>
                   <ErrorMessage component='div' style={{color:"red"}} name="password" />
                 </FormGroup>
               </Box>
-              <Box marginBottom={2}>
+              <Box className={classes.marginBox}>
                 <FormGroup>
                   <Field name="confirmPassword" type="password" as={TextField} label="Confirm password" variant='outlined' className={classes.field}/>
                   <ErrorMessage component='div' style={{color:"red"}} name="confirmPassword"  />
@@ -190,13 +209,13 @@ function SignUp({isAuthenticated,loading,history, SIGN_UP}) {
               </Box>
 
               <div className={classes.twoInOne}>
-                <Box marginBottom={2} className={clsx(classes.firstBox,classes.fifty)}>
+                <Box className={clsx(classes.firstBox,classes.fifty,classes.marginBox)}>
                   <FormGroup>
                     <Field name="zipcode" as={TextField} label="Zip Code" variant='outlined'  className={classes.field}/>
                     <ErrorMessage component='div' style={{color:"red"}} name="zipcode" />
                   </FormGroup>
                 </Box>
-                <Box marginBottom={2} className={classes.fifty}>
+                <Box  className={clsx(classes.fifty,classes.marginBox)}>
                   <FormGroup>
                     <Field name="phoneNumber" as={TextField} label="Phone Number" variant='outlined' className={classes.field}/>
                     <ErrorMessage component='div' style={{color:"red"}} name="phoneNumber" />

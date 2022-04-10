@@ -47,18 +47,39 @@ const useStyles = makeStyles((theme) => ({
   },
   imgCenter:{
     padding:'10rem',
-    paddingBottom:'1rem'
+    paddingBottom:'1rem',
+    [theme.breakpoints.down('sm')]: {
+      padding:'2rem',
+    }
   },
   title:{
     fontWeight:"bold",
+    [theme.breakpoints.down('sm')]: {
+      fontSize:"2rem"
+    }
   },
   onBoarding:{
     fontSize:"1.6rem",
     fontWeight:"bold",
-    textAlign:"left"
+    textAlign:"left",
+    [theme.breakpoints.down('sm')]: {
+      fontSize:"0.7rem"
+    }
+  },
+  imgLogo:{
+    width:"150px",
+    [theme.breakpoints.down('sm')]: {
+      width:"60px",
+    }
   },
   center:{
     margin:"auto"
+  },
+  marginBox:{
+    marginBottom:theme.spacing(4),
+    [theme.breakpoints.down('sm')]: {
+      marginBottom:theme.spacing(2),
+    }
   }
 }));
 
@@ -75,7 +96,7 @@ function AuthWrapper({isAuthenticated,title, children,history}) {
     <>
       <div className={classes.logo}>
       <NavLink to="/" variant="body2" style={{textDecoration:'none' }}>
-        <img alt='' src='wordcyan.png' width='150px'/>
+        <img alt='' src='wordcyan.png' width='150px' className={classes.imgLogo}/>
       </NavLink>
       </div>
       <Container className={classes.container} component="main" maxWidth="xl">

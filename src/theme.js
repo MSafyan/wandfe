@@ -164,7 +164,10 @@ const theme = {
         }
       },
       endIcon:{
-        marginLeft:'13px'
+        marginLeft:'13px',
+        [breakpoints.down("sm")]: {
+          marginLeft:'5px'
+        }
       }
     },
     MuiOutlinedInput:{

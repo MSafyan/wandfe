@@ -32,6 +32,7 @@ import {errMsg} from './utils';
 export const NEW_CUSTOMER = (form_data) => async (dispatch,getState) => {
 	try {
     dispatch({ type: SET_LOADING_CUSTOMER });
+    debugger;
     if(form_data.termsCheck){
       form_data.billingAddress = form_data.address1;
       delete form_data.termsCheck;

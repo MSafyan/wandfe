@@ -183,7 +183,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
     [theme.breakpoints.down('sm')]: {
-      padding:`${theme.spacing(2)}px 20px`
+      padding:`${theme.spacing(1)}px 10px`
     }
   },
   paper: {

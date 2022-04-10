@@ -167,7 +167,7 @@ const CompanyInfo = ({BOOKING_PAYMENT,service,order,business,onBoarding}) => {
     },{},
     {icon:<MoneyOutlinedIcon/>,
     category:'total',
-    price:`${totalCal().toFixed(2)}usd`},
+    price:`${totalCal()?.toFixed(2)}usd`},
   ]
 
   const paidBy={

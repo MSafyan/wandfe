@@ -66,10 +66,10 @@ const useStyles = makeStyles((theme) => ({
     color:'white',
     fontSize:'1.8rem',
     [theme.breakpoints.down('sm')]: {
-      width:'7rem',
+      width:'11rem',
+      fontSize:'.8rem',
       marginBottom:'1rem',
       color:'white',
-      fontSize:'0.5rem',
     }
   },
   field:{
@@ -77,17 +77,30 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline':{
       border: "none",
       boxShadow: 'rgba(149, 157, 165, 0.2) 0px 4px 8px',
-      height:"6rem"
+      height:"6rem",
+      [theme.breakpoints.down('sm')]: {
+        height:"4rem",
+      }
     },
     '& .MuiInputLabel-outlined':{
       fontSize:'1.5rem',
-      marginTop:"1rem"
+      marginTop:"1rem",
+      [theme.breakpoints.down('sm')]: {
+        fontSize:'0.7rem',
+        marginTop:".1rem",
+      }
     },
     '& .MuiInputBase-input':{
-      height:"4rem"
+      height:"4rem",
+      [theme.breakpoints.down('sm')]: {
+        height:"2rem",
+      }
     },
     '& .MuiOutlinedInput-input':{
-      fontSize:'1.5rem'
+      fontSize:'1.5rem',
+      [theme.breakpoints.down('sm')]: {
+        fontSize:'0.7rem',
+      }
     }
   },
   backgroundBox:{
@@ -102,6 +115,12 @@ const useStyles = makeStyles((theme) => ({
   },
   center:{
     margin:"auto"
+  },
+  marginBox:{
+    marginBottom:theme.spacing(4),
+    [theme.breakpoints.down('sm')]: {
+      marginBottom:theme.spacing(2),
+    }
   }
 }));
 
@@ -134,13 +153,13 @@ function SignIn({isAuthenticated,loading,history, SIGN_IN}) {
                 {({ isSubmitting, isValidating }) => (
                   <Form className={classes.form}>
 
-                    <Box marginBottom={4}>
+                    <Box className={classes.marginBox}>
                       <FormGroup>
                         <Field name="identifier" as={TextField} label="Your Email Address" variant='outlined' className={classes.field}/>
                         <ErrorMessage component='div' style={{color:"red"}} name="identifier" />
                       </FormGroup>
                     </Box>
-                    <Box marginBottom={4}>
+                    <Box className={classes.marginBox}>
                       <FormGroup>
                         <Field name="password" type="password" as={TextField} label="Your password" variant='outlined' className={classes.field}/>
                         <ErrorMessage component='div' style={{color:"red"}} name="password" />

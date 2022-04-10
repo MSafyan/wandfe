@@ -12,7 +12,7 @@ import {
   ArrowRightAltOutlined
 } from '@material-ui/icons';
 import { Link } from 'react-router-dom'
-
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   sidebar:{
@@ -112,6 +112,7 @@ export const links =[
   },
   {
     heading:'STATS AND PAYMENTS',
+    type:'customer',
     navs:[
       {
         icon:<MonetizationOnOutlined/>,
@@ -132,7 +133,7 @@ export const links =[
   },
 ]
 
-const Sidebar = () => {
+const Sidebar = ({type}) => {
   const classes = useStyles();
 
   return (
@@ -143,21 +144,24 @@ const Sidebar = () => {
             <img alt='' src='wordcyan.png' width='90px' />
           </div>
         {links.map((val,i)=>{
-          return <div key={i} className={classes.category}>
-            <Typography variant='body1' className={classes.catHeading}>
-              {val.heading}  
-            </Typography>
-            {
-              val.navs.map((nav,i)=>{
-                return <Link key={i} to={nav.link} className={classes.navLink} style={{}}>
-                  {nav.icon}
-                  <Typography variant='body1' className={classes.navText}>
-                    {nav.text}  
-                  </Typography>
-                </Link>
-              })
-            }
-          </div>
+          return <>
+            {val.type===type? null: 
+            <div key={i} className={classes.category}>
+              <Typography variant='body1' className={classes.catHeading}>
+                {val.heading}  
+              </Typography>
+              {
+                val.navs.map((nav,i)=>{
+                  return <Link key={i} to={nav.link} className={classes.navLink}>
+                    {nav.icon}
+                    <Typography variant='body1' className={classes.navText}>
+                      {nav.text}  
+                    </Typography>
+                  </Link>
+                })
+              }
+            </div>}
+          </>
           })}
         </div>
         <div className={classes.support}>
@@ -176,4 +180,11 @@ const Sidebar = () => {
   )
 }
 
-export default Sidebar
+const mapStateToProps = state => ({
+  type: state.auth.user.role.name,
+});
+
+export default connect(
+  mapStateToProps,
+  {  }
+)(Sidebar);

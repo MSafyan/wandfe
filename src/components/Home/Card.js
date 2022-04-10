@@ -9,7 +9,7 @@ import {
 
 const useStyles = makeStyles((theme)=>({
   root: {
-    padding:theme.spacing(5),
+    margin:theme.spacing(5),
     padding:theme.spacing(5),
     background:theme.palette.primary.dark,
     borderRadius:"1rem",

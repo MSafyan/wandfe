@@ -1,9 +1,12 @@
+import { Typography } from "@material-ui/core"
 import { 
 	CardElement, 
 	useElements, 
 	useStripe,
 	CardCvcElement,
 	CardNumberElement } from "@stripe/react-stripe-js"
+import { makeStyles  } from '@material-ui/core/styles';
+
 import axios from "axios"
 import React from 'react'
 
@@ -14,6 +17,7 @@ const CARD_OPTIONS = {
 			iconColor: "black",
 			color: "black",
 			fontWeight: 500,
+			boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
 			fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
 			fontSize: "16px",
 			fontSmoothing: "antialiased",
@@ -27,7 +31,15 @@ const CARD_OPTIONS = {
 	}
 }
 
+const useStyles = makeStyles((theme) => ({
+	justifyStart:{
+    textAlign:'left'
+  },
+}))
+
 export default function PaymentForm() {
+  const classes = useStyles();
+
 		const stripe = useStripe()
 		const elements = useElements()
 
@@ -73,14 +85,22 @@ export default function PaymentForm() {
 
 		return (
 				<>
+							<Typography variant='body1' className={classes.justifyStart}>
+								Card Number
+							</Typography>
 						<fieldset className="FormGroup">
 								<div className="FormRow">
-										<CardElement options={CARD_OPTIONS}/>
+									<CardNumberElement options={CARD_OPTIONS}/> 
 								</div>
 						</fieldset>
-										{/* <CardNumberElement />
-										<CardCvcElement /> */}
-						{/* <button onClick={(e)=>{handleSubmit(e)}}>Pay</button> */}
+							<Typography variant='body1' className={classes.justifyStart}>
+								CVC
+							</Typography>
+						<fieldset className="FormGroup">
+								<div className="FormRow">
+									<CardCvcElement options={CARD_OPTIONS}/>
+								</div>
+						</fieldset>
 				</>
 		)
 }

@@ -24,7 +24,7 @@ import Selects from '../components/FormsUI/Selects'
 
 import Layout from '../components/layout/Index'
 
-import {url} from '../actions/customAxios';
+import axios,{url} from '../actions/customAxios';
 import { connect } from "react-redux";
 import { COMPANY_INFO,SET_EMPLOYEE_LOADING,UNSET_EMPLOYEE_LOADING } from "../actions/employeeActions";
 import { ClEANER_CLEANER } from '../actions/orderAction';
@@ -251,29 +251,29 @@ const FORM_VALIDATION = Yup.object().shape({
     .integer()
     .typeError('Please enter a valid zipCode')
     .required('Required'),
-  bathroomDuration: Yup.number()
-    .integer()
-    .typeError('Please enter a valid zipCode')
-    .required('Required'),
-  kitchenDuration: Yup.number()
-    .integer()
-    .typeError('Please enter a valid zipCode')
-    .required('Required'),
-  bedroomDuration: Yup.number()
-    .integer()
-    .typeError('Please enter a valid zipCode')
-    .required('Required'),
-  livingroomDuration: Yup.number()
-    .integer()
-    .typeError('Please enter a valid zipCode')
-    .required('Required'),
-  ratePerHour: Yup.number()
-    .integer()
-    .typeError('Please enter a valid zipCode')
-    .required('Required'),
-  available:Yup.boolean().required(),
-  startTime:Yup.date(),
-  endTime:Yup.date(),
+  // bathroomDuration: Yup.number()
+  //   .integer()
+  //   .typeError('Please enter a valid zipCode')
+  //   .required('Required'),
+  // kitchenDuration: Yup.number()
+  //   .integer()
+  //   .typeError('Please enter a valid zipCode')
+  //   .required('Required'),
+  // bedroomDuration: Yup.number()
+  //   .integer()
+  //   .typeError('Please enter a valid zipCode')
+  //   .required('Required'),
+  // livingroomDuration: Yup.number()
+  //   .integer()
+  //   .typeError('Please enter a valid zipCode')
+  //   .required('Required'),
+  // ratePerHour: Yup.number()
+  //   .integer()
+  //   .typeError('Please enter a valid zipCode')
+  //   .required('Required'),
+  // available:Yup.boolean().required(),
+  // startTime:Yup.date(),
+  // endTime:Yup.date(),
 });
 
 // const ITEM_HEIGHT = 48;
@@ -334,11 +334,11 @@ const CompanyInfo = ({history,type,ClEANER_CLEANER,businessId,COMPANY_INFO,loadi
       city: '',
       region: '',
       zipCode: '',
-      bathroomDuration:'',
-      kitchenDuration:'',
-      bedroomDuration:'',
-      livingroomDuration:'',
-      ratePerHour:'',
+      bathroomDuration:'30',
+      kitchenDuration:'30',
+      bedroomDuration:'30',
+      livingroomDuration:'30',
+      ratePerHour:'30',
       available:true,
       days:['Monday'],
       startTime:new Date(),
@@ -385,13 +385,13 @@ const CompanyInfo = ({history,type,ClEANER_CLEANER,businessId,COMPANY_INFO,loadi
                   SET_EMPLOYEE_LOADING()
                   // debugger;
                   try {
-                    await fetch(
-                      `${url}/upload/`,
+                    var a = await axios.post(
+                      `${url}/upload/`,data,
                       {
-                        method:'POST',
-                        body:data
-                      }
-                    )
+                        headers: {
+                          'Content-Type': 'multipart/form-data'
+                        }
+                      })
                     
                   } catch (error) {
                     console.log(error)

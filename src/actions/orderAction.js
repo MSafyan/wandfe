@@ -49,7 +49,7 @@ export const BOOKING_PAYMENT = (form_data) => async (dispatch,getState) => {
 		const {id} = getState().auth.user.customer;
 		const cleanerId = getState().order.cleanerInfo.schedule?.cleaner;
 		const {order} = getState().order;
-		// debugger;
+		debugger;
 		const time = moment(order.time).format('HH:mm:ss.SSS')
     const data={
 			...order,

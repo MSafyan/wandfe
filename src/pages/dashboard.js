@@ -241,7 +241,7 @@ const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,F
 							Forecast Revenue
 						</Typography>
 						<Typography variant='h5' className={classes.statVal}>
-							<AttachMoneyIcon className={classes.moneyIcon}/>	{stats?.forcastRevenue.toFixed(2)}
+							<AttachMoneyIcon className={classes.moneyIcon}/>	{stats?.forcastRevenue?.toFixed(2)}
 						</Typography>
 					</div>
 					<div style={{gridArea:'stat3'}}>
@@ -249,7 +249,7 @@ const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,F
 							Total Revenue
 						</Typography>
 						<Typography variant='h5' className={classes.statVal}>
-							{stats?.totalRevenue.toFixed(2)}
+							{stats?.totalRevenue?.toFixed(2)}
 						</Typography>
 					</div>
 					<div style={{gridArea:'stat4'}}>
@@ -332,10 +332,10 @@ const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,F
 								return <div key={i} className={classes.item}>
 									<div style={{gridArea:"name"}}>
 										<Typography variant='body1'>
-											{val.customer.firstName}
+											{val.customer?.firstName}
 										</Typography>
 										<Typography variant='body2'>
-											{val.customer.companyName}
+											{val.customer?.companyName}
 										</Typography>
 									</div>
 									<Typography variant='body1' style={{gridArea:"time"}} className={classes.cardHeading}>

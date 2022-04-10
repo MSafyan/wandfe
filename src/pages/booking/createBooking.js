@@ -15,19 +15,13 @@ import {
   FormControlLabel,
   FormControl,
 } from '@material-ui/core';
-// import DateFnsUtils from '@date-io/date-fns';
 import Test from '../test'
-// import {
-//   MuiPickersUtilsProvider,
-//   KeyboardDatePicker,
-//   KeyboardTimePicker
-// } from '@material-ui/pickers';
 
 import clsx from 'clsx'
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
-// import Select from '../../components/FormsUI/Selects'
 
 import Layout from '../../components/layout/Index'
+import { toast } from 'react-toastify';
 
 import { connect } from "react-redux";
 import { NEW_ORDER,FETCH_CLEANER } from "../../actions/orderAction";
@@ -200,14 +194,12 @@ const FORM_VALIDATION = Yup.object({
 const CompanyInfo = ({NEW_ORDER,FETCH_CLEANER,type,customer,edit,history}) => {
   const classes = useStyles();
   React.useEffect(()=>{
-    // if(type==='customer'){
-    //   FETCH_CLEANER()
-    // }else if(type==='premium' || type==='Authenticated'){
-    //   history.push('/orders');
-    //   toast.warn('only customers can create Bookings')
-    // }
-
-
+    if(type==='customer'){
+      FETCH_CLEANER()
+    }else if(type==='premium' || type==='Authenticated'){
+      history.push('/orders');
+      toast.warn('only customers can create Bookings')
+    }
     // eslint-disable-next-line
   },[])
 
@@ -221,12 +213,12 @@ const CompanyInfo = ({NEW_ORDER,FETCH_CLEANER,type,customer,edit,history}) => {
       bathroomCount: '4',
       kitchenCount: '4',
       bedroomCount: '4',
-      address:'',
+      address:'911 Washington Ave, St. Louise, MO 61101, USA',
       pets: false,
       date:null,
       time:null,
       instructions:"",
-			type:'',
+			type:'Vacation Rental Service',
     };
 
     const EDIT_FORM_STATE={
@@ -334,25 +326,26 @@ const CompanyInfo = ({NEW_ORDER,FETCH_CLEANER,type,customer,edit,history}) => {
                         format="DD"
                         onChange={value => {
                           
-                          setFieldValue("date", value)}}
+                          setFieldValue("date", value.toDate())}}
                       />
                       <DatePicker
                         inputClass="month-input"
                         value={values.date}
                         format="MMM"
                         onChange={value => {
-                          setFieldValue("date", value)}}
+                          setFieldValue("date", value.toDate())}}
                       />
                       <DatePicker
                         inputClass="year-input"
                         value={values.date}
                         format="YYYY"
                         onChange={value => {
-                          setFieldValue("date", value)}}
+                          setFieldValue("date", value.toDate())}
+                        }
                       />
                     </div>
                     <Typography variant='body1' className={classes.dayChip}>
-                      <Moment date={values.time} format="dddd"/>
+                      <Moment date={values.date} format="dddd"/>
                     </Typography>
                     <Typography variant='body1' className={clsx(classes.cardHeading, classes.timeHeading)}>
                       <span className={classes.dot}></span>

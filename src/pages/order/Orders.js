@@ -117,7 +117,7 @@ function ORDER_List({type, ORDER_LIST,history,loading,orderList}) {
 										</Typography>
 										<Typography variant='body2' className={classes.bold}>
 											{item.cleaner? `${item.cleaner.firstName}` : 'No cleaner Assigned'} <br/>
-											$ {item.amount.toFixed(2)}
+											$ {item.amount?.toFixed(2)}
 										</Typography>
 									</div>
 									<div className={clsx(classes.flex,classes.line)}></div>
