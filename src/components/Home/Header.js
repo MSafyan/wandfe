@@ -80,7 +80,7 @@ const ResponsiveAppBar = ({history}) => {
         <Toolbar disableGutters>
         <NavLink to="/" style={{textDecoration:'none'}}>
         <div className={classes.logo}>
-            <img alt='' src='wandbluefav.png' width={'30%'} style={{paddingRight:'4px'}} />
+            <img alt='' src='http://app.wandcleaning.pro/wandBluefav.png' width={'30%'} style={{paddingRight:'4px'}} />
             <img alt='' src='wordcyan.png' width={'70%'} />
           </div>
         </NavLink>

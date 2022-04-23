@@ -6,7 +6,6 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { withStyles } from '@material-ui/styles';
 import { Button, Typography } from "@material-ui/core";
-import { mergeClasses } from "@material-ui/styles";
 
 const styles = (theme) => ({
   Wrapper: {

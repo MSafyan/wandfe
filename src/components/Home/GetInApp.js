@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography,Grid,Container } from '@material-ui/core';
-import MobileStoreButton from 'react-mobile-store-button';
+// import MobileStoreButton from 'react-mobile-store-button';
 import clsx from 'clsx'
 
   const useStyles = makeStyles((theme) => ({
@@ -82,8 +82,8 @@ const GetInApp = () => {
             It's never Been
           </Typography>
           <div style={{padding:'8px',paddingLeft:'0px'}}>
-            <img src='store2.png' style={{marginRight:'1rem'}} className={classes.store}/>
-            <img src='store1.png' className={classes.store}/>
+            <img alt='' src='store2.png' style={{marginRight:'1rem'}} className={classes.store}/>
+            <img alt='' src='store1.png' className={classes.store}/>
           </div>
         </Grid>
         <Grid item xs={6} className={classes.imgContainer}>

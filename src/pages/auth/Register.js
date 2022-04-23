@@ -153,6 +153,9 @@ function SignUp({isAuthenticated,loading,history, SIGN_UP}) {
     // eslint-disable-next-line
   }, [isAuthenticated]);
 
+
+
+
   return (
     <AuthWrapper title="Welcome Here">
       <Formik

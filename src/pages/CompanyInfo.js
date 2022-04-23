@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik, Form,Field,ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { makeStyles,useTheme  } from '@material-ui/core/styles';
+import { makeStyles  } from '@material-ui/core/styles';
 import {
   Input,
   Button,
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
   detailsGrid:{
     gridArea:'details',
     display:'grid',
-    gridTemplateColumns:'12% auto 25% 25%',
+    gridTemplateColumns:'10vw auto 25% 25%',
     gridTemplateRows:"1fr 1fr",
     gridTemplateAreas:`
     "image cleaningService otherEmail otherEmail"
@@ -75,10 +75,9 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       gridTemplateColumns:'1fr 1fr',
       gridTemplateAreas:`
-      "image cleaningService" 
-      "image no"
-      "companyPhone companyWebsite"
-      "facebookPage otherEmail"`,
+      "image cleaningService"
+      "otherEmail companyPhone"
+      "companyWebsite facebookPage"`,
     }
   },
   locationGrid:{
@@ -108,6 +107,8 @@ const useStyles = makeStyles((theme) => ({
     gridTemplateAreas:`
     "country country1 timezone"`,
     [theme.breakpoints.down('sm')]: {
+    gridTemplateColumns:'1fr 1fr',
+      gridTemplateAreas:`"country country1" "timezone no"`,
     }
   },
   serviceGrid:{
@@ -155,17 +156,27 @@ const useStyles = makeStyles((theme) => ({
   },
   cardHeading:{
     fontSize:"18px",
-    fontWeight:'bold'
+    fontWeight:'bold',
+    [theme.breakpoints.down('md')]: {
+      fontSize:"14px"
+    }
   },
   select:{
     "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
       border: "none",
       boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px'
     },
+    "& .MuiSelect-outlined":{
+      [theme.breakpoints.down('md')]: {
+        paddingLeft:'5px',
+        paddingRight:'20px',
+      }
+    }
   },
   label:{
     textAlign:'left',
-    color:theme.palette.primary.lightDark
+    color:theme.palette.primary.lightDark,
+    fontWeight:"600",
   },
   imgBg:{
     borderRadius:'10px',
@@ -192,37 +203,45 @@ const useStyles = makeStyles((theme) => ({
     height:theme.spacing(7),
     padding:'0px',
     color:"white",
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       width:'100%',
+    },
+    [theme.breakpoints.down('sm')]: {
+      width:'80%',
+      display:'flex',
+      justifyContent:'space-around',
+      marginLeft:'auto'
+    }
+  },
+  chooseFile:{
+    padding:'0px',
+    border:'none',
+    fontWeight:'bold',
+    [theme.breakpoints.only('md')]: {
+      fontSize:'12px'
     }
   },
   header:{
     justifySelf:'Start',
     fontWeight:"bold",
+    fontSize:'3.2vw',
     [theme.breakpoints.down('sm')]: {
       fontSize:"1.3rem",
       textAlign:'left',
-      marginTop:"1rem"
+      marginTop:"1rem",
+      paddingBottom:'0.8rem'
     }
   },
   heading2:{
     [theme.breakpoints.down('sm')]: {
-      fontSize:'0.8rem'
+      fontSize:'0.9rem',
+      paddingBottom:'0.4rem'
     }
   },
   justifyStart:{
     textAlign:'left'
   },
 }));
-
-// function getStyles(name, personName, theme) {
-//   return {
-//     fontWeight:
-//       personName.indexOf(name) === -1
-//         ? theme.typography.fontWeightRegular
-//         : theme.typography.fontWeightMedium,
-//   };
-// }
 
 
 const FORM_VALIDATION = Yup.object().shape({
@@ -314,7 +333,7 @@ const CompanyInfo = ({history,type,ClEANER_CLEANER,businessId,COMPANY_INFO,loadi
     }
     // eslint-disable-next-line
   },[])
-  const [personName, setPersonName] = React.useState(['Monday']);
+  // const [personName, setPersonName] = React.useState(['Monday']);
   // const handleChange = (event) => {
   //   setPersonName(event.target.value);
   // };
@@ -385,7 +404,7 @@ const CompanyInfo = ({history,type,ClEANER_CLEANER,businessId,COMPANY_INFO,loadi
                   SET_EMPLOYEE_LOADING()
                   // debugger;
                   try {
-                    var a = await axios.post(
+                    await axios.post(
                       `${url}/upload/`,data,
                       {
                         headers: {
@@ -413,7 +432,7 @@ const CompanyInfo = ({history,type,ClEANER_CLEANER,businessId,COMPANY_INFO,loadi
                   <Typography variant='body1' className={clsx(classes.cardHeading,classes.justifyStart,classes.heading2)} style={{gridArea:'emailLable'}}>
                     I want to recieve Email  
                   </Typography>
-                  <Selects style={{gridArea:'emailDrop'}}
+                  <Selects style={{gridArea:'emailDrop',background:'white'}}
                     name="allDurations"
                     options={allDurations}
                     className={classes.select}
@@ -439,8 +458,8 @@ const CompanyInfo = ({history,type,ClEANER_CLEANER,businessId,COMPANY_INFO,loadi
                     <div className={classes.imgBg}>
                       {
                         values.logo ?
-                        <img src={URL.createObjectURL(values.logo)} width='80%' alt=''/>:
-                        <img src={imageUrl? imageUrl: `logo512.png`} alt='' width='80%'/>
+                        <img src={URL.createObjectURL(values.logo)} height='90%' width='90%' alt=''/>:
+                        <img src={imageUrl? imageUrl: `logo512.png`} alt='' height='90%' width='90%'/>
                       }
                       <Typography className={classes.imgBgChip} variant='body2'>Your logo here</Typography>
                     </div>
@@ -448,7 +467,7 @@ const CompanyInfo = ({history,type,ClEANER_CLEANER,businessId,COMPANY_INFO,loadi
                       variant="outlined"
                       component="label"
                       startIcon={<AddIcon />}
-                      style={{padding:'0px',border:'none',fontWeight:'bold'}}
+                      className={classes.chooseFile}
                     >
                       Choose a File
                       <input
@@ -481,7 +500,7 @@ const CompanyInfo = ({history,type,ClEANER_CLEANER,businessId,COMPANY_INFO,loadi
 
                   <div style={{gridArea: 'otherEmail',justifySelf:'start'}} className={classes.emailWrapper} >
                     <Typography variant='body2' className={classes.label}>
-                      Other Email
+                      Best Mail to reach someone in you company(excluding your personal email)
                     </Typography>
                     <Field
                       name="otherEmail" fullWidth as={Input}
@@ -571,7 +590,7 @@ const CompanyInfo = ({history,type,ClEANER_CLEANER,businessId,COMPANY_INFO,loadi
                 <div className={clsx(classes.countryGrid,classes.card)}>
                     <div style={{gridArea:'country'}} className={classes.justifyStart}>
                       <Typography variant='body2' className={classes.label}>
-                        country
+                        Country
                       </Typography>
                       <Field
                         name="country" as={Input}
@@ -580,7 +599,7 @@ const CompanyInfo = ({history,type,ClEANER_CLEANER,businessId,COMPANY_INFO,loadi
                     </div>  
                     <div style={{gridArea:'country1'}} className={classes.justifyStart}>
                       <Typography variant='body2' className={classes.label}>
-                        country
+                        Country
                       </Typography>
                       <Field
                         name="country1" as={Input}

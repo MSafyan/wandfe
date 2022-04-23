@@ -204,6 +204,12 @@ const useStyles = makeStyles((theme) => ({
   lightFill:{
     color:theme.palette.lightFill.main
   },
+  topbarHeading:{
+    fontWeight:'bold',
+    [theme.breakpoints.down('md')]: {
+      fontSize:'14px'
+    }
+  },
   messagesWrapper:{
     gridArea:"messages",
     display:'flex',
@@ -317,7 +323,7 @@ const Index = ({LOGOUT,NEXT_SERVICE,nextService,children,type,customer,cleanerIn
           <div className={classes.messagesWrapper}>
             <EmailIcon className={classes.icon}/>
               <div className={classes.desktopView}>
-                <Typography variant='body1' className={classes.bold}>
+                <Typography variant='body1' className={classes.topbarHeading}>
                   Your Messages
                 </Typography>
               </div>
@@ -327,7 +333,7 @@ const Index = ({LOGOUT,NEXT_SERVICE,nextService,children,type,customer,cleanerIn
             <div className={clsx(classes.nextWrapper,classes.desktopView)}>
               <NotificationsActiveIcon className={classes.icon}/>
               <div>
-                <Typography variant='body1' className={classes.bold}>
+                <Typography variant='body1' className={classes.topbarHeading}>
                   Next Cleaner Service
                 </Typography>
                 <Typography variant='body2'>
@@ -342,7 +348,7 @@ const Index = ({LOGOUT,NEXT_SERVICE,nextService,children,type,customer,cleanerIn
               <Avatar src={cleanerInfo?.business?.logo ? `${cleanerInfo.business.logo.url}`: 'employee.png'} className={classes.icon}/>
               }
               <div>
-                <Typography variant='body1' className={classes.bold}>
+                <Typography variant='body1' className={classes.topbarHeading}>
                   {type==='customer'? customer?.firstName:cleanerInfo?.firstName}
                 </Typography>
                 <Typography variant='body2'>

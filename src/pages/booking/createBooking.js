@@ -203,10 +203,10 @@ const CompanyInfo = ({NEW_ORDER,FETCH_CLEANER,type,customer,edit,history}) => {
     // eslint-disable-next-line
   },[])
 
-  const pets={
-    true:'Yes',
-    false:'No',
-  }
+  // const pets={
+  //   true:'Yes',
+  //   false:'No',
+  // }
 
   const formState=()=>{
     const INITIAL_FORM_STATE = {

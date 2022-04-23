@@ -6,7 +6,6 @@ import { Typography,Grid, Container } from '@material-ui/core';
     mainGrid:{
       textAlign:'left',
       paddingTop:theme.spacing(10),
-      paddingBottom:theme.spacing(10),
       paddingBottom:theme.spacing(12),
       [theme.breakpoints.down('sm')]: {
         padding:theme.spacing(2),

@@ -6,7 +6,7 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { Button } from "@material-ui/core";
 // import CardOutlined from './CardOutlined'
-import { Typography,Grid,Container} from '@material-ui/core';
+import { Typography} from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import './slider.css'
 import clsx from 'clsx';

@@ -38,10 +38,14 @@ const useStyles = makeStyles((theme) => ({
   },
   catHeading:{
     fontWeight:'bold',
-    fontSize:theme.spacing(2.2)
+    fontSize:theme.spacing(2.2),
+    [theme.breakpoints.only('md')]: {
+      fontSize:theme.spacing(1.8)
+    }
   },
   navText:{
     paddingLeft:'1.6vw',
+    fontWeight:'500'
     // color:theme.palette.fontPrimary.main
   },
   navLink:{
@@ -140,7 +144,7 @@ const Sidebar = ({type}) => {
     <div className={classes.sidebar}>
       <div className={classes.scrollable}>
           <div className={classes.logo}>
-            <img alt='' src='wandbluefav.png' width='35px' style={{paddingRight:'4px'}} />
+            <img alt='' src='http://app.wandcleaning.pro/wandBluefav.png' width='35px' style={{paddingRight:'4px'}} />
             <img alt='' src='wordcyan.png' width='90px' />
           </div>
         {links.map((val,i)=>{
