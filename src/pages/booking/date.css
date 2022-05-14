@@ -33,7 +33,25 @@
   font-weight: bold;
 }
 
-
+@media screen and (min-width: 1267px) {
+  .day-input{
+    width: 2.4vw;
+  }
+  .month-input{
+    width: 4.5vw;
+  }
+  .year-input{
+    width: 5vw;
+  }
+  .year-input,.month-input,.day-input{
+    font-size: 1.7vw;
+  }
+}
+@media screen and (min-width: 960px) {
+  .year-input,.month-input,.day-input{
+    font-size: 2.2vw;
+  }
+}
 
 .day-input:focus .month-input:focus .year-input:focus{
   outline: none;

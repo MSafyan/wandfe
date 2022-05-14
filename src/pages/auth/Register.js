@@ -28,40 +28,12 @@ const initialValues = {
 
 
 const useStyles = makeStyles((theme) => ({
-  logo:{
-    'position':"absolute",
-    zIndex:'3',
-    [theme.breakpoints.down('sm')]: {
-      position:"relative",
-      textAlign:'start'
-    }
-  },
-  leftSide:{
-    background:'#F2FCFC',
-    zIndex:1,
-    [theme.breakpoints.down('sm')]: {
-      order:1
-    }
-  },
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-  },
-  img:{
-    width:'100%'
   },
   twoInOne:{
     display:'flex',
@@ -76,15 +48,15 @@ const useStyles = makeStyles((theme) => ({
     marginBottom:'1rem'
   },
   Button:{
-    width:'18rem',
+      width:'15vw',
     marginBottom:'1rem',
     color:'white',
-    fontSize:'1.8rem',
+    fontSize:'1.5vw',
     [theme.breakpoints.down('sm')]: {
       width:'11rem',
+      fontSize:'.8rem',
       marginBottom:'1rem',
       color:'white',
-      fontSize:'0.8rem',
     }
   },
   field:{
@@ -92,26 +64,50 @@ const useStyles = makeStyles((theme) => ({
       border: "none",
       boxShadow: 'rgba(149, 157, 165, 0.2) 0px 4px 8px',
       height:"6rem",
+      [theme.breakpoints.only('lg')]: {
+        height:"5rem",
+      },
+      [theme.breakpoints.only('md')]: {
+        height:"3.5rem",
+      },
       [theme.breakpoints.down('sm')]: {
         height:"4rem",
-      }
+      },
     },
     '& .MuiInputLabel-outlined':{
       fontSize:'1.5rem',
-      marginTop:"1rem",
+      marginTop:"0.7vw",
+      [theme.breakpoints.only('lg')]: {
+        fontSize:'1rem',
+      },
+      [theme.breakpoints.only('md')]: {
+        fontSize:'0.7rem',
+      },
       [theme.breakpoints.down('sm')]: {
         fontSize:'0.7rem',
-        marginTop:".1rem",
+        marginTop:".3rem",
       }
     },
     '& .MuiInputBase-input':{
       height:"4rem",
+      [theme.breakpoints.only('lg')]: {
+        height:"3rem",
+      },
+      [theme.breakpoints.only('md')]: {
+        height:"1.8rem",
+      },
       [theme.breakpoints.down('sm')]: {
         height:"2rem",
       }
     },
     '& .MuiOutlinedInput-input':{
       fontSize:'1.5rem',
+      [theme.breakpoints.only('lg')]: {
+        fontSize:'1rem',
+      },
+      [theme.breakpoints.only('md')]: {
+        fontSize:'0.7rem',
+      },
       [theme.breakpoints.down('sm')]: {
         fontSize:'0.7rem',
       }
@@ -133,14 +129,25 @@ const useStyles = makeStyles((theme) => ({
   onBoarding:{
     marginRight:'100%'
   },
+  linkText:{
+    fontWeight:'600',
+    color:theme.palette.primary.lightDark,
+    fontSize:'1vw',
+    [theme.breakpoints.down('sm')]: {
+      fontSize:'0.6rem'
+    }
+  },
   center:{
     margin:"auto"
   },
   marginBox:{
-    marginBottom:theme.spacing(4),
+    marginBottom:'1.2vw',
     [theme.breakpoints.down('sm')]: {
       marginBottom:theme.spacing(2),
     }
+  },
+  blue:{
+    color:theme.palette.primary.main
   }
 }));
 
@@ -243,10 +250,10 @@ function SignUp({isAuthenticated,loading,history, SIGN_UP}) {
               <div>
                 <Grid container>
                   <Grid item className={classes.center}>
-                    <Typography component="span">
+                    <Typography component="span" className={classes.linkText}>
                       Already has an account?
                     </Typography>
-                    <Link href="/login" variant="h6" style={{margin:'auto'}}>
+                    <Link href="/login" variant="h6" className={clsx(classes.linkText,classes.blue)}>
                       {"  Sign In"}
                     </Link>
                   </Grid>

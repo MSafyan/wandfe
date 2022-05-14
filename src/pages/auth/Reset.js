@@ -94,7 +94,7 @@ function SignIn({isAuthenticated,loading,history, RESET_PASSWORD}) {
         onSubmit={async (values,{setSubmitting}) => {
           const parsed = queryString.parse(history.location.search);
           // console.log({...values,code:parsed.code});
-          return RESET_PASSWORD({...values,code:parsed.code}).then(()=>history.push('/'))
+          return RESET_PASSWORD({...values,code:parsed.code}).then(()=>history.push('/login'))
           ;
         
         }}>

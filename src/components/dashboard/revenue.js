@@ -1,6 +1,7 @@
 import { merge } from 'lodash';
 import React from 'react'
 import ReactApexChart from 'react-apexcharts';
+import { makeStyles } from '@material-ui/core/styles';
 // material
 import { Card, CardHeader, Box } from '@material-ui/core';
 //
@@ -9,13 +10,26 @@ import { connect } from "react-redux";
 
 // ----------------------------------------------------------------------
 
-
-
-function AppWebsiteVisits({revenueData,loading,customerYearly}) {
-
-  if(loading || !revenueData || customerYearly?.customers.length<1){
-    return <div>Loading...</div>
+const useStyles = makeStyles((theme) => ({
+  color:theme.palette.primary.lightDark,
+  fontWeight:'bold',
+  revenue:{
+    "& .MuiTypography-h5":{
+      fontSize:"1.05vw",
+      [theme.breakpoints.down('sm')]: {
+        fontSize:"18px",
+      },
+    }
   }
+}))
+
+
+const AppWebsiteVisits=({revenueData,loading,customerYearly})=> {
+	const classes = useStyles();
+
+  // if(loading || !revenueData || customerYearly?.customers.length<1){
+  //   return <div>Loading...</div>
+  // }
 
   const CHART_DATA = [
     {
@@ -51,12 +65,18 @@ function AppWebsiteVisits({revenueData,loading,customerYearly}) {
   });
 
   return (
-    <Card>
-      <CardHeader title="Revenue in 12months"/>
-      <Box sx={{ p: 3, pb: 1 }} dir="ltr">
-        <ReactApexChart type="line" series={CHART_DATA} options={chartOptions} height={364} />
-      </Box>
-    </Card>
+    <>
+    {
+      loading || !revenueData || customerYearly?.customers.length<1 ?
+      <div>Loading...</div>:
+      <Card>
+        <CardHeader title="Revenue in 12months" className={classes.revenue}/>
+        <Box sx={{ p: 3, pb: 1 }} dir="ltr">
+          <ReactApexChart type="line" series={CHART_DATA} options={chartOptions} height={364} />
+        </Box>
+      </Card>
+    }
+    </>
   );
 }
 

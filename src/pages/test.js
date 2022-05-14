@@ -6,6 +6,7 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { withStyles } from '@material-ui/styles';
 import { Button, Typography } from "@material-ui/core";
+import clsx from "clsx";
 
 const styles = (theme) => ({
   Wrapper: {
@@ -18,8 +19,8 @@ const styles = (theme) => ({
     backgroundImage:
     `linear-gradient(to bottom, rgba(245, 246, 252, 0.52), rgba(0,80,81, 1)),
     url('home1.jpg')`,
-    width: '200px !important',
-    height: '280px',
+    width: '12vw !important',
+    height: '14vw',
     backgroundSize: 'cover',
     color: 'white',
     padding: '20px',
@@ -27,19 +28,45 @@ const styles = (theme) => ({
     marginRight:'2rem',
     position:'relative',
     [theme.breakpoints.down('sm')]:{
-      width:"150px !important"
+      width:"160px !important",
+      height:'200px',
+      padding: '10px',
+      marginTop:'10px'
     }
   },
   address:{
     position:"absolute",
-    bottom:'1rem'
+    bottom:'1rem',
+    fontWeight:"400",
+    fontSize:'11px',
+    padding:'0.4rem',
+    [theme.breakpoints.up('md')]: {
+      fontSize:'0.75vw',
+      padding:'0.4vw',
+    }
   },
   home:{
-    padding:"0.5rem",
-    background:theme.palette.primary.main,
+    padding:"6px 9px",
+    color:theme.palette.primary.main,
+    background:'white',
     borderRadius:'1rem',
     display:"block",
-    width:"70px"
+    width:"min-content",
+    fontSize:'9px',
+    [theme.breakpoints.up('md')]: {
+      fontSize:'0.75vw',
+      padding:'0.4vw',
+      marginBottom:'0.7vw'
+    }
+  },
+  arrows:{
+    textAlign: "center",gridArea:'buttons',position:'relative',top:'40%',
+    [theme.breakpoints.down('md')]:{
+      right:"6vw",
+    },
+    [theme.breakpoints.down('sm')]:{
+      width:'150px',
+    }
   }
 })
 
@@ -62,14 +89,22 @@ class PreviousNextMethods extends Component {
       speed: 500,
       slidesToShow: 3,
       slidesToScroll: 1,
-      responsive: [{
-        breakpoint: 600,
+      responsive: [
+        {breakpoint: 600,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
           initialSlide: 1
         }
-      }]
+      },
+        {breakpoint: 1278,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          initialSlide: 1
+        }
+      },
+    ]
     };
     const cards =[
       {
@@ -102,7 +137,7 @@ class PreviousNextMethods extends Component {
               cards.map((val,i)=>{
                 return <div className={classes.imgWrapper}>
                   <Typography variant='body1' className={classes.address}>
-                    <span className={classes.home}>Home</span>
+                    <span className={classes.home}>House</span>
                     {val.address}
                   </Typography>
                 </div>
@@ -110,7 +145,7 @@ class PreviousNextMethods extends Component {
             }
           </Slider>
         </div>
-        <div className="slider-arrow" style={{ textAlign: "center",gridArea:'buttons',position:'relative',top:'40%' }}>
+        <div className={clsx("slider-arrow",classes.arrows)}>
           <Button className="arrow-btn prev"  onClick={this.previous}>
             <ArrowBackIcon/>
           </Button>

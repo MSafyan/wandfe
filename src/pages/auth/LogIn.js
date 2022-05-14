@@ -3,10 +3,10 @@ import {FormGroup,CircularProgress} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx'
 
 import { ErrorMessage,Field, Form, Formik} from 'formik';
 import { object, string } from 'yup';
@@ -24,23 +24,6 @@ const initialValues = {
 
 
 const useStyles = makeStyles((theme) => ({
-  leftSide:{
-    background:'#F2FCFC',
-    zIndex:1,
-    [theme.breakpoints.down('sm')]: {
-      order:1
-    }
-  },
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
@@ -48,23 +31,16 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  img:{
-    width:'100%'
-  },
-  twoInOne:{
-    display:'flex',
-    justifyContent:"space-between"
-  },
   submitButton:{
     fontSize:'1.2rem',
     width:'15rem',
     marginBottom:'1rem'
   },
   Button:{
-    width:'18rem',
+    width:'15vw',
     marginBottom:'1rem',
     color:'white',
-    fontSize:'1.8rem',
+    fontSize:'1.5vw',
     [theme.breakpoints.down('sm')]: {
       width:'11rem',
       fontSize:'.8rem',
@@ -73,31 +49,54 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   field:{
-    
     '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline':{
       border: "none",
       boxShadow: 'rgba(149, 157, 165, 0.2) 0px 4px 8px',
       height:"6rem",
+      [theme.breakpoints.only('lg')]: {
+        height:"5rem",
+      },
+      [theme.breakpoints.only('md')]: {
+        height:"3.5rem",
+      },
       [theme.breakpoints.down('sm')]: {
         height:"4rem",
-      }
+      },
     },
     '& .MuiInputLabel-outlined':{
       fontSize:'1.5rem',
-      marginTop:"1rem",
+      marginTop:"0.7vw",
+      [theme.breakpoints.only('lg')]: {
+        fontSize:'1rem',
+      },
+      [theme.breakpoints.only('md')]: {
+        fontSize:'0.7rem',
+      },
       [theme.breakpoints.down('sm')]: {
         fontSize:'0.7rem',
-        marginTop:".1rem",
+        marginTop:".3rem",
       }
     },
     '& .MuiInputBase-input':{
       height:"4rem",
+      [theme.breakpoints.only('lg')]: {
+        height:"3rem",
+      },
+      [theme.breakpoints.only('md')]: {
+        height:"1.8rem",
+      },
       [theme.breakpoints.down('sm')]: {
         height:"2rem",
       }
     },
     '& .MuiOutlinedInput-input':{
       fontSize:'1.5rem',
+      [theme.breakpoints.only('lg')]: {
+        fontSize:'1rem',
+      },
+      [theme.breakpoints.only('md')]: {
+        fontSize:'0.7rem',
+      },
       [theme.breakpoints.down('sm')]: {
         fontSize:'0.7rem',
       }
@@ -113,14 +112,32 @@ const useStyles = makeStyles((theme) => ({
   onBoarding:{
     marginRight:'100%'
   },
+  linkText:{
+    fontWeight:'600',
+    fontSize:'1vw',
+    color:theme.palette.primary.lightDark,
+    [theme.breakpoints.down('sm')]: {
+      fontSize:'0.6rem'
+    }
+  },
   center:{
     margin:"auto"
   },
   marginBox:{
-    marginBottom:theme.spacing(4),
+    marginBottom:'1.2vw',
     [theme.breakpoints.down('sm')]: {
       marginBottom:theme.spacing(2),
     }
+  },
+  linkWrapper:{
+    display:'flex',
+    justifyContent:'space-between',
+    [theme.breakpoints.down('sm')]: {
+      justifyContent:'space-around',
+    }
+  },
+  blue:{
+    color:theme.palette.primary.main
   }
 }));
 
@@ -178,26 +195,26 @@ function SignIn({isAuthenticated,loading,history, SIGN_IN}) {
                         ) : undefined
                       }
                     >
-                      {loading ? 'Submitting' : 'Sign Up'}
+                      {loading ? 'Submitting' : 'Sign In'}
                     </Button>
-                    <Grid container>
-                      <Grid item xs>
-                        <Link href="/forgot" variant="h6">
+                    <div className={classes.linkWrapper}>
+                      <div>
+                        <Link href="/forgot" variant="h6" className={clsx(classes.linkText,classes.blue)}>
                           {"Forgot  "}
                         </Link>
-                        <Typography component="span" variant="h6" >
+                        <Typography component="span" variant="h6" className={classes.linkText}>
                           Password?
                         </Typography>
-                      </Grid>
-                      <Grid item>
-                        <Typography component="span" variant="h6">
+                      </div>
+                      <div>
+                        <Typography component="span" variant="h6" className={classes.linkText}>
                           Don't have an account yet?
                         </Typography>
-                        <Link href="/register" variant="h6" style={{}}>
+                        <Link href="/register" variant="h6" className={clsx(classes.linkText,classes.blue)}>
                           {"  Sign Up"}
                         </Link>
-                      </Grid>
-                    </Grid>
+                      </div>
+                    </div>
                   </Form>
                 )}
               </Formik>

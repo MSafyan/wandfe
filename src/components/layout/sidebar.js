@@ -23,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
   logo:{
     width:theme.spacing(15),
     // padding:theme.spacing(3),
-    paddingBottom:'1vw'
+    paddingBottom:'2vw',
+    // margin:'1vw 0px'
   },
   scrollable:{
     position:'fixed',
@@ -38,14 +39,18 @@ const useStyles = makeStyles((theme) => ({
   },
   catHeading:{
     fontWeight:'bold',
-    fontSize:theme.spacing(2.2),
+    fontSize:'1vw',
     [theme.breakpoints.only('md')]: {
-      fontSize:theme.spacing(1.8)
+      fontSize:'1.3vw'
     }
   },
   navText:{
     paddingLeft:'1.6vw',
-    fontWeight:'500'
+    fontWeight:'500',
+    fontSize:'0.9vw',
+    [theme.breakpoints.only('md')]: {
+      fontSize:'1.1vw'
+    }
     // color:theme.palette.fontPrimary.main
   },
   navLink:{
@@ -54,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     display:'flex',
     alignItems:'center',
     padding:'.3vw',
-    margin:`${theme.spacing(3)}px 0px`
+    margin:`1.6vw 0px`
   },
   support:{
     position:'fixed',
@@ -64,11 +69,19 @@ const useStyles = makeStyles((theme) => ({
     padding:'1.3vw',
     paddingRight:'3.3vw',
     borderRadius:theme.spacing(1),
-    margin:'1.5vw'
+    margin:'1.5vw',
+    [theme.breakpoints.only('md')]: {
+      padding:'.6vw',
+      paddingRight:'1.3vw',
+    }
   },
   supportLabel:{
     fontWeight:'bold',
     paddingBottom:'0.4vw',
+    [theme.breakpoints.only('md')]: {
+      paddingBottom:'0.2vw',
+      fontSize:'14px'
+    }
   },
   flex:{
     display:'flex',
@@ -78,7 +91,10 @@ const useStyles = makeStyles((theme) => ({
     fill:'white'
   },
   font:{
-    color:'white'
+    color:'white',
+    [theme.breakpoints.only('md')]: {
+      fontSize:'12px'
+    }
   }
 }))
 
@@ -105,23 +121,37 @@ export const links =[
       {
         icon:<PersonOutlined/>,
         link:'/newcustomer',
-        text:'Contacts'
+        text:'Contacts',
+        type:'cleaner'
+      },
+      {
+        icon:<PersonOutlined/>,
+        link:'#',
+        text:'My Homes',
+        type:'customer'
       },
       {
         icon:<LocalLaundryServiceOutlined/>,
         link:'/companyInfo',
-        text:'Company'
+        text:'Company',
+        type:'cleaner'
       },
     ]
   },
   {
     heading:'STATS AND PAYMENTS',
-    type:'customer',
     navs:[
       {
         icon:<MonetizationOnOutlined/>,
         link:'/Payroll',
-        text:'Payroll'
+        text:'Payroll',
+        type:'cleaner'
+      },
+      {
+        icon:<MonetizationOnOutlined/>,
+        link:'#',
+        text:'Payroll',
+        type:'customer'
       },
       {
         icon:<LibraryBooksOutlined/>,
@@ -156,12 +186,18 @@ const Sidebar = ({type}) => {
               </Typography>
               {
                 val.navs.map((nav,i)=>{
-                  return <Link key={i} to={nav.link} className={classes.navLink}>
-                    {nav.icon}
-                    <Typography variant='body1' className={classes.navText}>
-                      {nav.text}  
-                    </Typography>
-                  </Link>
+                  return <>
+                  {
+                    nav.type === undefined || (nav.type === 'customer' && type==='customer') || (nav.type!=='customer' && type!=='customer') ? 
+                    <Link key={i} to={nav.link} className={classes.navLink}>
+                      {nav.icon}
+                      <Typography variant='body1' className={classes.navText}>
+                        {nav.text}  
+                      </Typography>
+                    </Link>:
+                    null
+                  }
+                  </>
                 })
               }
             </div>}

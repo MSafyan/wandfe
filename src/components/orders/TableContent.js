@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import PaginationHead from './PaginationHead';
 import clsx from 'clsx';
-// import Export from './ExportDialog'
+import Export from './ExportDialog'
 
 import {
 	Table,
@@ -18,7 +18,15 @@ import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
 	bold:{
-		fontWeight:'bold'
+		fontWeight:'bold',
+		[theme.breakpoints.up('md')]: {
+			fontSize:'0.95vw'
+		}
+	},
+	cell:{
+		[theme.breakpoints.up('md')]: {
+			fontSize:'1.1vw'
+		}
 	},
 	footer: {
 		fontSize: 'larger',
@@ -34,13 +42,19 @@ const useStyles = makeStyles((theme) => ({
 		padding:`${theme.spacing(1)}px`,
 		borderRadius:'10%',
 		textAlign:'center',
-		fontWeight:'bold'
+		fontWeight:'bold',
+		[theme.breakpoints.up('md')]: {
+			fontSize:'1.1vw'
+		}
 	},
 	description:{
 		// fontSize
 	},
 	address:{
-		color:"#C8CBCB"
+		color:"#C8CBCB",
+		[theme.breakpoints.up('md')]: {
+			fontSize:'.70vw'
+		}
 	}
 }));
 
@@ -70,7 +84,7 @@ const sortedRowInformation = (rowArray, comparator) => {
 	return stabilizedRowArray.map((el) => el[0]);
 };
 
-const TableContent = ({type,loading,orderList}) => {
+const TableContent = ({type,orderList}) => {
 	const classes = useStyles();
 
 	const [orderDirection, setOrderDirection] = useState('asc');
@@ -110,42 +124,7 @@ const TableContent = ({type,loading,orderList}) => {
 							)
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 								.map((item, index) => (
-										<TableRow key={index}>
-											<TableCell>
-												<Typography variant='body1' className={classes.bold}>
-												{item.time.substring(0, 5)}
-												</Typography>
-											</TableCell>
-											<TableCell>
-												{item.date || ''}
-											</TableCell>
-											<TableCell>
-												{item.duration} Minutes
-											</TableCell>
-											<TableCell>
-												<Typography variant='h6' className={clsx(classes.statusActive)}>
-													{item.status || 'ACTIVE'}
-												</Typography>
-											</TableCell>
-											<TableCell>
-												<Typography variant='h6' className={classes.description}>
-													{item.instructions.substring(0, 30)}
-												</Typography>
-												<Typography variant='body2' className={classes.address}>
-												{item.address}
-												</Typography>
-												
-											</TableCell>
-											<TableCell>
-												<Typography className={classes.bold}>
-													{item.cleaner? `${item.cleaner.firstName}` : 'No cleaner Assigned'}
-												</Typography>
-											</TableCell>
-											<TableCell>
-												$ {item.amount?.toFixed(2) || 'Anonymous'}
-												{/* <Export item={item}/> */}
-											</TableCell>
-										</TableRow>	
+									<RenderRow index={index} item={item}/>
 								))}
 						</Table>
 					</TableContainer>
@@ -170,6 +149,79 @@ const TableContent = ({type,loading,orderList}) => {
 		</div>
 	);
 };
+
+const RenderRow=({index, item})=>{
+	const classes = useStyles();
+
+	const [open, setOpen] = React.useState(false);
+
+  const handleOpen = (index) => {
+    setOpen(true);
+		console.log('open'+index)
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+		console.log('closing')
+  };
+
+	return <TableRow key={index}
+				// onMouseOut={handleClose}
+				// onClick={()=>handleOpen(index)}
+			>
+				<TableCell 
+				onClick={()=>handleOpen(index)}
+				>
+					<Typography variant='body1' className={classes.bold}>
+						{item.time.substring(0, 5)}
+					</Typography>
+				</TableCell>
+				<TableCell className={classes.cell}
+				onClick={()=>handleOpen(index)}
+				>
+					{item.date || ''}
+				</TableCell>
+				<TableCell className={classes.cell}
+				onClick={()=>handleOpen(index)}
+
+				>
+					{item.duration} Minutes
+				</TableCell>
+				<TableCell
+				onClick={()=>handleOpen(index)}
+
+				>
+					<Typography variant='h6' className={clsx(classes.statusActive)}>
+						{item.status || 'ACTIVE'}
+					</Typography>
+				</TableCell>
+				<TableCell
+				onClick={()=>handleOpen(index)}
+
+				>
+					<Typography variant='h6' className={clsx(classes.description,classes.cell)}>
+						{item.instructions.substring(0, 30)}
+					</Typography>
+					<Typography variant='body2' className={classes.address}>
+					{item.address}
+					</Typography>
+					
+				</TableCell>
+				<TableCell
+				onClick={()=>handleOpen(index)}
+
+				>
+					<Typography className={classes.bold}>
+						{item.cleaner? `${item.cleaner.firstName}` : 'No cleaner Assigned'}
+					</Typography>
+				</TableCell>
+				<TableCell className={classes.cell} style={{alignItems:'center'}}
+				>
+					$ {item.amount?.toFixed(2) || 'Anonymous'}
+					<Export item={item} open={open} handleOpen={handleOpen} handleClose={handleClose}/>
+				</TableCell>
+			</TableRow>	
+}
 
 const mapStateToProps = state => ({
   orderList:state.order.orderList,

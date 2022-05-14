@@ -7,6 +7,8 @@ import { connect } from "react-redux";
 import clsx from 'clsx';
 import { ORDER_LIST } from "../../actions/orderAction";
 import Layout from '../../components/layout/Index'
+import Export from '../../components/orders/ExportDialog'
+// import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 const useStyles = makeStyles(theme => ({
 	pageContent: {
@@ -30,8 +32,23 @@ const useStyles = makeStyles(theme => ({
 		justifyContent:'space-between',
 		paddingBottom:theme.spacing(3)
 	},
+	address:{
+		color: '#C8CBCB'
+	},
 	bold:{
-		fontWeight:'bold'
+		fontWeight:'bold',
+		color:theme.palette.primary.lightDark,
+		fontSize:'12px'
+	},
+	time:{
+		fontSize:'11px',
+		fontWeight:'600',
+		color:theme.palette.primary.lightDark
+	},
+	instructions:{
+		fontSize:'15px',
+		fontWeight:"600",
+		color:theme.palette.primary.lightDark
 	},
 	statusButton:{
 		fontSize:'0.7rem',
@@ -43,10 +60,16 @@ const useStyles = makeStyles(theme => ({
 		borderRadius:'50%',
 		textAlign:'center',
 		fontWeight:'bold',
+		color:theme.palette.primary.lightDark,
 		[theme.breakpoints.down('sm')]: {
       marginTop:"1.5rem",
 			borderRadius:'20%',
     }
+	},
+	name:{
+		color:theme.palette.primary.lightDark,
+		fontSize:'11px',
+		fontWeight:'600'
 	},
 	line:{
     borderTop:'2px red solid',
@@ -74,6 +97,7 @@ const useStyles = makeStyles(theme => ({
 function ORDER_List({type, ORDER_LIST,history,loading,orderList}) {
 
 	const classes = useStyles();
+
 	React.useEffect(()=>{
 		if(type==='customer'){
 			history.push('/createBooking')
@@ -89,40 +113,14 @@ function ORDER_List({type, ORDER_LIST,history,loading,orderList}) {
 			<SearchForm/>
 			<Paper className={classes.pageContent}>
 				<div className={classes.desktopView}>
-					<TableContent  history={history}/>
+					<TableContent history={history}/>
 				</div>
 					{orderList ? (
 						<div className={classes.mobileView}>
 						{
-							orderList.map((item,i)=>{
-								return <div key={i} className={classes.itemWrapper}>
-									<div className={classes.flex}>
-										<div className={classes.justifyStart}>
-											<Typography variant='body1' className={clsx(classes.bold)}>
-												{item.instructions.substring(0, 30)}
-											</Typography>
-											{item.address}
-										</div>
-										<Typography variant='h5' className={clsx(classes.statusActive)}>
-											{item.status || 'ACTIVE'}
-										</Typography>
-									</div>
-									<div className={classes.flex}>
-										<Typography variant='body1' className={classes.bold}>
-											{item.time.substring(0, 5)}
-										</Typography>
-										<Typography variant='body1' className={classes.bold}>
-											{item.date}  <br/>
-											{item.duration}  Minutes
-										</Typography>
-										<Typography variant='body2' className={classes.bold}>
-											{item.cleaner? `${item.cleaner.firstName}` : 'No cleaner Assigned'} <br/>
-											$ {item.amount?.toFixed(2)}
-										</Typography>
-									</div>
-									<div className={clsx(classes.flex,classes.line)}></div>
-								</div>
-							})
+							orderList.map((item,i)=>(
+								<RenderRow item={item} i={i}/>
+							))
 						}
 						</div>
 					): (
@@ -132,6 +130,56 @@ function ORDER_List({type, ORDER_LIST,history,loading,orderList}) {
 			</Paper>
 		</Layout>
 	)
+}
+
+const RenderRow=({i, item})=>{
+	const classes = useStyles();
+
+	const [open, setOpen] = React.useState(false);
+
+  const handleOpen = (index) => {
+    setOpen(true);
+		console.log('open'+index)
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+	return (
+		<div key={i} className={classes.itemWrapper} 	
+		// onClick={()=>handleOpen(i)}
+		>
+					 {/* <ClickAwayListener onClickAway={()=>console.log('click away lister')}> */}
+
+				<div className={classes.flex}>
+					<div className={clsx(classes.justifyStart,classes.address)}>
+						<Typography variant='body1' className={clsx(classes.instructions)}>
+							{item.instructions.substring(0, 30)}
+						</Typography>
+						{item.address}
+					</div>
+					<Typography variant='h5' className={clsx(classes.statusActive)}>
+						{item.status || 'ACTIVE'}
+					</Typography>
+				</div>
+				<div className={classes.flex}>
+					<Typography variant='body1' className={classes.bold}>
+						{item.time.substring(0, 5)}
+					</Typography>
+					<Typography variant='body1' className={classes.time}>
+						{item.date}  <br/>
+						{item.duration}  Minutes
+					</Typography>
+					<Typography variant='body2' className={classes.name}>
+						{item.cleaner? `${item.cleaner.firstName}` : 'No cleaner Assigned'} <br/>
+						$ {item.amount?.toFixed(2)}
+						<Export item={item} open={open} handleOpen={handleOpen} handleClose={handleClose}/>
+					</Typography>
+				</div>
+				<div className={clsx(classes.flex,classes.line)}></div>
+			 {/* </ClickAwayListener> */}
+		</div>)
 }
 
 

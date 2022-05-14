@@ -138,7 +138,7 @@ const HeroSection = () => {
             DISCOVER HOW YOU CAN CLEAN MORE HOMES AND<br/> MAKE MORE MONEY THAN EVER BEFORE
           </Typography>
           <div className={classes.buttons}>
-            <NavLink to="/login" variant="body2" className={classes.font}>
+            <NavLink to="/register" variant="body2" className={classes.font}>
               <Button
                 className={classes.Button}
                 variant="contained"

@@ -12,6 +12,9 @@ const useStyles = makeStyles((theme) => ({
 	lighten:{
 		fontSize:'1.2rem',
 		color:'#BDBDBD',
+		[theme.breakpoints.up('md')]: {
+			fontSize:'1vw'
+		}
 	}
 }));
 
@@ -105,6 +108,19 @@ const Pagination = (props) => {
 						</Typography>
 					</TableSortLabel>
 				</TableCell>
+				<TableCell style={{ width: '0%',borderBottom:'none' }}>
+					<TableSortLabel
+						active={valueToOrderBy === 'status'}
+						direction={valueToOrderBy === 'status' ? orderDirection : 'asc'}
+						onClick={createSortHandler('status')}
+					>
+						<Typography variant='h5' className={classes.lighten}>
+						
+							
+						</Typography>
+					</TableSortLabel>
+				</TableCell>
+				
 			</TableRow>
 		</TableHead>
 	);

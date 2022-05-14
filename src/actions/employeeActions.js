@@ -4,10 +4,10 @@ import axios,{url} from './customAxios';
 
 // import { history } from '../store';
 import {
-  EMPLOYEE_COUNT_FAIL,
 	SET_LOADING_EMPLOYEE,
 	COMPANY_INFO_SUCCESS,
-	NOT_LOADING_EMPLOYEE
+	NOT_LOADING_EMPLOYEE,
+	COMPANY_INFO_FAIL
 } from './types';
 
 import { toast } from "react-toastify";
@@ -16,7 +16,6 @@ import {errMsg} from './utils';
 export const COMPANY_INFO = (form_data) => async (dispatch,getState) => {
 	try {
     dispatch({ type: SET_LOADING_EMPLOYEE });
-		debugger;
     const id = getState().auth.user.cleaner.business;
 		// if(name!='premium'){
 		// 	toast.warn("only premium cleaners can edit");
@@ -44,13 +43,30 @@ export const COMPANY_INFO = (form_data) => async (dispatch,getState) => {
     // console.log(res.data);
 
 		dispatch({ type: COMPANY_INFO_SUCCESS, payload: res.data });
-		toast.success("EMPLOYEE updated scuccessfully...");
+		toast.success("Company Info updated scuccessfully...");
 	} catch (error) {
 
-		dispatch({ type: EMPLOYEE_COUNT_FAIL});
+		dispatch({ type: COMPANY_INFO_FAIL});
 		errMsg(error)
 	}
 };
+
+export const FETCH_COMPANY_INFO = () => async (dispatch,getState) => {
+	try {
+    dispatch({ type: SET_LOADING_EMPLOYEE });
+    const id = getState().auth.user.cleaner.business;
+
+		const res = await axios(`${url}/businesses/${id}`);
+
+		dispatch({ type: COMPANY_INFO_SUCCESS, payload: res.data });
+	} catch (error) {
+
+		dispatch({ type: COMPANY_INFO_FAIL});
+		errMsg(error)
+	}
+};
+
+
 
 export const SET_EMPLOYEE_LOADING = () => async (dispatch) => {
 	dispatch({ type: SET_LOADING_EMPLOYEE });

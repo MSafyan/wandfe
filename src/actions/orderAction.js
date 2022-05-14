@@ -149,7 +149,6 @@ export const FETCH_APPOINTLIST = (form_data) => async (dispatch,getState) => {
 		const cleanerId=getState().auth.user.cleaner.id;
 
 		const res = await axios.get(`${url}/bookings?status_eq=${form_data}&cleaner_eq=${cleanerId}`);
-		console.log(res.data);
 		dispatch({ type: FETCH_APPOINTLIST_SUCCESS, payload: res.data });
 
 	} catch (error) {
@@ -169,7 +168,6 @@ export const NEXT_SERVICE = () => async (dispatch,getState) => {
 			const cleanerId=getState().auth.user.cleaner.id;
 			res = await axios.get(`${url}/bookings?status_eq=ACTIVE&cleaner_eq=${cleanerId}&_sort=date:asc,time:asc&_limit=1`);
 		}
-		console.log(res);
 		
 		dispatch({ type: NEXT_SERVICE_SUCCESS, payload: res.data[0] });
 	} catch (error) {
@@ -200,7 +198,6 @@ export const TOGGLE_ORDER_STATUS = (form_data) => async (dispatch) => {
 export const ORDER_FEATURED = (form_data) => async (dispatch) => {
 	try {
     dispatch({ type: SET_LOADING_ORDER });
-		console.log(form_data)
 
 		const res = await axios.post(`${url}/bookings/revenueYearly`,form_data);
 
@@ -222,7 +219,6 @@ export const ORDER_FIND = (form_data) => async (dispatch) => {
 	} catch (error) {
 
 		dispatch({ type: ORDER_FIND_FAIL});
-    console.log(error.response);
 		errMsg(error)
     
 	}

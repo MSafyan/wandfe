@@ -15,13 +15,14 @@ import {
   FormControlLabel,
   FormControl,
 } from '@material-ui/core';
+import { toast } from "react-toastify";
+
 import Test from '../test'
 
 import clsx from 'clsx'
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 
 import Layout from '../../components/layout/Index'
-import { toast } from 'react-toastify';
 
 import { connect } from "react-redux";
 import { NEW_ORDER,FETCH_CLEANER } from "../../actions/orderAction";
@@ -42,23 +43,28 @@ const useStyles = makeStyles((theme) => ({
     gridColumnGap:theme.spacing(2),
     gridColumnRow:theme.spacing(2),
     [theme.breakpoints.down('sm')]: {
-      gridTemplateRows:'0.2fr 1.3fr 1fr 1.6fr 0.6fr',
+      gridTemplateRows:'0fr',
       gridTemplateColumns:'1.2fr 1fr',
       gridTemplateAreas:
       `"heading confirmBtn" 
       "serviceDetial serviceDetial"
-      "dateTime dateTime" 
       "type type"
+      "dateTime dateTime" 
       "comment comment"`,
     }
   },
   bold:{
     fontWeight:"bold"
   },
+
   cardHeading:{
-    fontSize:"18px",
+    color:theme.palette.primary.lightDark,
+    paddingBottom:theme.spacing(1),
+    fontSize:"1.05vw",
     fontWeight:'bold',
-    paddingBottom:theme.spacing(1)
+    [theme.breakpoints.down('sm')]: {
+      fontSize:"15px",
+    },
   },
   font:{
     textDecoration:"none"
@@ -90,27 +96,54 @@ const useStyles = makeStyles((theme) => ({
     justifySelf:'start'
   },
   header:{
+    alignSelf:'center',
     justifySelf:'Start',
-    paddingBottom:theme.spacing(3),
+    fontSize:'3.2vw',
+    color:theme.palette.primary.lightDark,
     [theme.breakpoints.down('sm')]: {
-      fontSize:"1.3rem",
+      fontSize:"4vw",
       textAlign:'left',
-    }
+      marginTop:"1rem",
+      paddingBottom:'0.8rem'
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize:"4.8vw",
+    },
+  },
+  headerFirst:{
+    fontWeight:"bold",
+    [theme.breakpoints.down('sm')]: {
+      display:'block'
+    },
   },
   confirmBtn:{
+    alignSelf:'center',
     background:theme.palette.primary.lightDark,
-    width:'80%',
-    height:theme.spacing(7),
+    width:'70%',
     padding:'0px',
     color:"white",
-    paddingRight:theme.spacing(1),
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.up('md')]: {
+      height:'2.8vw',
+      fontSize:'0.7vw',
+    },
+    [theme.breakpoints.down('md')]: {
+      width:'70%',
+      height:'35px',
+      display:'flex',
+      justifyContent:'space-between',
+      padding:'0px 20px'
+    },
+    [theme.breakpoints.down('xs')]: {
       width:'100%',
-      fontSize:'0.6rem'
+      fontSize:'2.4vw',
+      padding:'0px 10px'
     }
   },
-  cleanerHeader:{
-    paddingBottom:theme.spacing(2)
+  confirmBtnIcon:{
+    fill:'white',
+    [theme.breakpoints.down('md')]: {
+      fontSize:'2rem',
+    },
   },
   dot:{
     height: '8px',
@@ -135,6 +168,35 @@ const useStyles = makeStyles((theme) => ({
     textAlign:'center',
     borderRadius:theme.spacing(2)
   },
+  dateTimeInput:{
+    [theme.breakpoints.up('md')]: {
+      fontSize:'4vw'
+    }
+  },
+  labelInput:{
+    '& .MuiInputBase-input':{
+      [theme.breakpoints.up('md')]: {
+        fontSize:'0.75vw',
+      }
+    }
+  },
+  typeBody:{
+    [theme.breakpoints.up('md')]: {
+      fontSize:'0.77vw',
+      display:'inline-block'
+    }
+  },
+  typeHeading:{
+    "& .MuiTypography-body1":{
+      fontWeight:'600',
+      fontSize:'13px',
+      color:theme.palette.primary.lightDark,
+      [theme.breakpoints.up('md')]: {
+        fontSize:'0.85vw',
+        display:'inline-block'
+      }
+    }
+  },
   field:{
     marginBottom:"1rem",
     [theme.breakpoints.down('sm')]: {
@@ -152,6 +214,11 @@ const useStyles = makeStyles((theme) => ({
   },
   fontLight:{
     color:"#004A6B"
+  },
+  desktopView:{
+    [theme.breakpoints.down('sm')]: {
+      display:'none'
+    }
   }
 }));
 
@@ -172,19 +239,6 @@ export const types = [
 
 
 const FORM_VALIDATION = Yup.object({
-  // bathroomCount: Yup.number()
-  //   .integer()
-  //   .typeError('Only number/digit allowed').required(),
-	// kitchenCount: Yup.number()
-  //   .integer()
-  //   .typeError('Only number/digit allowed').required(),
-  // bedroomCount:  Yup.number()
-  // .integer()
-  // .typeError('Only number/digit allowed').required(),
-  // address: Yup.string()
-  //   .required('Required'),
-  // pets: Yup.string()
-  //   .required('Required'),
   instructions:Yup.string()
     .required(),
   type:Yup.string()
@@ -203,10 +257,6 @@ const CompanyInfo = ({NEW_ORDER,FETCH_CLEANER,type,customer,edit,history}) => {
     // eslint-disable-next-line
   },[])
 
-  // const pets={
-  //   true:'Yes',
-  //   false:'No',
-  // }
 
   const formState=()=>{
     const INITIAL_FORM_STATE = {
@@ -255,58 +305,23 @@ const CompanyInfo = ({NEW_ORDER,FETCH_CLEANER,type,customer,edit,history}) => {
               <Form>
                 <div className={classes.gridWrapper}>
                   <Typography variant='h4' style={{gridArea:'heading'}} className={classes.header}>
-                    <span className={classes.bold}> Create a Booking</span>
-                    {/* <br/> */}
-                    - Personal Details
+                    <span className={classes.headerFirst}> Create a Booking</span>
+                    <span className={classes.desktopView}>{" - "}</span>
+                    Personal Details
                   </Typography>
-                    {/* <NavLink to="/bookingPayment" variant="body2" className={classes.font}> */}
                     <Button style={{gridArea:'confirmBtn'}}
                       className={classes.confirmBtn}
                       type='submit'
                       variant='contained'
-                      endIcon={<ArrowRightAltIcon style={{fill:'white'}}/>}
+                      endIcon={<ArrowRightAltIcon className={classes.confirmBtnIcon}/>}
                     >
                       Proceed to Payment
                     </Button>  
-                  {/* </NavLink> */}
                   <div style={{gridArea:"serviceDetial"}} className={classes.card}>
                       <Typography variant='body1' className={classes.cardHeading}>
-                        Give us some info about house
+                        What home would you like to be cleaned?
                       </Typography>
                   <Test />
-                      {/* <div className={classes.flex}>
-												<div className={classes.field}>
-													<Field
-														name="bathroomCount" placeholder="bathroomCount" as={Input}
-													/>
-													<ErrorMessage component='div' style={{color:"red"}} name="bathroomCount" />
-												</div> 
-												<div className={clsx(classes.field,classes.rightFeild)}>
-													<Field
-														name="kitchenCount" placeholder="kitchenCount" as={Input}
-													/>
-													<ErrorMessage component='div' style={{color:"red"}} name="kitchenCount" />
-												</div> 
-                      </div>
-                      <div className={classes.field}>
-													<Field
-														name="bedroomCount" placeholder="bedroomCount" as={Input}
-													/>
-													<ErrorMessage component='div' style={{color:"red"}} name="bedroomCount" />
-                      </div>
-                      <div className={classes.field}>
-													<Field className={classes.addressField}
-														name="address" placeholder="Address" as={Input}
-													/>
-													<ErrorMessage component='div' style={{color:"red"}} name="address" />
-                      </div>
-                      <div className={classes.flex}>
-                        <Select
-                          name="pets"
-                          label="Pets"
-                          options={pets}
-                        />
-											</div>  */}
                   </div>
 
                   <div style={{gridArea:"dateTime"}} className={classes.card}>
@@ -355,6 +370,7 @@ const CompanyInfo = ({NEW_ORDER,FETCH_CLEANER,type,customer,edit,history}) => {
                       inputClass="month-input"
                       disableDayPicker
                       format="HH"
+                      className={classes.dateTimeInput}
                       value={values.time}
                       onChange={value => {
                         setFieldValue("time", value)}}
@@ -366,6 +382,7 @@ const CompanyInfo = ({NEW_ORDER,FETCH_CLEANER,type,customer,edit,history}) => {
                       inputClass="month-input"
                       disableDayPicker
                       format="mm"
+                      className={classes.dateTimeInput}
                       value={values.time}
                       onChange={value => {
                         setFieldValue("time", value)}}
@@ -374,16 +391,20 @@ const CompanyInfo = ({NEW_ORDER,FETCH_CLEANER,type,customer,edit,history}) => {
                       ]} 
                     />
                   </div>
+
+                  {/* comment  */}
                   <div style={{gridArea:"comment"}} className={classes.card}>
                     <Typography variant='body1' className={classes.cardHeading}>Any extra comments you’d like to add?</Typography>
                     <Typography variant='subtitle2'>Write your comments or any additional Notes here</Typography>
                     <div className={classes.field}>
                       <Field
-                        name="instructions" placeholder="instructions" as={Input}
+                        name="instructions" placeholder="instructions" as={Input} className={classes.labelInput}
                       />
                       <ErrorMessage component='div' style={{color:"red"}} name="instructions" />
                     </div> 
                   </div>
+
+                  {/* type section */}
                   <div style={{gridArea:"type"}} className={classes.card}>
                     <Typography variant='body1' className={classes.cardHeading}>What type of cleaning would  you like</Typography>
 
@@ -395,9 +416,9 @@ const CompanyInfo = ({NEW_ORDER,FETCH_CLEANER,type,customer,edit,history}) => {
                         <div style={{display:'grid',gridTemplateColumns:`repeat(auto-fit,minmax(300px,1fr))`}}>
                           {
                             types.map((val,i)=>{
-                              return <div>
-                              <FormControlLabel value={val.label} control={<Radio />} label={val.label} />
-                              <Typography variant='body2'>
+                              return <div key={i}>
+                              <FormControlLabel value={val.label} className={classes.typeHeading} control={<Radio />} label={val.label} />
+                              <Typography variant='body2' className={classes.typeBody}>
                                 {val.body}
                               </Typography>
                             </div>

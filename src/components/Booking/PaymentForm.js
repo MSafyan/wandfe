@@ -20,7 +20,7 @@ const CARD_OPTIONS = {
 			fontSize: "16px",
 			fontSmoothing: "antialiased",
 			":-webkit-autofill": { color: "#fce883" },
-			"::placeholder": { color: "#87bbfd" }
+			"::placeholder": { color: "#00C5C8" }
 		},
 		invalid: {
 			iconColor: "#ffc7ee",
@@ -31,8 +31,17 @@ const CARD_OPTIONS = {
 
 const useStyles = makeStyles((theme) => ({
 	justifyStart:{
-    textAlign:'left'
+    textAlign:'left',
+		fontWeight:'600',
+		color:theme.palette.primary.lightDark,
+		fontSize:'13px',
+		[theme.breakpoints.up('md')]: {
+			fontSize:"0.8vw",
+		},
   },
+	feildWrapper:{
+		paddingBottom:'2vw'
+	}
 }))
 
 export default function PaymentForm() {
@@ -83,22 +92,24 @@ export default function PaymentForm() {
 
 		return (
 				<>
-							<Typography variant='body1' className={classes.justifyStart}>
-								Card Number
-							</Typography>
-						<fieldset className="FormGroup">
-								<div className="FormRow">
-									<CardNumberElement options={CARD_OPTIONS}/> 
-								</div>
-						</fieldset>
-							<Typography variant='body1' className={classes.justifyStart}>
-								CVC
-							</Typography>
-						<fieldset className="FormGroup">
-								<div className="FormRow">
-									<CardCvcElement options={CARD_OPTIONS}/>
-								</div>
-						</fieldset>
+				<div className={classes.feildWrapper}>
+					<Typography variant='body1' className={classes.justifyStart}>
+						Card Number
+					</Typography>
+					<fieldset className="FormGroup">
+						<div className="FormRow">
+							<CardNumberElement options={CARD_OPTIONS}/> 
+						</div>
+					</fieldset>
+				</div>
+				<Typography variant='body1' className={classes.justifyStart}>
+					CVC
+				</Typography>
+				<fieldset className="FormGroup">
+					<div className="FormRow">
+						<CardCvcElement options={CARD_OPTIONS}/>
+					</div>
+				</fieldset>
 				</>
 		)
 }

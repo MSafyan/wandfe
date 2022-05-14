@@ -43,45 +43,108 @@ const useStyles = makeStyles((theme) => ({
   select:{
     "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
       border: "none",
-      boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px'
+      boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
     },
+    "& .MuiSelect-outlined":{},
+    "& .MuiOutlinedInput-input":{
+      [theme.breakpoints.only('lg')]: {
+        fontSize:'15px',
+        padding:'11px 12px'
+      },
+      [theme.breakpoints.down('md')]: {
+        fontSize:'13px',
+        padding:'9.5px 10px'
+      },
+      [theme.breakpoints.down('sm')]: {
+        padding:'14.5px 10px'
+      },
+    },
+    "& .MuiInputLabel-outlined": {
+      [theme.breakpoints.down('lg')]: {
+        transform:'translate(14px, 14px) scale(1)',
+      },
+      [theme.breakpoints.only('lg')]: {
+        fontSize:'13px',
+      },
+      [theme.breakpoints.only('md')]: {
+        fontSize:'12px',
+      },
+    },
+    "& .MuiInputLabel-outlined.MuiInputLabel-shrink":{
+      transform:'translate(14px, -6px) scale(0.75)',
+    }
   },
   confirmBtn:{
     background:theme.palette.primary.lightDark,
     width:'70%',
-    height:theme.spacing(7),
     padding:'0px',
     color:"white",
-    gridArea:'confirmBtn',
-    textAlign:'right',
-    fontSize:theme.spacing(1.8),
-    [theme.breakpoints.down('sm')]: {
-      width:'100%'
+    [theme.breakpoints.up('md')]: {
+      height:'2.8vw',
+      fontSize:'0.7vw',
+    },
+    [theme.breakpoints.down('md')]: {
+      width:'100%',
+      height:'35px',
+      display:'flex',
+      justifyContent:'space-between',
+      padding:'0px 20px'
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize:'2.4vw',
+      padding:'0px 10px'
     }
   },
-  dateField:{
-    boxShadow: 'rgba(149, 157, 165, 0.2) 0px 4px 12px',
-    height:"-webkit-fill-available",
-    paddingTop:theme.spacing(1.2),
-    '& .MuiFormControl-marginNormal':{
-      margin:'0px'
+  confirmBtnIcon:{
+    fill:'white',
+    [theme.breakpoints.down('md')]: {
+      fontSize:'2rem',
     },
-    '& .MuiInputLabel-animated':{
-      top:'-40%',
-      paddingLeft:'5px'
+  },
+  dateField:{
+    boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+    '& .MuiFormControl-marginNormal':{
+      margin:'0px',
+      marginLeft:'10px',
+      display:'flex',
+      [theme.breakpoints.down('md')]: {
+        height:'35px'
+      }
+    },
+    '& .MuiInputLabel-formControl':{
+      transform:'translate(0, 15px) scale(1)',
+      [theme.breakpoints.only('lg')]: {
+        fontSize:'13px',
+      },
+      [theme.breakpoints.only('md')]: {
+        fontSize:'12px',
+      },
     },
     '& .MuiInput-formControl':{
       marginTop:'0px'
     },
     "& .MuiInput-underline::before":{
       border: "none",
+    },
+    "& .MuiSvgIcon-root":{
+       transform:'translate(0, 5px) scale(1)',
+       [theme.breakpoints.only('lg')]: {
+        fontSize:'18px',
+      },
+      [theme.breakpoints.only('md')]: {
+        fontSize:'12px',
+      },
     }
   },
   breakdownBtn:{
+    fontWeight:"bold",
+    color:theme.palette.primary.lightDark,
     gridArea:'breakdown',
-    fontSize:theme.spacing(1.7),
     bottom:'-20%',
     textDecoration:'underline',
+    [theme.breakpoints.up('md')]: {
+      fontSize:'.75vw',
+    }
   },
   font:{
     textDecoration:'none'
@@ -119,84 +182,84 @@ const SearchForm = ({ORDER_FIND,loading}) => {
 
   return (
     <>
-            <Formik
-              initialValues={ INITIAL_FORM_STATE}
-              validationSchema={FORM_VALIDATION}
-              onSubmit={values => {
-                console.log(values);
-                ORDER_FIND(values);
-              }}
-            >
-              {({ values, errors, handleSubmit, setFieldValue }) => (
-                <Form>
-                <div className={classes.formWrapper1}>
-                  <div style={{gridArea:"status"}}>
-                    <Select
-                      name="allStatus"
-                      label="All Status"
-                      options={allStatus}
-                      className={classes.select}
-                    />
-                  </div>
-                
-                  <div style={{gridArea:"duration"}}>
-                    <Select
-                      name="allDurations"
-                      label="All Durations"
-                      options={allDurations}
-                      className={classes.select}
-                    />
-                  </div>
-                  <div style={{gridArea:"date"}} className={classes.dateField}>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                      <KeyboardDatePicker
-                        disableToolbar
-                        label="Select Date"
-                        name='date'
-                        variant="inline"
-                        format="MM/dd/yyyy"
-                        margin="normal"
-                        id="date-picker-inline"
-                        // label="Date picker inline"
-                        value={values.date}
-                        onChange={value => setFieldValue("date", value)}
-                        KeyboardButtonProps={{
-                          'aria-label': 'change date',
-                        }}
-                      />
-                    </MuiPickersUtilsProvider>
-                  </div>
+      <Formik
+        initialValues={ INITIAL_FORM_STATE}
+        validationSchema={FORM_VALIDATION}
+        onSubmit={values => {
+          console.log(values);
+          ORDER_FIND(values);
+        }}
+      >
+        {({ values, errors, handleSubmit, setFieldValue }) => (
+          <Form>
+          <div className={classes.formWrapper1}>
+            <div style={{gridArea:"status"}}>
+              <Select
+                name="allStatus"
+                label="All Status"
+                options={allStatus}
+                className={classes.select}
+              />
+            </div>
+          
+            <div style={{gridArea:"duration"}}>
+              <Select
+                name="allDurations"
+                label="All Durations"
+                options={allDurations}
+                className={classes.select}
+              />
+            </div>
+            <div style={{gridArea:"date"}} className={classes.dateField}>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  label="Select Date"
+                  name='date'
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="normal"
+                  id="date-picker-inline"
+                  // label="Date picker inline"
+                  value={values.date}
+                  onChange={value => setFieldValue("date", value)}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change date',
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+            </div>
 
-                  <div style={{gridArea:"breakdown",textAlign:'start'}} >
-                      <Button
-                        disabled={loading}
-                        type="submit"
-                        className={classes.breakdownBtn}
-                        startIcon={
-                          loading ? (
-                            <CircularProgress size="1rem" />
-                          ) : null
-                        }
-                      >
-                      {loading ? 'Searching' : 'see Breakdown'}
-                    </Button>
-                  </div>
-                  <div>
-                    <NavLink to="/createBooking" variant="body2" className={classes.font}>
-                      <Button
-                        variant="contained"
-                        className={classes.confirmBtn}
-                        color="primary"
-                        endIcon={<AddIcon style={{fill:'white'}}/>}
-                      >
-                        Add Appointment
-                      </Button>
-                    </NavLink>
-                  </div>
-                </div>
-              </Form>
-              )}
-            </Formik>
+            <div style={{gridArea:"breakdown",textAlign:'start'}} >
+                <Button
+                  disabled={loading}
+                  type="submit"
+                  className={classes.breakdownBtn}
+                  startIcon={
+                    loading ? (
+                      <CircularProgress size="1rem" />
+                    ) : null
+                  }
+                >
+                {loading ? 'Searching' : 'see Breakdown'}
+              </Button>
+            </div>
+            <div>
+              <NavLink to="/createBooking" variant="body2" className={classes.font}>
+                <Button
+                  variant="contained"
+                  className={classes.confirmBtn}
+                  color="primary"
+                  endIcon={<AddIcon className={classes.confirmBtnIcon}/>}
+                >
+                  Add Appointment
+                </Button>
+              </NavLink>
+            </div>
+          </div>
+        </Form>
+        )}
+      </Formik>
     </>
   );
 };

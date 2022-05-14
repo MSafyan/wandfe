@@ -10,6 +10,7 @@ import {
   Checkbox,
   FormControlLabel,
 } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
 import clsx from 'clsx';
 import Select from '../../components/FormsUI/Selects'
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
@@ -29,15 +30,15 @@ const useStyles = makeStyles((theme) => ({
   gridContainer:{
     display:'grid',
     gridTemplateColumns:'2fr 1fr',
-    gridTemplateRows:'0.3fr 1.2fr 0.6fr' ,
+    gridTemplateRows:'0.2fr 1.7fr 1.4fr' ,
     gridGap:theme.spacing(3),
     gridTemplateAreas:`
     "heading confirmBtn" 
     "personal billing" 
     "address address"`,
     [theme.breakpoints.down('sm')]: {
-      gridTemplateColumns:'1fr 1fr',
-      gridTemplateRows:'0.2fr 1.4fr 1fr 1fr' ,
+      gridTemplateColumns:'1.2fr 1fr',
+      gridTemplateRows:'0fr' ,
       gridTemplateAreas:`
       "heading confirmBtn" 
       "personal personal"
@@ -46,28 +47,67 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   header:{
+    alignSelf:'center',
     justifySelf:'Start',
-    paddingBottom:theme.spacing(3),
+    fontWeight:"bold",
+    color:theme.palette.primary.lightDark,
+    fontSize:'3.2vw',
     [theme.breakpoints.down('sm')]: {
+      padding:'0.7rem 0px',
       fontSize:"1.3rem",
       textAlign:'left',
-      marginTop:"1rem"
-
     }
   },
   confirmBtn:{
+    alignSelf:'center',
     background:theme.palette.primary.lightDark,
     width:'70%',
-    height:theme.spacing(7),
     padding:'0px',
     color:"white",
-    [theme.breakpoints.down('sm')]: {
+    "& .MuiButton-label":{
       width:'100%'
+    },
+    [theme.breakpoints.up('xl')]: {
+      height:'2.8vw',
+      fontSize:'0.7vw',
+    },
+    [theme.breakpoints.up('lg')]: {
+      height:'2.8vw',
+      fontSize:'0.9vw',
+    },
+    [theme.breakpoints.down('md')]: {
+      height:'3vw',
+      width:'100%',
+    },
+    [theme.breakpoints.down('sm')]: {
+      fontSize:'0.7rem',
+      height:'4vw',
+      width:'60%',
+      display:'flex',
+      padding:'5px',
+      justifyContent:'space-around',
+      marginLeft:'auto',
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize:'0.55rem',
+      height:'7vw',
+      width:'100%',
     }
   },
+  confirmBtnIcon:{
+    fill:'white',
+    [theme.breakpoints.down('md')]: {
+      fontSize:'2rem',
+    },
+  },
   cardHeading:{
-    fontSize:"18px",
-    fontWeight:'bold'
+    // fontSize:"18px",
+    color:theme.palette.primary.lightDark,
+    fontSize:"0.9vw",
+    fontWeight:'bold',
+    [theme.breakpoints.down('sm')]: {
+      fontSize:"18px",
+    },
   },
   customerGrid:{
     gridArea:'personal',
@@ -80,9 +120,12 @@ const useStyles = makeStyles((theme) => ({
     "firstName lastName phoneNumber email"
     "companyName preferredMethod marketingSource marketingSource"`,
     gridColumnGap:theme.spacing(1),
+    [theme.breakpoints.up('md')]: {
+      minHeight:'20vw'
+    },
     [theme.breakpoints.down('sm')]: {
       gridTemplateColumns:'1fr 1fr',
-      // gridTemplateRows:'0.2fr 1.4fr 1fr 1fr 1fr' ,
+      gridTemplateRows:'' ,
       gridTemplateAreas:`
       "heading heading"
       "title no"
@@ -117,7 +160,7 @@ const useStyles = makeStyles((theme) => ({
   billingGrid:{
     gridArea:"billing",
     display:'grid',
-    gridTemplateRows:'1fr 1fr 1fr' ,
+    gridTemplateRows:'0.6fr 1fr 0.6fr 1fr' ,
     gridTemplateColumns:'1fr',
     textAlign:'left',
     gridTemplateAreas:`
@@ -125,16 +168,58 @@ const useStyles = makeStyles((theme) => ({
     "line1" 
     "addAddress"
     "notes"`,
+    [theme.breakpoints.up('md')]: {
+      gridTemplateRows:'0.3fr 0.6fr 0.6fr 1fr' ,
+    }
   },
   select:{
     "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
       border: "none",
-      boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px'
+      boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
     },
+    "& .MuiSelect-outlined":{},
+    "& .MuiOutlinedInput-input":{
+      [theme.breakpoints.only('lg')]: {
+        fontSize:'15px',
+        padding:'11px 12px'
+      },
+      [theme.breakpoints.down('md')]: {
+        fontSize:'13px',
+        padding:'9.5px 10px'
+      },
+      [theme.breakpoints.down('sm')]: {
+        padding:'14.5px 10px'
+      },
+    },
+    "& .MuiInputLabel-outlined": {
+      [theme.breakpoints.down('lg')]: {
+        transform:'translate(14px, 14px) scale(1)',
+      },
+      [theme.breakpoints.only('lg')]: {
+        fontSize:'13px',
+      },
+      [theme.breakpoints.only('md')]: {
+        fontSize:'12px',
+      },
+    },
+    "& .MuiInputLabel-outlined.MuiInputLabel-shrink":{
+      transform:'translate(14px, -6px) scale(0.75)',
+    }
   },
   label:{
     textAlign:'left',
-    color:theme.palette.primary.lightDark
+    color:theme.palette.primary.lightDark,
+    fontWeight:"600",
+    [theme.breakpoints.up('md')]: {
+      fontSize:'0.75vw',
+    }
+  },
+  labelInput:{
+    '& .MuiInputBase-input':{
+      [theme.breakpoints.up('md')]: {
+        fontSize:'0.75vw',
+      }
+    }
   },
   bold:{
     fontWeight:'bold'
@@ -146,6 +231,50 @@ const useStyles = makeStyles((theme) => ({
       marginLeft:'0px',
     }
   },
+  sameAsWrapper:{
+    margin:'1.2vw 0px',
+    display:'flex',
+    alignItems:"center",
+    '& .MuiFormControlLabel-root':{
+      marginRight:'5px',
+    },
+  },
+  sameAs:{
+    color:theme.palette.primary.lightDark,
+    fontWeight:"600",
+    [theme.breakpoints.up('md')]: {
+      fontSize:'0.75vw',
+    }
+  },
+  sameAsIcon:{
+    '& .MuiSvgIcon-root':{
+      fontSize:'1.2vw',
+      [theme.breakpoints.down('sm')]: {
+        fontSize:'24px'
+      }
+    }
+  },
+  addNewWrapper:{
+    display:'flex',
+    alignItems:"center",
+    "& .MuiIconButton-root":{
+      padding:'0px',
+      paddingRight:'12px',
+    }
+  },
+  addNew:{
+    color:theme.palette.primary.lightDark,
+    fontWeight:"400",
+    [theme.breakpoints.up('md')]: {
+      fontSize:'0.70vw',
+    }
+  },
+  addNewIcon:{
+    fontSize:'1.2vw',
+    [theme.breakpoints.down('sm')]: {
+      fontSize:'24px'
+    }
+  },
   card:{
     padding:`${theme.spacing(4)}px ${theme.spacing(3)}px`,
     borderRadius:theme.spacing(2),
@@ -154,6 +283,11 @@ const useStyles = makeStyles((theme) => ({
   },
   justifyStart:{
     textAlign:'left'
+  },
+  desktopView:{
+    [theme.breakpoints.down('sm')]: {
+      display:'none'
+    }
   }
 }));
 
@@ -265,7 +399,7 @@ const NewCustomer = ({type,history,NEW_CUSTOMER,customer,loading,edit}) => {
               <Form>
                 <div className={classes.gridContainer}>
                   <Typography variant='h4' style={{gridArea:'heading'}} className={classes.header}>
-                    <span className={classes.bold}> Add Customer  </span>
+                    Add <span className={classes.desktopView}>  New   </span> Customer
                   </Typography>
                     {/* <NavLink to="/bookingPayment" variant="body2" className={classes.font}> */}
                     <Button style={{gridArea:'confirmBtn'}}
@@ -278,14 +412,14 @@ const NewCustomer = ({type,history,NEW_CUSTOMER,customer,loading,edit}) => {
                           <CircularProgress size="1rem" />
                         ) : undefined
                       }
-                      endIcon={<ArrowRightAltIcon style={{fill:'white'}}/>}
+                      endIcon={<ArrowRightAltIcon className={classes.confirmBtnIcon}/>}
                     >
                       Create Customer
                     </Button>  
                   {/* </NavLink> */}
                   <div className={clsx(classes.customerGrid,classes.card)}>
                       <Typography variant='body1' className={clsx(classes.justifyStart,classes.cardHeading)} style={{gridArea:'heading'}}>personal Detail</Typography>
-                      <div style={{gridArea:"title"}}>
+                      <div style={{gridArea:"title",alignSelf:'flex-start'}}>
                         <Select
                           name="title"
                           label="Title"
@@ -299,7 +433,7 @@ const NewCustomer = ({type,history,NEW_CUSTOMER,customer,loading,edit}) => {
                           First Name
                         </Typography>
                         <Field
-                          name="firstName" as={Input}
+                          name="firstName" as={Input} className={classes.labelInput}
                         />
                         <ErrorMessage component='div' style={{color:"red"}} name="firstName" />
                       </div>
@@ -308,7 +442,7 @@ const NewCustomer = ({type,history,NEW_CUSTOMER,customer,loading,edit}) => {
                           Last Name
                         </Typography>
                         <Field
-                          name="lastName" as={Input}
+                          name="lastName" as={Input} className={classes.labelInput}
                         />
                         <ErrorMessage component='div' style={{color:"red"}} name="lastName" />
                       </div>
@@ -317,7 +451,7 @@ const NewCustomer = ({type,history,NEW_CUSTOMER,customer,loading,edit}) => {
                           Phone Number
                         </Typography>
                         <Field
-                          name="phoneNumber" as={Input}
+                          name="phoneNumber" as={Input} className={classes.labelInput}
                         />
                         <ErrorMessage component='div' style={{color:"red"}} name="phoneNumber" />
                       </div>
@@ -326,7 +460,7 @@ const NewCustomer = ({type,history,NEW_CUSTOMER,customer,loading,edit}) => {
                           Email
                         </Typography>
                         <Field
-                          name="email" as={Input}
+                          name="email" as={Input} className={classes.labelInput}
                         />
                         <ErrorMessage component='div' style={{color:"red"}} name="email" />
                       </div>
@@ -335,7 +469,7 @@ const NewCustomer = ({type,history,NEW_CUSTOMER,customer,loading,edit}) => {
                           Company Name
                         </Typography>
                         <Field
-                          name="companyName" as={Input}
+                          name="companyName" as={Input} className={classes.labelInput}
                         />
                         <ErrorMessage component='div' style={{color:"red"}} name="companyName" />
                       </div>
@@ -344,7 +478,7 @@ const NewCustomer = ({type,history,NEW_CUSTOMER,customer,loading,edit}) => {
                           Preferred Method
                         </Typography>
                         <Field
-                          name="preferredMethod" as={Input}
+                          name="preferredMethod" as={Input} className={classes.labelInput}
                         />
                         <ErrorMessage component='div' style={{color:"red"}} name="preferredMethod" />
                       </div>
@@ -360,7 +494,7 @@ const NewCustomer = ({type,history,NEW_CUSTOMER,customer,loading,edit}) => {
                         />
                         <ErrorMessage component='div' style={{color:"red"}} name="confirmPassword" />
                       </div> */}
-                      <div style={{gridArea:"marketingSource"}} className={classes.marketSource}>
+                      <div style={{gridArea:"marketingSource",alignSelf:'center'}} className={classes.marketSource}>
                         <Select
                           name="marketSource"
                           label="MarketSource"
@@ -376,39 +510,41 @@ const NewCustomer = ({type,history,NEW_CUSTOMER,customer,loading,edit}) => {
                       Billing Address
                     </Typography>  
                     <div style={{gridArea:'line1'}}>
-                      <FormControlLabel
-                        checked={values.termsCheck}
-                        onChange={() => setFieldValue("termsCheck", !values.termsCheck)}
-                        control={<Checkbox />}
-                        label="Same as Address line 1"
-                        style={{display:'block'}}
-                      />
-                    <Button
-                      component="label"
-                      startIcon={<AddIcon style={{marginRight:'0.6rem'}}/>}
-                      style={{padding:'0px',
-                      border:'none',
-                      fontWeight:'bold',
-                      fontSize:'12px'}}
-                    >
-                      Add new Service Address
-                    </Button>
+                      <div className={classes.sameAsWrapper}>
+                        <FormControlLabel
+                          checked={values.termsCheck}
+                          onChange={() => setFieldValue("termsCheck", !values.termsCheck)}
+                          className={classes.sameAsIcon}
+                          control={<Checkbox />}
+                        />
+                        <Typography variant='body2' className={classes.sameAs}>
+                          Same as Service Address 1
+                        </Typography>
+                      </div>
+                      <div className={classes.addNewWrapper}>
+                      <IconButton color="primary" aria-label="upload picture" component="span">
+                        <AddIcon className={classes.addNewIcon}/>
+                      </IconButton>
+                      <Typography variant='body2' className={classes.addNew}>
+                        Add an additional service location
+                      </Typography>
+                      </div>
                     </div>
                     {!values.termsCheck &&
                       <div style={{gridArea:"addAddress",paddingBottom:'0.8rem'}}>
                         <Field
-                          name="billingAddress" placeholder="billingAddress" as={Input}
+                          name="billingAddress" placeholder="billingAddress" as={Input} className={classes.labelInput}
                         />
                         <ErrorMessage component='div' style={{color:"red"}} name="billingAddress" />
                       </div>
                     }
                     <div style={{gridArea:"notes"}}>
-                      <Typography variant='body2' className={classes.bold}>
-                        Addition Information or notes
+                      <Typography variant='body2' className={classes.cardHeading}>
+                        Notes and Other Information
                       </Typography> 
                       <div >
                         <Field
-                          name="notes" placeholder="notes" as={Input}
+                          name="notes" placeholder="notes" as={Input} className={classes.labelInput}
                         />
                         <ErrorMessage component='div' style={{color:"red"}} name="notes" />
                       </div>
@@ -421,7 +557,7 @@ const NewCustomer = ({type,history,NEW_CUSTOMER,customer,loading,edit}) => {
                         Address1
                       </Typography>
                       <Field
-                        name="address1" as={Input}
+                        name="address1" as={Input} className={classes.labelInput}
                       />
                       <ErrorMessage component='div' style={{color:"red"}} name="address1" />
                     </div>  
@@ -430,7 +566,7 @@ const NewCustomer = ({type,history,NEW_CUSTOMER,customer,loading,edit}) => {
                         Address2
                       </Typography>
                       <Field
-                        name="address2" as={Input}
+                        name="address2" as={Input} className={classes.labelInput}
                       />
                       <ErrorMessage component='div' style={{color:"red"}} name="address2" />
                     </div>  
@@ -439,7 +575,7 @@ const NewCustomer = ({type,history,NEW_CUSTOMER,customer,loading,edit}) => {
                         City
                       </Typography>
                       <Field
-                        name="city" as={Input}
+                        name="city" as={Input} className={classes.labelInput}
                       />
                       <ErrorMessage component='div' style={{color:"red"}} name="city" />
                     </div>  
@@ -448,16 +584,16 @@ const NewCustomer = ({type,history,NEW_CUSTOMER,customer,loading,edit}) => {
                         Region
                       </Typography>
                       <Field
-                        name="region" as={Input}
+                        name="region" as={Input} className={classes.labelInput}
                       />
                       <ErrorMessage component='div' style={{color:"red"}} name="region" />  
                     </div>  
                     <div style={{gridArea:'zipCode'}} className={classes.justifyStart}>
-                    ``<Typography variant='body2' className={classes.label}>
+                    <Typography variant='body2' className={classes.label}>
                         Zip Code
                       </Typography>
                       <Field
-                        name="zipCode" as={Input}
+                        name="zipCode" as={Input} className={classes.labelInput}
                       />
                       <ErrorMessage component='div' style={{color:"red"}} name="zipCode" />
                     </div>  

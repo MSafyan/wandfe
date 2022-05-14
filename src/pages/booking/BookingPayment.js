@@ -33,14 +33,28 @@ const useStyles = makeStyles((theme) => ({
   },
   gridWrapper:{
     display:'grid',
-    gridTemplateAreas:`"heading heading confirmBtn" "cleanerInfo breakdown empty" "paymentInfo breakdown empty"`,
-    gridTemplateColumns:'5fr 4fr 4fr',
+    gridTemplateColumns:'5fr 4fr 1fr 4fr',
+    gridTemplateAreas:`"heading heading no confirmBtn" 
+    "cleanerInfo breakdown no empty" 
+    "paymentInfo breakdown no empty"`,
     gridTemplateRows:'0.6 1fr 1fr',
     gridColumnGap:theme.spacing(2),
     gridColumnRow:theme.spacing(2),
+    [theme.breakpoints.down('lg')]: {
+    gridTemplateColumns:'5fr 4fr 4fr',
+    gridTemplateAreas:`"heading heading confirmBtn" 
+    "cleanerInfo breakdown empty" 
+    "paymentInfo breakdown empty"`,
+    },
+    [theme.breakpoints.down('md')]: {
+    gridTemplateColumns:'1.2fr 1.2fr 1fr 1fr',
+    gridTemplateAreas:`"heading heading confirmBtn confirmBtn" 
+    "cleanerInfo cleanerInfo breakdown breakdown" 
+    "paymentInfo paymentInfo empty empty"`,
+    },
     [theme.breakpoints.down('sm')]: {
-      gridTemplateColumns:'1fr 1fr',
-      gridTemplateRows:'0.4fr 1fr 1fr 1.7fr' ,
+      gridTemplateColumns:'1fr 0.7fr',
+      gridTemplateRows:'',
       gridTemplateAreas:`"heading confirmBtn" 
       "cleanerInfo cleanerInfo" 
       "paymentInfo paymentInfo"
@@ -48,7 +62,8 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   bold:{
-    fontWeight:"bold"
+    fontWeight:"bold",
+    color:theme.palette.primary.lightDark
   },
   card:{
     padding:`${theme.spacing(4)}px ${theme.spacing(3)}px`,
@@ -57,9 +72,28 @@ const useStyles = makeStyles((theme) => ({
     background:'white',
     gridColumnGap:theme.spacing(2),
     gridRowGap:theme.spacing(3),
+    [theme.breakpoints.up('md')]: {
+      padding:`1.5vw 1.5vw`,
+      marginTop:'1.5vw',
+      gridColumnGap:'1vw',
+      gridRowGap:'1.5vw',
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding:`5vw`,
+		}
   },
   breakHeading:{
     paddingBottom:theme.spacing(4),
+    textAlign:'left'
+  },
+  breakdownCat:{
+    color:theme.palette.primary.lightDark,
+    [theme.breakpoints.up('md')]: {
+      fontSize:'1vw',
+    },
+    [theme.breakpoints.down('sm')]: {
+      fontSize:'13px',
+    },
   },
   flex:{
     display:'flex',
@@ -78,20 +112,56 @@ const useStyles = makeStyles((theme) => ({
     textAlign:'left'
   },
   header:{
+    alignSelf:'center',
     justifySelf:'Start',
-    paddingBottom:theme.spacing(3)
+    fontSize:'2.5vw',
+    color:theme.palette.primary.lightDark,
+    [theme.breakpoints.down('sm')]: {
+      fontSize:"1.3rem",
+      textAlign:'left',
+      marginTop:"1rem",
+      paddingBottom:'0.8rem'
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize:"1.1rem",
+    }
+  },
+  headerFirst:{
+    fontWeight:"bold",
+    [theme.breakpoints.down('sm')]: {
+      display:'block'
+    },
   },
   confirmBtn:{
+    alignSelf:'center',
+    marginLeft:'auto',
     background:theme.palette.primary.lightDark,
-    width:'60%',
-    height:theme.spacing(7),
+    width:'70%',
     padding:'0px',
     color:"white",
-    justifySelf:'right',
-    paddingRight:theme.spacing(1),
-    [theme.breakpoints.down('sm')]: {
-      width:'100%'
+    [theme.breakpoints.up('md')]: {
+      height:'2.8vw',
+      fontSize:'0.7vw',
+    },
+    [theme.breakpoints.down('md')]: {
+      width:'70%',
+      height:'35px',
+      display:'flex',
+      justifyContent:'space-between',
+      padding:'0px 20px',
+      fontSize:'1vw'
+    },
+    [theme.breakpoints.down('xs')]: {
+      width:'100%',
+      fontSize:'2.4vw',
+      padding:'0px 10px'
     }
+  },
+  confirmBtnIcon:{
+    fill:'white',
+    [theme.breakpoints.down('md')]: {
+      fontSize:'2rem',
+    },
   },
   dot:{
     height: '8px',
@@ -99,10 +169,93 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'black',
     borderRadius: '50%',
     display: 'inline-block',
-    marginRight:'1rem'
+    marginRight:'0.8vw'
+  },
+  avatar:{
+    [theme.breakpoints.down('sm')]: {
+      height:'1.7rem',
+      width:'1.7rem',
+    },
   },
   cleanerHeader:{
-    paddingBottom:theme.spacing(2)
+    paddingBottom:theme.spacing(2),
+    fontWeight:'bold',
+    color:theme.palette.primary.lightDark,
+    [theme.breakpoints.up('md')]: {
+      fontSize:'1.2vw',
+    },
+    [theme.breakpoints.down('sm')]: {
+      paddingBottom:theme.spacing(0),
+    },
+  },
+  cleanerName:{
+    fontWeight:'bold',
+    color:theme.palette.primary.lightDark,
+    [theme.breakpoints.up('md')]: {
+      fontSize:'1.2vw',
+    },
+    [theme.breakpoints.down('sm')]: {
+      fontSize:'11px',
+    },
+  },
+  cleanerVerified:{
+    fontWeight:'bold',
+    color:theme.palette.primary.lightDark,
+    [theme.breakpoints.up('md')]: {
+      fontSize:'0.75vw',
+    },
+    [theme.breakpoints.down('sm')]: {
+      fontSize:'8px',
+    },
+  },
+  review:{
+    [theme.breakpoints.down('sm')]: {
+      fontSize:'11px',
+    },
+  },
+  select:{
+    [theme.breakpoints.down('sm')]: {
+      marginTop:'1rem'
+    },
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      border: "none",
+      boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+    },
+    "& .MuiSelect-outlined":{},
+    "& .MuiOutlinedInput-input":{
+      [theme.breakpoints.only('lg')]: {
+        fontSize:'15px',
+        padding:'11px 12px'
+      },
+      [theme.breakpoints.down('md')]: {
+        fontSize:'13px',
+        padding:'9.5px 10px'
+      },
+      [theme.breakpoints.down('sm')]: {
+        padding:'14.5px 10px'
+      },
+    },
+    "& .MuiInputLabel-outlined": {
+      [theme.breakpoints.down('lg')]: {
+        transform:'translate(14px, 14px) scale(1)',
+      },
+      [theme.breakpoints.only('lg')]: {
+        fontSize:'13px',
+      },
+      [theme.breakpoints.only('md')]: {
+        fontSize:'12px',
+      },
+    },
+    "& .MuiInputLabel-outlined.MuiInputLabel-shrink":{
+      transform:'translate(14px, -6px) scale(0.75)',
+    }
+  },
+  breakDownIcon:{
+    fill:theme.palette.primary.lightDark,
+    [theme.breakpoints.up('md')]: {
+      width:'1vw',
+      height:'1vw',
+    }
   },
   fontLight:{
     color:"#004A6B"
@@ -112,6 +265,11 @@ const useStyles = makeStyles((theme) => ({
   },
   nameCert:{
     paddingLeft:theme.spacing(1)
+  },
+  desktopView:{
+    [theme.breakpoints.down('sm')]: {
+      display:'none'
+    }
   }
 }));
 
@@ -141,23 +299,23 @@ const CompanyInfo = ({BOOKING_PAYMENT,service,order,business,onBoarding}) => {
   }
 
   const breakdown =[
-    {icon:<BathtubOutlinedIcon style={{color:"#004A6B"}}/>,
+    {icon:<BathtubOutlinedIcon className={classes.breakDownIcon}/>,
     category:'Bathroom',
     price:`${service.bathroomDuration}mint x${order.bathroomCount} 
     = ${service.bathroomDuration*order.bathroomCount}mint`},
-    {icon:<KitchenOutlinedIcon/>,
+    {icon:<KitchenOutlinedIcon className={classes.breakDownIcon}/>,
     category:'Kitchen',
     price:`${service.kitchenDuration}mint x${order.kitchenCount} 
     = ${service.bedroomDuration*order.kitchenCount}mint`},
-    {icon:<KingBedOutlinedIcon/>,
+    {icon:<KingBedOutlinedIcon className={classes.breakDownIcon}/>,
     category:'Bedroom',
     price:`${service.bedroomDuration}mint x${order.bedroomCount} 
     = ${service.bedroomDuration*order.bedroomCount}mint`},
-    {icon:<TableChartOutlinedIcon/>,
+    {icon:<TableChartOutlinedIcon className={classes.breakDownIcon}/>,
     category:'LivingRoom',
     price:`${service.livingroomDuration}mint x${1} 
     = ${service.livingroomDuration}mint`},
-    {icon:<ReportProblemOutlinedIcon/>,
+    {icon:<ReportProblemOutlinedIcon className={classes.breakDownIcon}/>,
     category:`${order.type}`,
     price:`${pricer()}`},
     {
@@ -221,7 +379,8 @@ const CompanyInfo = ({BOOKING_PAYMENT,service,order,business,onBoarding}) => {
               <Form>
                 <div className={classes.gridWrapper}>
                   <Typography variant='h4' style={{gridArea:'heading'}} className={clsx(classes.header,classes.justifyStart)}>
-                    <span className={classes.bold}> Create a Booking - </span>
+                    <span className={classes.headerFirst}> Create a Booking</span>
+                    <span className={classes.desktopView}>{" - "}</span>
                     Payment Information
                   </Typography>
                   <Button style={{gridArea:'confirmBtn'}}
@@ -235,35 +394,35 @@ const CompanyInfo = ({BOOKING_PAYMENT,service,order,business,onBoarding}) => {
 
                   <div style={{gridArea:"cleanerInfo"}} className={classes.card}>
                     <div className={classes.flex}>
-                      <Typography variant='h6' className={clsx(classes.cleanerHeader,classes.bold)}>
+                      <Typography variant='h6' className={classes.cleanerHeader}>
                         Cleaner Info  
                       </Typography>
-                      <Typography variant='h6'>
+                      <Typography variant='h6' className={classes.cleanerHeader}>
                         USD 100/Home
                       </Typography>
                     </div>
                     <div className={classes.flex}>
                       <div className={classes.flexComp}>
-                        <Avatar src={business.logo? business.logo.url:'employee.png'}/>
+                        <Avatar className={classes.avatar} src={business.logo? business.logo.url:'employee.png'}/>
                         <div className={classes.nameCert}>
-                          <Typography variant='h6' className={clsx(classes.bold,classes.justifyStart)}>
+                          <Typography variant='h6' className={classes.cleanerName}>
                             {business.cleaningService}
                           </Typography>
-                          <Typography variant='body2' className={clsx(classes.justifyStart)}>
+                          <Typography variant='body2' className={clsx(classes.cleanerVerified)}>
                             wand certified cleaner
                           </Typography>
                         </div>
                       </div>
-                      <div style={{textAlign:'right',paddingTop:'1rem'}}>
+                      <div style={{textAlign:'right'}}>
                         <StarRatings
                           rating={5}
-                          starRatedColor="black"
+                          starRatedColor='#005051'
                           starDimension="12px"
                           starSpacing="0px"
                           numberOfStars={5}
                           name='rating'
                         />
-                        <Typography variant='body1'>
+                        <Typography variant='body1' className={classes.review}>
                           <span  className={classes.bold}>(45)</span>
                             {" reviews"}
                         </Typography>
@@ -271,10 +430,12 @@ const CompanyInfo = ({BOOKING_PAYMENT,service,order,business,onBoarding}) => {
                     </div>
                   </div>
 
+                  {/* payment  */}
                   <div style={{gridArea:"paymentInfo"}} className={classes.card}>
-                    <Typography variant='h6'>Add Payment Information</Typography>
+                    <Typography variant='h6' className={clsx(classes.cleanerHeader,classes.breakHeading)}>
+                      Add Payment Information</Typography>
                     <Select
-                      style={{paddingBottom:'1rem'}}
+                      className={classes.select}
                       name="paidBy"
                       label="Paid By"
                       options={paidBy}
@@ -284,18 +445,19 @@ const CompanyInfo = ({BOOKING_PAYMENT,service,order,business,onBoarding}) => {
                     }
                   </div>
 
+                  {/* breakdown  */}
                   <div style={{gridArea:"breakdown"}} className={classes.card}>
                     <Typography variant='h6' 
-                      className={clsx(classes.bold,classes.justifyStart,classes.breakHeading)}>
+                      className={clsx(classes.cleanerHeader,classes.breakHeading)}>
                         Breakdown
                     </Typography>
                     {breakdown.map((val,i)=>(<div key={i} className={classes.flex}>
                         <div className={classes.flexComp}>
                         {val.category &&  <span className={clsx(classes.dot,val.category==='total' && classes.hide)}></span>}
                           {val.icon}
-                          <Typography variant='body1' style={{paddingLeft:'0.5rem'}}>{val.category}</Typography>
+                          <Typography variant='body1' className={classes.breakdownCat} style={{paddingLeft:'0.5rem'}}>{val.category}</Typography>
                         </div>
-                        <Typography variant='body1' >
+                        <Typography variant='body1' className={classes.breakdownCat}>
                           {val.price}  
                         </Typography>
                       </div>))}

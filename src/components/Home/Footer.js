@@ -94,12 +94,12 @@ const Footer = () => {
         <Typography variant='h6' className={classes.subHeading}>
             Become a Cleaner
           </Typography>
-          <Typography variant='h6' className={classes.subHeading}>
+          <Typography variant='h6' className={classes.fontBold}>
             4818 Washington Blvd St. Louis, MO 63108 Phone: 1-844-GET-WAND 
-            <div className={classes.subHeading}>
+            <div className={classes.fontBold}>
               E-Mail: support@wandusa.com 
             </div>
-            <div className={classes.subHeading}>
+            <div className={classes.fontBold}>
               Web Site: Wandusa.com
             </div>
           </Typography>

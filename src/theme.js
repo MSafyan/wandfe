@@ -71,7 +71,8 @@ const defaultTheme  = createTheme({
       main: '#00C5C8',
       light:'#F2FCFC',
       lightDark:"#005051",
-      dark:'#005F60'
+      dark:'#005F60',
+      active:'#0BC7CA10'
     },
     secondary: {
       main: '#376fd0',

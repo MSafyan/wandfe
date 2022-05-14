@@ -30,10 +30,13 @@ const useStyles = makeStyles((theme) => ({
 		"bar" 
 		"charts"`,
 		gridTemplateColumns:'1fr',
-		gridTemplateRows:'0.7fr 1fr 3fr',
+		gridTemplateRows:'0.5fr 0.8fr 3fr',
 		gridGap:theme.spacing(3),
+		[theme.breakpoints.down('md')]: {
+			gridTemplateRows:'0.3fr 0.7fr 3fr',
+		},
 		[theme.breakpoints.down('sm')]: {
-			gridTemplateRows:'0.3fr 1fr 3fr',
+			gridTemplateRows:'0fr',
 		}
 	},
 	barGrid:{
@@ -65,13 +68,18 @@ const useStyles = makeStyles((theme) => ({
 	},
 	card:{
 		padding:`${theme.spacing(3)}px ${theme.spacing(2)}px`,
-		marginTop:theme.spacing(3),
 		borderRadius:theme.spacing(2),
 		background:'white',
 		gridColumnGap:theme.spacing(2),
 		gridRowGap:theme.spacing(3),
+		[theme.breakpoints.up('md')]: {
+      padding:`1.5vw 1.5vw`,
+      gridColumnGap:'1vw',
+      gridRowGap:'1.5vw',
+    },
 		[theme.breakpoints.down('sm')]: {
 			marginTop:theme.spacing(1),
+			gridGap:theme.spacing(1),
 		}
 	},
 	chart:{
@@ -81,38 +89,69 @@ const useStyles = makeStyles((theme) => ({
 	cardChip:{
 		background:theme.palette.primary.light,
 		fontSize:"1.1rem",
+		fontWeight:'bold',
 		marginLeft:'2rem',
 		borderRadius:'1rem',
-		padding:'1rem',
-		color:theme.palette.primary.main
+		padding:'0.7rem',
+		color:theme.palette.primary.main,
+			[theme.breakpoints.up('md')]: {
+				fontSize:"1vw",
+				marginLeft:'1.6vw',
+				padding:'0.7vw',
+			}
 	},
 	icon:{
-		fill:theme.palette.primary.main
+		fill:theme.palette.primary.main,
+				fontSize:"1rem",
+			[theme.breakpoints.up('md')]: {
+				fontSize:"1.1vw",
+			}
 	},
 	moneyIcon:{
-		fontSize:'3rem',
-		fill:theme.palette.primary.main
+		fontSize:'2.5rem',
+		marginRight:'-8px',
+		fill:theme.palette.primary.main,
+		[theme.breakpoints.up('md')]: {
+			fontSize:"2.3vw",
+		}
 	},
 	cardHeading:{
-		fontSize:"18px",
-		fontWeight:'bold',
-		color:theme.palette.primary.lightDark
+		color:theme.palette.primary.lightDark,
+	 	paddingBottom:theme.spacing(1),
+    fontSize:"1.05vw",
+    fontWeight:'bold',
+    [theme.breakpoints.down('sm')]: {
+      fontSize:"18px",
+    },
 	},
 	statHead:{
 		color:theme.palette.primary.lightDark,
-		fontSize:theme.spacing(2.1),
+		fontSize:'0.9vw',
 		[theme.breakpoints.down('sm')]: {
-			textAlign:'left'
+			textAlign:'left',
+			fontSize:'13px',
+		}
+	},
+	mobileStatHeadTwo:{
+		[theme.breakpoints.down('sm')]: {
+			textAlign:'right',
 		}
 	},
 	statVal:{
-		fontSize:theme.spacing(6),
+		fontSize:'2.2vw',
 		fontWeight:'bold',
 		display:'flex',
 		justifyContent:'center',
 		alignItems:'center',
 		[theme.breakpoints.down('sm')]: {
 			justifyContent:'left',
+			fontSize:'33px',
+		}
+	},
+	mobileStatTwo:{
+		[theme.breakpoints.down('sm')]: {
+			marginLeft:'auto',
+			justifyContent:'end'
 		}
 	},
 	itemBoldVal:{
@@ -124,15 +163,14 @@ const useStyles = makeStyles((theme) => ({
 		textAlign:'Start',
 		paddingBottom:theme.spacing(1),
 		color:theme.palette.primary.lightDark,
+		fontSize:"1.5vw",
 		fontWeight:"bold",
 		[theme.breakpoints.down('sm')]:{
-			fontSize:'1.3rem',
-			'& h1':{
-				fontSize:'2.3rem'
-			}
+			fontSize:'1.3rem'
 		}
 	},
 	name:{
+		fontSize:"3vw",
 		[theme.breakpoints.down('sm')]:{
 			fontSize:'2.3rem'
 		}
@@ -140,9 +178,43 @@ const useStyles = makeStyles((theme) => ({
 	select:{
     "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
       border: "none",
-      boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px'
+      boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
     },
+    "& .MuiSelect-outlined":{},
+    "& .MuiOutlinedInput-input":{
+      [theme.breakpoints.only('lg')]: {
+        fontSize:'15px',
+        padding:'11px 12px',
+        paddingRight:'32px',
+      },
+      [theme.breakpoints.down('md')]: {
+        fontSize:'13px',
+        padding:'9.5px 10px',
+				paddingRight:'30px',
+      },
+      [theme.breakpoints.down('sm')]: {
+        padding:'14.5px 10px',
+				paddingRight:'32px',
+      },
+    },
+    "& .MuiInputLabel-outlined": {
+      [theme.breakpoints.down('lg')]: {
+        transform:'translate(14px, 14px) scale(1)',
+      },
+      [theme.breakpoints.only('lg')]: {
+        fontSize:'13px',
+      },
+      [theme.breakpoints.only('md')]: {
+        fontSize:'12px',
+      },
+    },
+    "& .MuiInputLabel-outlined.MuiInputLabel-shrink":{
+      transform:'translate(14px, -6px) scale(0.75)',
+    }
   },
+	formControl:{
+		marginRight:'18px'
+	},
 	item:{
 		justifyContent:'space-between',
 		alignItems:'center',
@@ -151,18 +223,84 @@ const useStyles = makeStyles((theme) => ({
 		gridTemplateColumns:'1fr 0.8fr 1.2fr',
 		gridTemplateAreas:`
 		"name time action"`,
-		boxShadow:'rgba(149, 157, 165, 0.2) 0px 8px 24px'
+		boxShadow:'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+		[theme.breakpoints.down('sm')]:{
+			gridTemplateColumns:'1fr 0.6fr 1.5fr',
+		}
+	},
+	appointmentHead:{
+		[theme.breakpoints.down('sm')]:{
+			display:'flex',
+			alignItems:'center',
+			justifyContent:'space-between',
+			paddingBottom:'1rem'
+		},
+		[theme.breakpoints.between(0,400)]:{
+			flexDirection:'column',
+			alignItems:'start',
+		}
+	},
+	firstName:{
+		fontSize:"14px",
+		fontWeight:'bold',
+		color:theme.palette.primary.lightDark,
+		[theme.breakpoints.up('md')]:{
+			fontSize:'.8vw'
+		}
+	},
+	companyName:{
+		fontSize:"10px",
+		fontWeight:'500',
+		color:theme.palette.primary.lightDark,
+		[theme.breakpoints.up('md')]:{
+			fontSize:'.6vw'
+		}
 	},
 	justifyStart:{
 		textAlign:'left'
 	},
+
 	delete:{
 		display:'flex',
 		alignItems:'center',
-		marginRight:"1rem"
+		marginRight:"1rem",
+		fontSize:"8px",
+		fontWeight:'500',
+		color:theme.palette.primary.lightDark,
+		"& .MuiSvgIcon-root":{
+				height:"0.7rem",
+				width:"0.7rem",
+			[theme.breakpoints.up('md')]:{
+				height:"0.7vw",
+				width:"0.7vw",
+				margin:'9px'
+			}
+		},
+		[theme.breakpoints.up('md')]:{
+			fontSize:'.7vw'
+		}
+	},
+	mark:{
+		"& .MuiTypography-body1":{
+			fontSize:"8px",
+			fontWeight:'500',
+			color:theme.palette.primary.lightDark,
+			[theme.breakpoints.up('md')]:{
+				fontSize:'.7vw'
+			}
+		}
+	},
+	AppointmenttIcon:{
+		"& .MuiSvgIcon-root":{
+				height:"0.7rem",
+				width:"0.7rem",
+			[theme.breakpoints.up('md')]:{
+				height:"0.7vw",
+				width:"0.7vw"
+			}
+		}
 	}
 }));
-
 
 const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,FETCH_APPOINTLIST,TOGGLE_ORDER_STATUS,loading,type,history}) => {
 	const classes = useStyles();
@@ -236,12 +374,13 @@ const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,F
 							</span>
 						</Typography>
 					</div>
-					<div style={{gridArea:'stat2'}}>
-						<Typography variant='body1' className={classes.statHead}>
+					<div style={{gridArea:'stat2'}} className={classes.mobileStatTwo}>
+						<Typography variant='body1' className={clsx(classes.statHead,classes.mobileStatHeadTwo)}>
 							Forecast Revenue
 						</Typography>
-						<Typography variant='h5' className={classes.statVal}>
-							<AttachMoneyIcon className={classes.moneyIcon}/>	{stats?.forcastRevenue?.toFixed(2)}
+						<Typography variant='h5' className={clsx(classes.statVal,classes.mobileStatTwo)}>
+							<AttachMoneyIcon className={clsx(classes.moneyIcon,classes.mobileStatTwo)}/>	
+							{stats?.forcastRevenue?.toFixed(2)}
 						</Typography>
 					</div>
 					<div style={{gridArea:'stat3'}}>
@@ -252,11 +391,11 @@ const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,F
 							{stats?.totalRevenue?.toFixed(2)}
 						</Typography>
 					</div>
-					<div style={{gridArea:'stat4'}}>
-						<Typography variant='body1' className={classes.statHead}>
+					<div style={{gridArea:'stat4'}} className={classes.mobileStatTwo}>
+						<Typography variant='body1' className={clsx(classes.statHead,classes.mobileStatHeadTwo)}>
 							Uncompleted Tasks
 						</Typography>
-						<Typography variant='h5' className={classes.statVal}>
+						<Typography variant='h5' className={clsx(classes.statVal,classes.mobileStatTwo)}>
 							{stats?.unCompletedCount}
 						</Typography>
 					</div>
@@ -307,23 +446,25 @@ const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,F
 							<Revenue/>
 					</div>
 					<div style={{gridArea:"chart2"}} className={clsx(classes.chart,classes.card)}>
-						<Typography variant='body1' className={classes.cardHeading}>
-							APPOINTMENT's
-						</Typography>
-						<FormControl variant="outlined" className={classes.formControl}>
-							<TextField
-								select
-								variant= 'outlined'
-								fullWidth
-								value={select}
-								className={classes.select}
-								onChange={(e)=>{
-									setSelect(e.target.value)
-								}}>
-								<MenuItem value={'ACTIVE'}>Active Appointments</MenuItem>
-								<MenuItem value={'COMPLETED'}>Completed Appointments</MenuItem>
-							</TextField>
-						</FormControl>
+						<div className={classes.appointmentHead}>
+							<Typography variant='body1' className={classes.cardHeading}>
+								APPOINTMENT's
+							</Typography>
+							<FormControl variant="outlined" className={classes.formControl}>
+								<TextField
+									select
+									variant= 'outlined'
+									fullWidth
+									value={select}
+									className={classes.select}
+									onChange={(e)=>{
+										setSelect(e.target.value)
+									}}>
+									<MenuItem value={'ACTIVE'}>Active Appointments</MenuItem>
+									<MenuItem value={'COMPLETED'}>Completed Appointments</MenuItem>
+								</TextField>
+							</FormControl>
+						</div>
 						{
 							loading && <CircularProgress/>
 						}
@@ -331,14 +472,14 @@ const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,F
 							appointmentList.map((val,i)=>{
 								return <div key={i} className={classes.item}>
 									<div style={{gridArea:"name"}}>
-										<Typography variant='body1'>
+										<Typography variant='body1' className={classes.firstName}>
 											{val.customer?.firstName}
 										</Typography>
-										<Typography variant='body2'>
+										<Typography variant='body2' className={classes.companyName}>
 											{val.customer?.companyName}
 										</Typography>
 									</div>
-									<Typography variant='body1' style={{gridArea:"time"}} className={classes.cardHeading}>
+									<Typography variant='body1' style={{gridArea:"time"}} className={classes.firstName}>
 										{val.time.substring(0,5)}
 									</Typography>
 									{
@@ -353,8 +494,9 @@ const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,F
 													TOGGLE_ORDER_STATUS(val)
 													FETCH_APPOINTLIST(select)
 												} }
-												control={<Checkbox />}
+												control={<Checkbox className={classes.AppointmenttIcon}/>}
 												label="mark as done"
+												className={classes.mark}
 											/>
 										</div>
 									}
@@ -366,8 +508,9 @@ const Dashboard = ({appointmentList,FETCH_STATS,stats,ORDER_FEATURED,firstName,F
 											onChange={() =>{
 												TOGGLE_ORDER_STATUS(val)
 											} }
-											control={<Checkbox />}
+											control={<Checkbox className={classes.AppointmenttIcon}/>}
 											label="mark as unComplete"
+											className={classes.mark}
 										/>
 									}
 								</div>

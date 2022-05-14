@@ -188,6 +188,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
+    zIndex:1202,
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
@@ -206,8 +207,9 @@ const useStyles = makeStyles((theme) => ({
   },
   topbarHeading:{
     fontWeight:'bold',
+    fontSize:'0.9vw',
     [theme.breakpoints.down('md')]: {
-      fontSize:'14px'
+      // fontSize:'14px'
     }
   },
   messagesWrapper:{
@@ -223,6 +225,12 @@ const useStyles = makeStyles((theme) => ({
     display:'flex',
     textAlign:'start'
   },
+  serviceDate:{
+    fontSize:'1vw'
+  },
+  topbarBusiness:{
+    fontSize:'0.85vw',
+  },
   avatarWrapper:{
     gridArea:'avatar',
     display:'flex',
@@ -232,7 +240,17 @@ const useStyles = makeStyles((theme) => ({
     fontWeight:'bold'
   },
   icon:{
-    marginRight:theme.spacing(0.5)
+    marginRight:theme.spacing(0.5),
+    fontSize:"1.2vw",
+    [theme.breakpoints.down('sm')]: {
+      fontSize:'20px'
+    }
+  },
+  avatarTopBar:{
+    color:"red",
+    width:'2vw',
+    height:'2vw',
+    marginRight:'0.5vw'
   },
   flex:{
     display:'flex',
@@ -304,7 +322,8 @@ const Index = ({LOGOUT,NEXT_SERVICE,nextService,children,type,customer,cleanerIn
         <Toolbar className={classes.toolbar}>
           {/* <MobileView> */}
             <NavLink className={classes.mobileView} to="/" variant="body2" style={{textDecoration:'none',gridArea:"logo" }}>
-              <img width='100px' alt='' src='wordcyan.png'/>
+              <img alt='' src='http://app.wandcleaning.pro/wandBluefav.png' width='30px' style={{paddingRight:'4px'}} />  
+              <img width='80px' alt='' src='wordcyan.png'/>
             </NavLink>
           {/* </MobileView> */}
           <div className={classes.search}>
@@ -336,7 +355,7 @@ const Index = ({LOGOUT,NEXT_SERVICE,nextService,children,type,customer,cleanerIn
                 <Typography variant='body1' className={classes.topbarHeading}>
                   Next Cleaner Service
                 </Typography>
-                <Typography variant='body2'>
+                <Typography variant='body2' className={classes.serviceDate}>
                   {nextService?.date}
                 </Typography>
               </div>
@@ -344,18 +363,18 @@ const Index = ({LOGOUT,NEXT_SERVICE,nextService,children,type,customer,cleanerIn
           }
             <div className={clsx(classes.avatarWrapper,classes.desktopView)} onClick={handleClick}>
               {type==='customer'? 
-              <Avatar src={customer?.pic? `${customer.pic.url}`: 'employee.png'} className={classes.icon}/>:
-              <Avatar src={cleanerInfo?.business?.logo ? `${cleanerInfo.business.logo.url}`: 'employee.png'} className={classes.icon}/>
+              <Avatar src={customer?.pic? `${customer.pic.url}`: 'employee.png'} className={classes.avatarTopBar}/>:
+              <Avatar src={cleanerInfo?.business?.logo ? `${cleanerInfo.business.logo.url}`: 'employee.png'} className={classes.avatarTopBar}/>
               }
               <div>
                 <Typography variant='body1' className={classes.topbarHeading}>
                   {type==='customer'? customer?.firstName:cleanerInfo?.firstName}
                 </Typography>
-                <Typography variant='body2'>
+                <Typography variant='body2' className={classes.topbarBusiness}>
                 {type==='customer'? customer?.companyName:cleanerInfo?.business.cleaningService}
                 </Typography>
               </div>
-              <Popper id={id} open={openPopper} anchorEl={anchorEl}>
+              <Popper id={id} open={openPopper} anchorEl={anchorEl} style={{zIndex:1202}}>
                 <div className={classes.paper}>
                   <Button variant='outlined' onClick={()=>LOGOUT()} >
                     LogOut
@@ -400,12 +419,17 @@ const Index = ({LOGOUT,NEXT_SERVICE,nextService,children,type,customer,cleanerIn
                 </Typography>
                 {
                   val.navs.map((nav,i)=>{
-                    return <NavLink key={i} to={nav.link} className={classes.navLink} style={{}}>
-                      {nav.icon}
-                      <Typography variant='body2' className={classes.navText}>
-                        {nav.text}  
-                      </Typography>
-                    </NavLink>
+                    return <>
+                    {
+                      nav.type === undefined || (nav.type === 'customer' && type==='customer') || (nav.type!=='customer' && type!=='customer') ?
+                      <NavLink key={i} to={nav.link} className={classes.navLink} style={{}}>
+                        {nav.icon}
+                        <Typography variant='body2' className={classes.navText}>
+                          {nav.text}  
+                        </Typography>
+                      </NavLink>:null
+                    }
+                    </>
                   })
                 }
               </div>
