@@ -5,14 +5,15 @@ import { Typography,Grid, Container } from '@material-ui/core';
   const useStyles = makeStyles((theme) => ({
     mainGrid:{
       textAlign:'left',
-      paddingTop:theme.spacing(10),
-      paddingBottom:theme.spacing(12),
+      padding:'3.5vw',
+      paddingBottom:'5vw',
       [theme.breakpoints.down('sm')]: {
         padding:theme.spacing(2),
       }
     },
     fontBold:{
-      // fontSize:"1.1rem",
+      fontSize:'1.3vw',
+      color:theme.palette.primary.lightDark,
       paddingBottom:theme.spacing(0.5),
       [theme.breakpoints.down('sm')]:{
         fontSize:"0.3rem",
@@ -20,8 +21,10 @@ import { Typography,Grid, Container } from '@material-ui/core';
       }
     },
     subHeading:{
-      paddingBottom:theme.spacing(2),
+      fontSize:'1.3vw',
       fontWeight:'bold',
+      color:theme.palette.primary.lightDark,
+      paddingBottom:theme.spacing(2),
       [theme.breakpoints.down('sm')]:{
         fontSize:"0.3rem",
         paddingBottom:theme.spacing(0.2),
@@ -37,6 +40,8 @@ import { Typography,Grid, Container } from '@material-ui/core';
       }
     },
     copyrightText:{
+      fontSize:'1.3vw',
+      color:theme.palette.primary.lightDark,
       [theme.breakpoints.down('sm')]:{
         fontSize:"0.3rem",
         margin:"auto"
@@ -51,7 +56,6 @@ const Footer = () => {
   return (
     <Container component="main" maxWidth="xl">
       <Grid container spacing={2} className={classes.mainGrid}>
-
         {/* Logo */}
         <Grid item xs={3}>
           <img src='allblack.png' alt='' width='70%'/>

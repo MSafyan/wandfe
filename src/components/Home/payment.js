@@ -13,8 +13,7 @@ import Card from './Card'
 
   const useStyles = makeStyles((theme) => ({
     mainContainer:{
-      paddingTop:theme.spacing(12),
-      paddingBottom:theme.spacing(12),
+      padding:'4vw 3.5vw',
       textAlign:'left',
       [theme.breakpoints.down('xs')]: {
         paddingTop:theme.spacing(2),
@@ -23,14 +22,17 @@ import Card from './Card'
     },
     bold:{
       fontWeight:"bold",
-      color:theme.palette.primary.dark,
+      fontSize:'2vw',
+      paddingBottom:'0.5vw',
+      color:theme.palette.primary.lightDark,
       [theme.breakpoints.down('sm')]: {
         fontSize:'0.7rem',
       }
     },
     heading2:{
-      paddingBottom:theme.spacing(10),
-      paddingTop:theme.spacing(4),
+      paddingBottom:'3vw',
+      paddingTop:'1.3vw',
+      fontSize:"4vw",
       color:theme.palette.primary.dark,
       [theme.breakpoints.down('xs')]: {
         fontSize:'1.5rem',
@@ -44,7 +46,8 @@ import Card from './Card'
     icon:{
       fill:'white',
       [theme.breakpoints.down('sm')]: {
-        width:"0.6rem"
+        width:"2vw",
+        height:'2vw'
       }
     },
     cardRoot:{

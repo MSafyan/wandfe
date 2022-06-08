@@ -1,42 +1,22 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography,Grid,Container } from '@material-ui/core';
-// import MobileStoreButton from 'react-mobile-store-button';
 import clsx from 'clsx'
 
   const useStyles = makeStyles((theme) => ({
     mainContainer:{
-      paddingBottom:theme.spacing(12),
+      padding:'3.5vw',
+      paddingBottom:'4vw',
       textAlign:'left',
       [theme.breakpoints.down('sm')]: {
         padding:theme.spacing(2),
       }
     },
-    content:{
-      paddingBottom:theme.spacing(8),
-      color:theme.palette.primary.dark,
+    heading:{
       fontWeight:'bold',
-      [theme.breakpoints.down('sm')]: {
-        paddingBottom:theme.spacing(3),
-        fontSize:"1rem"
-      }
-    },
-    hide:{
-      [theme.breakpoints.down('sm')]: {
-        display:'none'
-      }
-    },
-    imgContainer:{
-      display:'flex',
-      alignItems:'center',
-      // position:'absolute',
-      right:'1px',
-      top:'-10rem'
-    },
-    bold:{
-      fontWeight:'bold',
-      paddingTop:theme.spacing(6),
-      color:theme.palette.primary.dark,
+      fontSize:'2vw',
+      paddingBottom:'2vw',
+      color:theme.palette.primary.lightDark,
       [theme.breakpoints.down('sm')]: {
         paddingTop:theme.spacing(0),
         fontSize:"0.4rem"
@@ -46,10 +26,50 @@ import clsx from 'clsx'
       color:theme.palette.primary.main,
       display:'block'
     },
+    heading2:{
+      paddingBottom:'4vw',
+      color:theme.palette.primary.lightDark,
+      fontWeight:'bold',
+      fontSize:'3.9vw',
+      [theme.breakpoints.down('sm')]: {
+        paddingBottom:theme.spacing(3),
+        fontSize:"1rem"
+      }
+    },
+    content:{
+      paddingBottom:'2.5vw',
+      color:theme.palette.primary.lightDark,
+      fontWeight:'bold',
+      fontSize:"1.3vw",
+      [theme.breakpoints.down('sm')]: {
+        paddingBottom:theme.spacing(3),
+        fontSize:"1rem"
+      }
+    },
+    contentTop:{
+      paddingBottom:'0.8vw',
+    },
+    hide:{
+      [theme.breakpoints.down('sm')]: {
+        display:'none'
+      }
+    },
+    storeContainer:{
+      display:'flex'
+    },
+    storeWrapper:{
+      width:"15vw"
+    },
     store:{
       [theme.breakpoints.down('sm')]: {
-        width:"4.3rem"
+        width:"3vw"
       }
+    },
+    imgContainer:{
+      display:'flex',
+      alignItems:'center',
+      right:'1px',
+      top:'-10rem'
     },
     mobileView:{
       display:'none',
@@ -68,22 +88,29 @@ const GetInApp = () => {
     <Container className={classes.mainContainer} component="main" maxWidth="xl">
       <Grid container>
         <Grid item xs={6}>
-          <Typography variant='h5' className={classes.bold}>
+          <Typography variant='h5' className={classes.heading}>
             GET IN TOUCH
           </Typography >
-          <Typography variant='h1' className={clsx(classes.content)}>
+          <Typography variant='h1' className={clsx(classes.heading2)}>
             Let us earn your
             <span className={classes.headingBlue}> trust</span>
           </Typography>
+          <Typography variant='h6' className={clsx(classes.content,classes.hide,classes.contentTop)}>
+            It’s never been this easy, until now. Finally a user-friendly way to find, and hire reputable cleaners in your area, all within our app.
+          </Typography>
           <Typography variant='h6' className={clsx(classes.content,classes.hide)}>
-            It’s never been this easy, until now. Finally a user-friendly way to find, and hire reputable cleaners in your area, all within our app. <br/> Connect with an experienced cleaner within minutes!
+            Connect with an experienced cleaner within minutes!
           </Typography>
           <Typography variant='h2' className={clsx(classes.content,classes.mobileView)}>
             It's never Been
           </Typography>
-          <div style={{padding:'8px',paddingLeft:'0px'}}>
-            <img alt='' src='store2.png' style={{marginRight:'1rem'}} className={classes.store}/>
-            <img alt='' src='store1.png' className={classes.store}/>
+          <div className={classes.storeContainer}>
+            <div className={classes.storeWrapper} style={{marginRight:'1vw'}}>
+              <img alt='' src='store2.png' width='100%'/>
+            </div>
+            <div className={classes.storeWrapper}>
+              <img alt='' src='store1.png' width='100%'/>
+            </div>
           </div>
         </Grid>
         <Grid item xs={6} className={classes.imgContainer}>

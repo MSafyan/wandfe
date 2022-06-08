@@ -16,11 +16,10 @@ import EmailIcon from '@material-ui/icons/Email';
 
 import { NavLink } from 'react-router-dom'
 
-import { links } from './sidebar';
+import Sidebar, { links } from './sidebar';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 
-import Sidebar from './sidebar'
 import { NEXT_SERVICE } from '../../actions/orderAction';
 
 import { connect } from "react-redux";
@@ -152,7 +151,6 @@ const useStyles = makeStyles((theme) => ({
   inputInput: {
     fontWeight:'bold',
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create('width'),
     width: '100%',  

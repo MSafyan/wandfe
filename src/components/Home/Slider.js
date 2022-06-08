@@ -11,7 +11,7 @@ import { withStyles } from '@material-ui/styles';
 
 const styles = theme => ({
   cardWrapper: {
-    paddingTop:'3rem',
+    paddingTop:'8vw',
     '& .slick-active':{
       padding:"2rem"
     },

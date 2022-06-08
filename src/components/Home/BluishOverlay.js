@@ -7,46 +7,38 @@ import clsx from 'clsx';
     mainContainer:{
       background: `url(Group-10.png)`,
       color:'white',
-      padding:theme.spacing(12),
-      [theme.breakpoints.down('sm')]: {
-        paddingTop:theme.spacing(6),
-        padding:theme.spacing(4),
-      }
+      padding:'3.5vw',
     },
     innerContainer:{
 
     },
     img:{
-      padding:theme.spacing(12),
-      [theme.breakpoints.down('sm')]: {
-        display:'flex',
-        justifyContent:'center',
-        width:"100%",
-        padding:theme.spacing(0),
-        paddingBottom:theme.spacing(3),
-      }
+      width:'18vw',
+      margin:'6vw auto',
+      // [theme.breakpoints.down('sm')]: {
+      //   display:'flex',
+      //   justifyContent:'center',
+      //   width:"100%",
+      //   padding:theme.spacing(0),
+      //   paddingBottom:theme.spacing(3),
+      // }
     },
     heading:{
-      paddingBottom:theme.spacing(10),
+      paddingBottom:'4vw',
       fontWeight:'bold',
-      [theme.breakpoints.down('sm')]: {
-        fontSize:"1rem",
-        paddingBottom:theme.spacing(3),
-      }
+      fontSize:'3.9vw',
     },
     para:{
-      // fontSize:'1.4rem'
-      fontWeight:'normal',
-      [theme.breakpoints.down('sm')]: {
-        fontSize:"0.6rem"
-      }
+      paddingBottom:'4vw',
+      fontSize:'2.6vw',
     },
     Button:{
-      width:'22rem',
-      height:'5rem',
-      fontSize:'1.8rem',
-      marginBottom:'1rem',
+      width:'18vw',
+      height:'5vw',
+      fontSize:'1.5vw',
+      marginBottom:'0.9vw',
       color:'white',
+      fontWeight:'bold',
       [theme.breakpoints.down('sm')]: {
         width:theme.spacing(11),
         height:theme.spacing(3),
@@ -70,12 +62,12 @@ const BluishOverlay = () => {
     <div className={classes.mainContainer}>
       <Container className={classes.innerContainer} component="main" maxWidth="xl">
         <div className={classes.img}>
-          <img src='WandWhite.png' alt='' width='110px'/>
+          <img src='WandWhite.png' alt='' width='100%'/>
         </div>
         <Typography variant='h1' className={classes.heading}>
           You and Your Maid Service Deserve<br/> a Little Peace & Quiet
         </Typography>
-        <Typography variant='h4' className={clsx(classes.heading,classes.para)}>
+        <Typography variant='h4' className={clsx(classes.para)}>
           The Easiest-to-Use and the Best Rated Maid Software on Capterra.<br/> Rated 5 stars by Owners just like YOU!
         </Typography>
         <div className={classes.buttons}>

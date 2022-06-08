@@ -1,7 +1,6 @@
 import React from 'react';
 
 import clsx from 'clsx';
-// import Slider from "react-slick";
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography,Grid,Container} from '@material-ui/core';
 import {
@@ -16,8 +15,7 @@ import CardOutlined from './CardOutlined'
 
   const useStyles = makeStyles((theme) => ({
     mainContainer:{
-      paddingTop:theme.spacing(1),
-      paddingBottom:theme.spacing(8),
+      padding:'4vw 3.5vw',
       textAlign:'left',
       [theme.breakpoints.down('sm')]: {
         paddingTop:theme.spacing(2),
@@ -26,15 +24,17 @@ import CardOutlined from './CardOutlined'
     },
     bold:{
       fontWeight:"bold",
-      paddingBottom:theme.spacing(1),
-      color:theme.palette.primary.dark,
+      fontSize:'2vw',
+      paddingBottom:'0.5vw',
+      color:theme.palette.primary.lightDark,
       [theme.breakpoints.down('sm')]: {
         fontSize:'0.7rem',
       }
     },
     heading2:{
-      paddingBottom:theme.spacing(10),
-      paddingTop:theme.spacing(4),
+      paddingBottom:'3vw',
+      paddingTop:'1.3vw',
+      fontSize:"4vw",
       color:theme.palette.primary.dark,
       [theme.breakpoints.down('sm')]: {
         fontSize:'1.5rem',
@@ -52,7 +52,8 @@ import CardOutlined from './CardOutlined'
     icon:{
       fill:'white',
       [theme.breakpoints.down('sm')]: {
-        width:"0.6rem"
+        width:"2vw",
+        height:'2vw'
       }
     },
     mobileView:{

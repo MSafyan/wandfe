@@ -14,7 +14,6 @@ import {
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 
-// import icon from '/image2vector.svg'
 import { NavLink } from 'react-router-dom'
 
 const pages = ['Become a cleaner', 'Services', 'Products', 'FAQ'];
@@ -22,57 +21,56 @@ const pages = ['Become a cleaner', 'Services', 'Products', 'FAQ'];
 const useStyles = makeStyles((theme) => ({
   appbar: {
     backgroundColor:theme.palette.primary.light,
-    padding:'3rem',
+    padding:'2vw',
     boxShadow:'0px 0px white',
     [theme.breakpoints.down('sm')]: {
       padding:'0.3rem',
     }
   },
   navBtn:{
-    fontSize:'1.5rem',
+    fontSize:'1.2vw',
     color:theme.palette.primary.lightDark,
-    paddingRight:'2rem'
+    paddingRight:'1.8vw'
   },
   logo:{
     width:theme.spacing(18),
     display:'flex',
-    // padding:theme.spacing(3),
     paddingBottom:'1.2vw',
     [theme.breakpoints.down('sm')]: {
       width:'14vw',
+    },
+    [theme.breakpoints.down('xs')]: {
+      width:'20vw',
     }
   },
   icon:{
-    [theme.breakpoints.down('sm')]: {
-      width:'12px',
-      height:'12px'
+    width:'3vw',
+    height:'3vw',
+    [theme.breakpoints.down('xs')]: {
+      width:'5vw',
+      height:'5vw'
     }
   },
   pricingPage:{
     background:'white',
   },
+  navText:{
+    color:theme.palette.primary.light
+  }
 }))
 
 const ResponsiveAppBar = ({history}) => {
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  // const [anchorElUser, setAnchorElUser] = React.useState(null);
   const classes = useStyles();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  // const handleOpenUserMenu = (event) => {
-  //   setAnchorElUser(event.currentTarget);
-  // };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
-  // const handleCloseUserMenu = () => {
-  //   setAnchorElUser(null);
-  // };
 
   return (
     <AppBar className={clsx(classes.appbar,history.location.pathname==='/pricing' && classes.pricingPage)} position="static" sx={{boxShadow:'none',color:'black'}}>
@@ -116,9 +114,9 @@ const ResponsiveAppBar = ({history}) => {
             >
               {pages.map((page) => (
                   <NavLink to="/pricing" variant="body2" style={{textDecoration:'none'}}>
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography style={{color:"black"}} textAlign="center">{page}</Typography>
-                </MenuItem>
+                    <MenuItem key={page} onClick={handleCloseNavMenu}>
+                      <Typography className={classes.navText} textAlign="center">{page}</Typography>
+                    </MenuItem>
                   </NavLink>
               ))}
             </Menu>
@@ -128,9 +126,8 @@ const ResponsiveAppBar = ({history}) => {
               <NavLink to="/pricing" variant="body2" style={{textDecoration:'none'}}>
                 <Button
                   key={page}
-                  style={{color:'black'}}
+                  className={clsx(classes.navBtn)}
                   onClick={handleCloseNavMenu}
-                  className={classes.navBtn}
                   sx={{ my: 2,mx:3, display: 'block' }}
                 >
                   {page}

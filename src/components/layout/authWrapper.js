@@ -163,3 +163,4 @@ function AuthWrapper({isAuthenticated,title, children,history}) {
 
 
 export default AuthWrapper
+

@@ -2,7 +2,6 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography,Button,Container } from '@material-ui/core';
 import { NavLink } from 'react-router-dom'
-// import wangIcon from 'WandWhite.svg'
 import {
   Facebook,
   Instagram,
@@ -14,9 +13,8 @@ const useStyles = makeStyles((theme) => ({
     background:theme.palette.primary.light,
   },
   mainContainer:{
-    marginBottom:theme.spacing(12),
-    paddingTop:theme.spacing(12),
-    paddingBottom:theme.spacing(12),
+    marginBottom:'4vw',
+    padding:'4vw 1vw',
     textAlign:'left',
     display:'grid',
     gridTemplateAreas:"hero image",
@@ -26,20 +24,14 @@ const useStyles = makeStyles((theme) => ({
       display:'grid',
       gridTemplateAreas:"hero",
       gridTemplateColumns:'6fr 0fr',
-      marginBottom:theme.spacing(2),
-      paddingTop:theme.spacing(2),
-      paddingBottom:theme.spacing(2),
     }
   },
   container:{
     background:`${theme.palette.primary.light}`,
-    padding: theme.spacing(4),
+    padding: '2.5vw',
     display:'flex',
     flexDirection:"column",
     textAlign:'left',
-    [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(0),
-    }
   },
 
   logo:{
@@ -47,10 +39,12 @@ const useStyles = makeStyles((theme) => ({
   },
   heading:{
     fontWeight:'bold',
-    paddingBottom:theme.spacing(4),
+    fontSize:'2.6vw',
+    paddingBottom:'2vw',
     color:theme.palette.primary.lightDark,
     [theme.breakpoints.down('sm')]: {
-      fontSize:'1.2rem',
+      fontSize:'5vw',
+      paddingBottom:'4vw',
     }
   },
   headingBlue:{
@@ -58,44 +52,44 @@ const useStyles = makeStyles((theme) => ({
   },
   heading2:{
     textTransform:"uppercase",
+    fontSize:'1.5vw',
     color:theme.palette.primary.lightDark,
-    paddingBottom:theme.spacing(6),
+    paddingBottom:'3vw',
     [theme.breakpoints.down('sm')]: {
-      paddingBottom:theme.spacing(3),
+      fontSize:'3vw',
     }
   },
   font:{
     textDecoration:'none'
   },
   buttons:{
-    paddingBottom:theme.spacing(6),
+    paddingBottom:'2.5vw',
     [theme.breakpoints.down('sm')]: {
-      paddingBottom:theme.spacing(2),
+      paddingBottom:'3vw',
     }
   },
   Button:{
-    width:'15rem',
+    width:'15vw',
     marginBottom:'1rem',
     color:'white',
-    fontSize:'1.8rem',
+    fontSize:'1.5vw',
     [theme.breakpoints.down('sm')]: {
-      width:'7rem',
-      marginBottom:'1rem',
+      width:'25vw',
       color:'white',
-      fontSize:'0.5rem',
+      fontSize:'2vw',
     }
   },
   icons:{
-    paddingBottom:theme.spacing(8),
+    paddingBottom:'3.5vw',
     [theme.breakpoints.down('sm')]: {
       paddingBottom:theme.spacing(5),
     }
   },
   iconFill:{
     fill:theme.palette.primary.main,
-    marginRight:'1rem',
-    width:"1.5rem",
-    height:"1.5rem",
+    marginRight:'1vw',
+    width:"1.8vw",
+    height:"1.8vw",
     [theme.breakpoints.down('sm')]: {
       marginRight:'0.7rem',
       width:"1rem",
@@ -104,19 +98,20 @@ const useStyles = makeStyles((theme) => ({
   },
   borderNull:{
     border:'0px',
-    color:'black',
     fontWeight:'bold',
-    fontSize:'1.5rem',
-    [theme.breakpoints.down('sm')]: {
-      fontSize:'0.5rem',
+    fontSize:'1.5vw',
+    color:theme.palette.primary.lightDark,
+   [theme.breakpoints.down('sm')]: {
+      width:'25vw',
+      fontSize:'2vw',
     }
   },
   imgContainer:{
-    minWidth:"500px",
+    minWidth:"45vw",
     alignSelf:'right',
     display:'grid',
     alignItems:"center",
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       display:'none'
     }
   }

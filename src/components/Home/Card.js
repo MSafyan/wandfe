@@ -6,46 +6,58 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme)=>({
   root: {
-    margin:theme.spacing(5),
-    padding:theme.spacing(5),
+    margin:'2vw',
+    padding:'2vw',
     background:theme.palette.primary.dark,
     borderRadius:"1rem",
     position:'relative',
     overflow:'inherit',
     color:'white',
     [theme.breakpoints.down('sm')]:{
-      padding:theme.spacing(0),
-      margin:theme.spacing(2),
+      height:"30vw",
+      padding:'3vw 0px',
       '& .MuiCardContent-root':{
         padding:theme.spacing(1),
-        paddingTop:theme.spacing(2),
       }
     }
   },
+  content:{
+    display:'flex',
+    flexDirection:'column',
+    justifyContent:'center',
+    height:"-webkit-fill-available"
+  },
   title: {
-    // fontSize: '1.7rem',
-    paddingBottom:theme.spacing(2),
+    fontSize: '1.2vw',
+    paddingBottom:'1vw',
     fontWeight:'bold',
     [theme.breakpoints.down('sm')]:{
+      fontSize:"2.4vw",
       paddingBottom:theme.spacing(0.3),
     }
   },
   body:{
+    fontSize: '1.2vw',
+    fontWeight:'100',
     [theme.breakpoints.down('sm')]:{
-      fontSize:"0.6rem"
+      fontSize:"2.4vw",
     }
   },
   iconWrapper:{
     position:'absolute',
-    top:theme.spacing(-6),
+    top:'-1.8vw',
+    left:'2.5vw',
     background:theme.palette.primary.main,
-    border:"0.7rem solid white ",
+    border:"0.5vw solid white ",
     borderRadius:'100%',
-    padding:theme.spacing(3),
+    padding:'0.5vw',
+    [theme.breakpoints.down('md')]:{
+      padding:"0px .3vw",
+      top:'-2.2vw',
+    },
     [theme.breakpoints.down('sm')]:{
-      padding:`0px ${theme.spacing(1)}px`,
-      top:theme.spacing(-3),
-      border:"0.3rem solid white ",
+      padding:"0px .8vw",
+      border:"1vw solid white ",
     }
   },
 }));
@@ -55,7 +67,7 @@ export default function SimpleCard({val}) {
 
   return (
     <Card className={classes.root}>
-      <CardContent>
+      <CardContent className={classes.content}>
         <Typography className={classes.title} variant='h6'>
           {val.heading}
         </Typography>
