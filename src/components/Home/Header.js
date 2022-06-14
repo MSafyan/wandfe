@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     background:'white',
   },
   navText:{
-    color:theme.palette.primary.light
+    color:theme.palette.primary.lightDark
   }
 }))
 

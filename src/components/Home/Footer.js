@@ -8,7 +8,7 @@ import { Typography,Grid, Container } from '@material-ui/core';
       padding:'3.5vw',
       paddingBottom:'5vw',
       [theme.breakpoints.down('sm')]: {
-        padding:theme.spacing(2),
+        padding:'5vw 3vw',
       }
     },
     fontBold:{

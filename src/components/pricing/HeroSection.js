@@ -5,32 +5,36 @@ import { Typography,Container } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   outer:{
     padding:theme.spacing(6),
-    paddingTop:theme.spacing(12),
-    paddingBottom:theme.spacing(12),
+    paddingTop:'3vw',
+    paddingBottom:'3vw',
     [theme.breakpoints.down('sm')]: {
-      padding:theme.spacing(4),
-      paddingTop:theme.spacing(2),
+      padding:'2vw',
+      paddingTop:'1vw',
     }
   },
   mainContainer:{
-  background:theme.palette.primary.light,
-  paddingTop:theme.spacing(12),
-  paddingBottom:theme.spacing(12),
+    background:theme.palette.primary.light,
+    paddingTop:'6vw',
+    paddingBottom:'6vw',
     textAlign:'center',
     [theme.breakpoints.down('sm')]: {
-      paddingTop:theme.spacing(6),
-      paddingBottom:theme.spacing(6),
+      paddingTop:'2vw',
+      paddingBottom:'8vw',
     }
   },
   line:{
     borderTop:'2px red solid',
     borderTopColor:theme.palette.primary.main,
-    padding:theme.spacing(4),
-    width:'5rem',
-    margin:'auto',
+    width:'5vw',
+    margin:'5vw auto',
     [theme.breakpoints.down('sm')]: {
-      padding:theme.spacing(1),
     }
+  },
+  heading:{
+    color:theme.palette.primary.lightDark,
+    fontSize:'4.5vw',
+    fontWeight:"bold",
+    paddingBottom:'5vw'
   },
   bold:{
     fontWeight:"bold",
@@ -46,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
   darkBlue:{
     color:theme.palette.primary.dark,
+    fontSize:'1.2vw',
     [theme.breakpoints.down('sm')]: {
       fontSize:'0.3rem'
     }
@@ -60,7 +65,7 @@ const HeroSection = () => {
     <div className={classes.outer}>
       <Container className={classes.mainContainer} component="main" maxWidth="xl">
         <div className={classes.line}></div>
-          <Typography variant='h1' className={classes.bold}>
+          <Typography variant='h1' className={classes.heading}>
             Running your maid service smoothly<br/> doesn't have to cost a 
             <span className={classes.headingBlue}>
               {" fortune"}

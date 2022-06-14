@@ -21,6 +21,9 @@ import clsx from 'clsx'
       fontSize:'2vw',
       padding:'2vw 0px',
       color:'white',
+      [theme.breakpoints.down('sm')]:{
+        padding:"3vw 0vw"
+      }
     },
     heading2:{
       paddingBottom:'6vw',
@@ -35,23 +38,32 @@ import clsx from 'clsx'
     },
     author:{
       fontWeight:'bold',
-      fontSize:'3.2vw',
+      fontSize:'3vw',
+    },
+    dotWrapper:{
+      fontWeight:'bold',
+      fontSize:'3vw',
+      padding:'2vw 0px'
     },
     bold:{
       fontWeight:'bold',
-      paddingTop:theme.spacing(3),
+      paddingTop:'3vw 0px',
     },
     dot:{
-      height: '12px',
-      width: '12px',
+      height: '1vw',
+      width: '1vw',
       backgroundColor: 'white',
       borderRadius: '50%',
       display: 'inline-block',
-      marginRight:'1rem',
+      marginRight:'1vw',
+      marginBottom:'-0.4vw',
     },
     imgContainer:{
-      width:'50vw',
+      minWidth:"45vw",
+      maxWidth:"45vw",
       alignSelf:'right',
+      display:'grid',
+      alignItems:"center",
     }
   }));
 
@@ -73,7 +85,7 @@ const SuperEasy = () => {
         <Typography variant='h2' className={classes.author}>
           James, Brooklyn, NY.
         </Typography>
-        <Typography variant='h2' className={classes.author}>
+        <Typography variant='h2' className={classes.dotWrapper}>
           <span className={classes.dot}></span>
           {"  .   .   ."}
         </Typography>

@@ -12,9 +12,9 @@ import PricingSlider from './PricingSlider';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer:{
-    padding:theme.spacing(6),
+    padding:'3vw',
     [theme.breakpoints.down('sm')]: {
-      padding:theme.spacing(1),
+      padding:'10vw 2vw',
     }
   },
   headingBlue:{
@@ -31,12 +31,13 @@ const useStyles = makeStyles((theme) => ({
   },
   onlyBold:{
     fontWeight:"bold",
+    fontSize:"2.6vw"
   },
   Button:{
-    width:'22rem',
-    height:'5rem',
-    fontSize:'1.8rem',
-    marginBottom:'3rem',
+    width:'18vw',
+    height:'4vw',
+    fontSize:'1.6vw',
+    marginBottom:'2.5vw',
     color:'white',
     [theme.breakpoints.down('sm')]: {
       width:"7rem",
@@ -47,8 +48,8 @@ const useStyles = makeStyles((theme) => ({
   },
   line:{
     borderTop:'2px white solid',
-    padding:theme.spacing(4),
-    width:'5rem',
+    margin:'5vw 0px',
+    width:'6vw',
     marginRight:'auto'
   },
   cardWrapper:{
@@ -57,9 +58,9 @@ const useStyles = makeStyles((theme) => ({
   card:{
     background:theme.palette.primary.dark,
     color:'white',
-    padding:theme.spacing(5),
-    paddingBottom:theme.spacing(8),
-    borderRadius:theme.spacing(2),
+    padding:'2vw',
+    paddingBottom:'3.5vw',
+    borderRadius:'1vw',
     textAlign:'left'
   },
   lightBg:{
@@ -69,29 +70,30 @@ const useStyles = makeStyles((theme) => ({
     display:'flex',
     justifyContent:'space-between',
     fontWeight:'bold',
-    paddingTop:theme.spacing(2),
-    paddingBottom:theme.spacing(4),
+    paddingTop:'1vw',
   },
   features:{
     textAlign:'left',
   },
   featureWrapper:{
     display:'flex',
-    paddingBottom:theme.spacing(1),
+    paddingBottom:'0.5vw',
   },
   featuresText:{
-    paddingBottom:theme.spacing(1),
+    paddingBottom:'0.6vw',
     fontWeight:'bold',
-    color:"white"
+    color:"white",
+    fontSize:'1.3vw'
   },
   darkBlue:{
     color:theme.palette.primary.dark,
   },
   popular:{
+    fontSize:'1.2vw',
     color:'white'
   },
   large:{
-    fontSize:theme.spacing(14),
+    fontSize:'6vw',
     textAlign:'left'
   },
   flex:{
@@ -101,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
   mobileView:{
     display:'none',
     [theme.breakpoints.down('sm')]: {
-      display:'inline-block',
+      display:'block',
       
     }
   },

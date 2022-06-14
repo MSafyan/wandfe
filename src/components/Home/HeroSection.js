@@ -33,10 +33,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection:"column",
     textAlign:'left',
   },
-
-  logo:{
-    paddingBottom:theme.spacing(6)
-  },
   heading:{
     fontWeight:'bold',
     fontSize:'2.6vw',
@@ -101,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight:'bold',
     fontSize:'1.5vw',
     color:theme.palette.primary.lightDark,
-   [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('sm')]: {
       width:'25vw',
       fontSize:'2vw',
     }
@@ -116,7 +112,6 @@ const useStyles = makeStyles((theme) => ({
     }
   }
 }))
-
 
 const HeroSection = () => {
 
@@ -142,12 +137,14 @@ const HeroSection = () => {
                 GET STARTED
               </Button>
             </NavLink>
-            <Button
-              className={clsx(classes.Button,classes.borderNull)}
-              variant="outlined"
-            >
-              How it works?
-            </Button>
+            <NavLink to="/pricing" variant="body2" className={classes.font}>
+              <Button
+                className={clsx(classes.Button,classes.borderNull)}
+                variant="outlined"
+              >
+                How it works?
+              </Button>
+            </NavLink>
           </div>
           <div className={classes.icons}>
             <Facebook className={classes.iconFill}/>

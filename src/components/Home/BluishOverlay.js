@@ -2,6 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography,Button,Container } from '@material-ui/core';
 import clsx from 'clsx';
+import { NavLink } from 'react-router-dom'
 
   const useStyles = makeStyles((theme) => ({
     mainContainer:{
@@ -52,7 +53,10 @@ import clsx from 'clsx';
     },
     borderNull:{
       border:'0px'
-    }
+    },
+    font:{
+      textDecoration:'none'
+    },
   }));
 
 const BluishOverlay = () => {
@@ -71,19 +75,23 @@ const BluishOverlay = () => {
           The Easiest-to-Use and the Best Rated Maid Software on Capterra.<br/> Rated 5 stars by Owners just like YOU!
         </Typography>
         <div className={classes.buttons}>
-          <Button
-            className={clsx(classes.Button,classes.buttonContained)}
-            variant="contained"
-            color="primary"
-          >
-            GET STARTED
-          </Button>
-          <Button
-            className={clsx(classes.Button,classes.borderNull)}
-            variant="outlined"
-          >
-            How it works?
-          </Button>
+          <NavLink to="/register" variant="body2" className={classes.font}>
+            <Button
+              className={clsx(classes.Button,classes.buttonContained)}
+              variant="contained"
+              color="primary"
+            >
+              GET STARTED
+            </Button>
+          </NavLink>
+          <NavLink to="/pricing" variant="body2" className={classes.font}>
+            <Button
+              className={clsx(classes.Button,classes.borderNull)}
+              variant="outlined"
+            >
+              How it works?
+            </Button>
+          </NavLink>
         </div>
       </Container>
     </div>
